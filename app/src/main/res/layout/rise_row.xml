@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- 번호 -->
+        <TextView
+            android:id="@+id/tvId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ns"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@null"
+            android:textColor="@color/ink"
+            android:textSize="@dimen/text_md" />
+
+        <!-- 종목 이름 -->
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:text="@null"
+            android:textColor="@color/ink"
+            android:textSize="@dimen/text_md"
+            android:textStyle="bold" />
+
+        <!-- 매수 가능 수량(주) -->
+        <TextView
+            android:id="@+id/tvBuyVolume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_md" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xs"
+        android:orientation="horizontal">
+
+        <!-- 현재가: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_price"
+            android:textColor="@color/ink" />
+
+        <!-- 현재가 -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textColor="@color/success"
+            android:textStyle="bold" />
+
+        <!-- 등락률: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/md"
+            android:text="@string/rate_of_fluctuation"
+            android:textColor="@color/ink" />
+
+        <!-- 등락 아이콘 -->
+        <TextView
+            android:id="@+id/tvFlucIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textSize="@dimen/text_sm"
+            android:visibility="gone" />
+
+        <!-- 등락률 -->
+        <TextView
+            android:id="@+id/tvRof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loPof"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xs"
+        android:orientation="horizontal">
+
+        <!-- 거래량: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/volume_of_trade"
+            android:textColor="@color/ink" />
+
+        <!-- 거래량 -->
+        <TextView
+            android:id="@+id/tvVot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textColor="@color/info"
+            android:textStyle="bold" />
+
+        <!-- 전일비: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/md"
+            android:text="@string/price_of_fluctuation"
+            android:textColor="@color/ink" />
+
+        <!-- 전일비 -->
+        <TextView
+            android:id="@+id/tvPof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null" />
+
+    </LinearLayout>
+
+    <!-- 태그 목록: 래퍼 -->
+    <LinearLayout
+        android:id="@+id/loTag"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tag_wrapper_height"
+        android:layout_marginTop="@dimen/sm"
+        android:orientation="horizontal"
+        android:visibility="gone" />
+
+    <!-- 차트 -->
+    <ImageView
+        android:id="@+id/ivChart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/daum_chart_height"
+        android:layout_marginTop="@dimen/md"
+        android:adjustViewBounds="true"
+        android:background="@drawable/chart_background"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+</LinearLayout>

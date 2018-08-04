@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".setting.SettingActivity"
+    tools:showIn="@layout/setting_activity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_padding">
+
+            <!-- 종목당 매수 금액: 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_buy_price_per_item"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <!-- 종목당 매수 금액 -->
+            <EditText
+                android:id="@+id/etBuyPricePerItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/xl"
+                android:layout_marginStart="0dp"
+                android:digits="0123456789,"
+                android:hint="@null"
+                android:inputType="number" />
+
+            <!-- 피커 등락률 설정 -->
+            <!--
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:text="@string/setting_picker_rof_setting"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_lowest_rof"
+                        android:textColor="@color/dark" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_highest_rof"
+                        android:textColor="@color/dark" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/etPickerLowestRof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,."
+                        android:hint="@null"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/etPickerHighestRof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,."
+                        android:hint="@null"
+                        android:inputType="numberDecimal" />
+
+                </TableRow>
+
+            </TableLayout>
+            -->
+
+            <!-- 등락률 설정 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:text="@string/setting_rof"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저 등락률: 텍스트 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_lowest_rof"
+                        android:textColor="@color/dark" />
+
+                    <!-- 최고 등락률 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_highest_rof"
+                        android:textColor="@color/dark" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저 등락률 -->
+                    <EditText
+                        android:id="@+id/etLowestRof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,."
+                        android:hint="@null"
+                        android:inputType="numberDecimal" />
+
+                    <!-- 최고 등락률 -->
+                    <EditText
+                        android:id="@+id/etHighestRof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,."
+                        android:hint="@null"
+                        android:inputType="numberDecimal" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <!-- 가격 설정 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:text="@string/setting_price_setting"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저가: 텍스트 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_lowest_price"
+                        android:textColor="@color/dark" />
+
+                    <!-- 최고가: 텍스트 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_highest_price"
+                        android:textColor="@color/dark" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저가 -->
+                    <EditText
+                        android:id="@+id/etLowestPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,"
+                        android:hint="@null"
+                        android:inputType="number" />
+
+                    <!-- 최고가 -->
+                    <EditText
+                        android:id="@+id/etHighestPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,"
+                        android:hint="@null"
+                        android:inputType="number" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <!-- 추천 설정 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:text="@string/setting_reco_setting"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저가 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_lowest_price"
+                        android:textColor="@color/dark" />
+
+                    <!-- 최고가 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_highest_price"
+                        android:textColor="@color/dark" />
+
+                    <!-- 등락률 -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_rof"
+                        android:textColor="@color/dark" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 최저가 -->
+                    <EditText
+                        android:id="@+id/etRecoLowestPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,"
+                        android:hint="@null"
+                        android:inputType="number" />
+
+                    <!-- 최고가 -->
+                    <EditText
+                        android:id="@+id/etRecoHighestPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789,"
+                        android:hint="@null"
+                        android:inputType="number" />
+
+                    <!-- 등락률 -->
+                    <EditText
+                        android:id="@+id/etRecoRof"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/xl"
+                        android:layout_marginStart="0dp"
+                        android:layout_weight="1"
+                        android:digits="0123456789.,"
+                        android:hint="@null"
+                        android:inputType="numberDecimal" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <!-- 가로선 -->
+            <!--
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/xl"
+                android:layout_marginTop="@dimen/xl"
+                android:background="#ccc" />
+                -->
+
+            <!-- 목록에서 종목을 길게 눌렀을 때 -->
+            <!--
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/setting_on_item_long_click_in_list"
+                android:textColor="@color/ink"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgOnItemLongClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbAddToFavorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/setting_add_to_favorites" />
+
+                <RadioButton
+                    android:id="@+id/rbStartKakaoStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/md"
+                    android:text="@string/setting_start_kakao_stock" />
+
+            </RadioGroup>
+            -->
+
+            <LinearLayout
+                android:id="@+id/loButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:orientation="horizontal">
+
+                <!-- 저장 버튼 -->
+                <Button
+                    android:id="@+id/btnSave"
+                    style="@style/PrimaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loProcessing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xl"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ivProcessing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/baseline_refresh_black_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/sm"
+                    android:text="@string/processing"
+                    android:textColor="@color/ink"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
