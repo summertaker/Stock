@@ -12,6 +12,9 @@ public class Config {
     public final static String PREFERENCE_KEY = PACKAGE_NAME;
     public final static String PREFERENCE_SETTINGS = "settings";
     public final static String PREFERENCE_TAGS = "tags";
+    public final static String PREFERENCE_TAG_MODE = "tag_mode";
+    public final static String PREFERENCE_TAG_MODE_ON = "tag_mode_on";
+    public final static String PREFERENCE_TAG_MODE_OFF = "tag_mode_off";
     public final static String PREFERENCE_PORTFOLIOS = "portfolios";
 
 

@@ -37,7 +37,7 @@ public class RiseActivity extends BaseActivity {
     private FloatingActionButton mFab;
 
     private boolean mIsFirstLoading = true;
-    private boolean mIsDataLoading = true;
+    private boolean mIsDataLoading = false;
 
     private int mBuyPricePerItem = 0;
 
@@ -59,6 +59,8 @@ public class RiseActivity extends BaseActivity {
             }
         });
 
+        mTagMode = mDataManager.readPreferences(Config.PREFERENCE_TAG_MODE).equals(Config.PREFERENCE_TAG_MODE_ON);
+
         String buyPricePerItem = BaseApplication.getInstance().getStringSetting(Config.SETTING_BUY_PRICE_PER_ITEM);
         if (buyPricePerItem != null && !buyPricePerItem.isEmpty()) {
             buyPricePerItem = buyPricePerItem.replaceAll(",", "");
@@ -66,7 +68,7 @@ public class RiseActivity extends BaseActivity {
         }
 
         mAdapter = new RiseAdapter(mContext, mItems);
-        //mAdapter.setHasStableIds(true);
+        mAdapter.setHasStableIds(true);
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -95,7 +97,9 @@ public class RiseActivity extends BaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mSwipeRefreshLayout.setRefreshing(false);
+                //mSwipeRefreshLayout.setRefreshing(false);
+                //loadData();
+                renderData();
             }
         });
 
@@ -133,6 +137,7 @@ public class RiseActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.rise, menu);
         mMenuItemTag = menu.findItem(R.id.action_tag);
+        setmMenuItemTag();
         mMenuItemChart = menu.findItem(R.id.action_chart);
         return true;
     }
@@ -149,15 +154,16 @@ public class RiseActivity extends BaseActivity {
             case R.id.action_tag:
                 onActionTagClick();
                 return true;
-            case R.id.action_chart:
-                onActionChartClick();
-                return true;
+            //case R.id.action_chart:
+            //    onActionChartClick();
+            //    return true;
             case R.id.action_clear:
                 onActionDeleteClick();
                 return true;
-            //case R.id.action_finish:
-            //    finish();
-            //    return true;
+            case R.id.action_refresh:
+                mSwipeRefreshLayout.setRefreshing(true);
+                loadData();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -187,11 +193,21 @@ public class RiseActivity extends BaseActivity {
     }
 
     private void loadData() {
-        setBaseProgressBar(1);
+        if (mIsDataLoading) {
+            Toast.makeText(mContext, getString(R.string.loading), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mIsDataLoading = true;
+        if (mIsFirstLoading) {
+            setBaseProgressBar(1);
+        }
         mDataManager.setOnFlucLoaded(new DataManager.FlucCallback() {
             @Override
             public void onParse(int count) {
-                setBaseProgressBar(count + 1);
+                if (mIsFirstLoading) {
+                    setBaseProgressBar(count + 1);
+                }
             }
 
             @Override
@@ -203,19 +219,19 @@ public class RiseActivity extends BaseActivity {
     }
 
     private void setData(ArrayList<Item> items) {
-        mItems.clear();
+        mItemsBackup.clear();
 
-        float lrof = BaseApplication.getInstance().getFloatSetting(Config.SETTING_LOWEST_ROF); // 최저 등락률
-        float hrof = BaseApplication.getInstance().getFloatSetting(Config.SETTING_HIGHEST_ROF); // 최고 등락률
+        float low = BaseApplication.getInstance().getFloatSetting(Config.SETTING_LOWEST_ROF); // 최저 등락률
+        float high = BaseApplication.getInstance().getFloatSetting(Config.SETTING_HIGHEST_ROF); // 최고 등락률
 
         for (Item item : items) {
             if (item.getPer() == 0) {
                 continue;
             }
-            if (lrof > 0 && item.getRof() < lrof) { // 최저 등락률
+            if (low > 0 && item.getRof() < low) { // 최저 등락률
                 continue;
             }
-            if (hrof > 0 && item.getRof() > hrof) { // 최고 등락률
+            if (high > 0 && item.getRof() > high) { // 최고 등락률
                 continue;
             }
 
@@ -231,11 +247,11 @@ public class RiseActivity extends BaseActivity {
                 }
             }
 
-            mItems.add(item);
+            mItemsBackup.add(item);
         }
 
         // 등락률 정렬
-        Collections.sort(mItems, new Comparator<Item>() {
+        Collections.sort(mItemsBackup, new Comparator<Item>() {
             @Override
             public int compare(Item a, Item b) {
                 if (a.getRof() < b.getRof()) {
@@ -247,13 +263,21 @@ public class RiseActivity extends BaseActivity {
             }
         });
 
+        mItems.clear();
         long id = 1;
-        for (Item item : mItems) {
-            item.setId(id);
-            id++;
+        for (Item item : mItemsBackup) {
+            if (mTagMode) {
+                if (item.getTagIds() != null && !item.getTagIds().isEmpty()) {
+                    item.setId(id);
+                    mItems.add(item);
+                    id++;
+                }
+            } else {
+                item.setId(id);
+                mItems.add(item);
+                id++;
+            }
         }
-
-        mItemsBackup.addAll(mItems);
 
         renderData();
     }
@@ -280,6 +304,7 @@ public class RiseActivity extends BaseActivity {
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
         }
+
         mIsDataLoading = false;
     }
 
@@ -292,6 +317,9 @@ public class RiseActivity extends BaseActivity {
 
     protected void onActionTagClick() {
         mTagMode = !mTagMode;
+        String tagMode = mTagMode ? Config.PREFERENCE_TAG_MODE_ON : Config.PREFERENCE_TAG_MODE_OFF;
+        mDataManager.writePreferences(Config.PREFERENCE_TAG_MODE, tagMode);
+
         setmMenuItemTag();
 
         if (mTagMode) {
@@ -350,14 +378,9 @@ public class RiseActivity extends BaseActivity {
     }
 
     private void onFabRefreshClick() {
-        if (mIsDataLoading) {
-            Toast.makeText(mContext, getString(R.string.loading), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mIsDataLoading = true;
-        //showBaseProgress(2);
-        mSwipeRefreshLayout.setRefreshing(true);
-        loadData();
+        //mSwipeRefreshLayout.setRefreshing(true);
+        //loadData();
+        renderData();
     }
 
     @Override
