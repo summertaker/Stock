@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,38 +6,20 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
-import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Tag;
 import com.summertaker.stock.helper.OnStartDragListener;
 import com.summertaker.stock.helper.SimpleItemTouchHelperCallback;
 import com.summertaker.stock.util.RecyclerTouchListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class TagListActivity extends BaseActivity implements OnStartDragListener {
 

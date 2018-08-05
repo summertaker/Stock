@@ -38,9 +38,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
@@ -386,37 +384,18 @@ public class DataManager {
     }
 
     public void loadBaseItem() {
-        mUrls.clear();
-        mUrls.add(Config.URL_DAUM_PRICE_KOSPI);
-        mUrls.add(Config.URL_DAUM_PRICE_KOSDAQ);
-
-        mItems.clear();
-        mUrlLoadCount = 0;
-        requestBaseItem();
-
-        /*
         if (BaseApplication.getInstance().getBaseItems().size() == 0) {
-            //if (BaseApplication.getInstance().isMarketClosed()) {
-            BaseApplication.getInstance().getBaseItems().clear();
-            BaseApplication.getInstance().getBaseItems().addAll(readCacheItems(Config.KEY_BASE_ITEM, 60 * 24));
-            //}
+            mUrls.clear();
+            mUrls.add(Config.URL_DAUM_PRICE_KOSPI);
+            mUrls.add(Config.URL_DAUM_PRICE_KOSDAQ);
 
-            if (BaseApplication.getInstance().getBaseItems().size() == 0) {
-                mUrls.clear();
-                mUrls.add(Config.URL_DAUM_PRICE_KOSPI);
-                mUrls.add(Config.URL_DAUM_PRICE_KOSDAQ);
-
-                mUrlLoadCount = 0;
-                requestBaseItem();
-            } else {
-                //Toast.makeText(mContext, "BaseItems Cache Loaded!", Toast.LENGTH_SHORT).show();
-                mBaseItemCallback.onLoad();
-            }
+            mUrlLoadCount = 0;
+            mItems.clear();
+            requestBaseItem();
         } else {
             //Toast.makeText(mContext, "BaseItems Memory Loaded!", Toast.LENGTH_SHORT).show();
             mBaseItemCallback.onLoad();
         }
-        */
     }
 
     private void requestBaseItem() {
@@ -486,7 +465,7 @@ public class DataManager {
             */
 
             BaseApplication.getInstance().getBaseItems().addAll(mItems);
-            writeCacheItems(Config.KEY_BASE_ITEM, BaseApplication.getInstance().getBaseItems());
+            //writeCacheItems(Config.KEY_BASE_ITEM, BaseApplication.getInstance().getBaseItems());
 
             mBaseItemCallback.onLoad();
         }
@@ -567,8 +546,7 @@ public class DataManager {
             requestItemPrice();
         } else {
             //Log.e(TAG, "ItemPrice: mItems.size(): " + mItems.size());
-
-            writeCacheItems(Config.KEY_ITEM_PRICE, BaseApplication.getInstance().getItemPrices());
+            //writeCacheItems(Config.KEY_ITEM_PRICE, BaseApplication.getInstance().getItemPrices());
             mItemPriceCallback.onLoad();
         }
     }
@@ -1027,12 +1005,12 @@ public class DataManager {
         BaseApplication.getInstance().getRecoTopItems().clear();
         BaseApplication.getInstance().getRecoTopItems().addAll(readCacheItems(Config.KEY_RECO_TOP, 60 * 24));
 
-        if (BaseApplication.getInstance().getRecoTopItems().size() == 0) {
-            requestRecoTopItem(activity);
-        } else {
-            //Toast.makeText(mContext, "RecoTop Cache Loaded!", Toast.LENGTH_SHORT).show();
-            mRecoTopItemCallback.onLoad();
-        }
+        //if (BaseApplication.getInstance().getRecoTopItems().size() == 0) {
+        requestRecoTopItem(activity);
+        //} else {
+        //    //Toast.makeText(mContext, "RecoTop Cache Loaded!", Toast.LENGTH_SHORT).show();
+        //    mRecoTopItemCallback.onLoad();
+        //}
     }
 
     private void requestRecoTopItem(final Activity activity) {
@@ -1067,7 +1045,7 @@ public class DataManager {
         naverParser.parseReco(response, Config.KEY_RECO_TOP, BaseApplication.getInstance().getRecoTopItems(), false);
         //Log.e(TAG, "BaseApplication.getInstance().getRecoTopItems().size() = " + BaseApplication.getInstance().getRecoTopItems().size());
 
-        writeCacheItems(Config.KEY_RECO_TOP, BaseApplication.getInstance().getRecoTopItems());
+        //writeCacheItems(Config.KEY_RECO_TOP, BaseApplication.getInstance().getRecoTopItems());
         mRecoTopItemCallback.onLoad();
     }
 
@@ -1432,7 +1410,6 @@ public class DataManager {
      */
     public interface NewsDetailCallback {
         void onLoad(News news);
-
     }
 
     private NewsDetailCallback mNewsDetailCallback;
@@ -1614,7 +1591,7 @@ public class DataManager {
      * @param item
      * @param selectedTagId
      */
-    public void getItemTagIds(Item item, String selectedTagId) {
+    public void setItemTagIds(Item item, String selectedTagId) {
         String itemTagIds = item.getTagIds();
         String newTagIds;
         if (itemTagIds != null && !itemTagIds.isEmpty()) {
@@ -1669,12 +1646,13 @@ public class DataManager {
             BaseApplication.getInstance().getPortfolios().add(portfolio);
         }
 
-        //writePortfolio();
+        writePortfolios();
     }
 
     /**
      * 종목 태그 저장하기
      */
+    /*
     public interface ItemTagCallback {
         void onItemTagSaved();
     }
@@ -1716,10 +1694,50 @@ public class DataManager {
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
+    */
+    public void readSettings() {
+        BaseApplication.getInstance().getSettings().clear();
+        String cacheData = readPreferences(Config.PREFERENCE_SETTINGS);
+        if (!cacheData.isEmpty()) {
+            try {
+                JSONObject jsonObject = new JSONObject(cacheData);
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+
+                    Setting setting = new Setting();
+                    setting.setField(Util.getString(obj, "field"));
+                    setting.setValue(Util.getString(obj, "value"));
+
+                    BaseApplication.getInstance().getSettings().add(setting);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void writeSettings() {
+        try {
+            JSONObject json = new JSONObject();
+            JSONArray array = new JSONArray();
+
+            for (Setting setting : BaseApplication.getInstance().getSettings()) {
+                JSONObject obj = new JSONObject();
+                obj.put("field", setting.getField());
+                obj.put("value", setting.getValue());
+                array.put(obj);
+            }
+            json.put("data", array);
+            writePreferences(Config.PREFERENCE_SETTINGS, json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void readTags() {
         BaseApplication.getInstance().getTags().clear();
-
         //String cacheData = Util.readFile(Config.PREFERENCE_TAGS);
         String cacheData = readPreferences(Config.PREFERENCE_TAGS);
         if (!cacheData.isEmpty()) {
@@ -1772,11 +1790,11 @@ public class DataManager {
         }
     }
 
-    /*
-    public void readPortfolio() {
+    public void readPortfolios() {
         BaseApplication.getInstance().getPortfolios().clear();
 
-        String cacheData = Util.readFile(Config.KEY_PORTFOLIO);
+        //String cacheData = Util.readFile(Config.PREFERENCE_PORTFOLIOS);
+        String cacheData = readPreferences(Config.PREFERENCE_PORTFOLIOS);
         if (!cacheData.isEmpty()) {
             try {
                 JSONObject jsonObject = new JSONObject(cacheData);
@@ -1787,10 +1805,10 @@ public class DataManager {
                 JSONArray jsonArray = jsonObject.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
+
                     Portfolio portfolio = new Portfolio();
                     portfolio.setCode(Util.getString(obj, "code"));
                     portfolio.setTagIds(Util.getString(obj, "tagIds"));
-
                     //Log.e(TAG, portfolio.getCode() + " / " + portfolio.getTagIds());
 
                     BaseApplication.getInstance().getPortfolios().add(portfolio);
@@ -1801,7 +1819,7 @@ public class DataManager {
         }
     }
 
-    public void writePortfolio() {
+    public void writePortfolios() {
         try {
             JSONObject json = new JSONObject();
             JSONArray array = new JSONArray();
@@ -1818,18 +1836,18 @@ public class DataManager {
 
                 array.put(obj);
             }
-            String date = Util.getToday(mDateFormatString);
-            json.put("date", date);
+            //String date = Util.getToday(mDateFormatString);
+            //json.put("date", date);
             json.put("data", array);
             //Log.e(TAG, date);
             //Log.e(TAG, json.toString());
 
-            Util.writeFile(mContext, Config.KEY_PORTFOLIO, json.toString());
+            //Util.writeFile(mContext, Config.PREFERENCE_PORTFOLIOS, json.toString());
+            writePreferences(Config.PREFERENCE_PORTFOLIOS, json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    */
 
     public ArrayList<Item> readCacheItems(String fileName, int expireMinutes) {
         ArrayList<Item> items = new ArrayList<>();

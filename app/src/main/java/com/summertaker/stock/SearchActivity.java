@@ -17,6 +17,7 @@ import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.Util;
 
 public class SearchActivity extends BaseActivity {
@@ -130,9 +131,9 @@ public class SearchActivity extends BaseActivity {
                     }
                 }
 
-                //Intent intent = new Intent(mContext, DetailActivity.class);
-                //intent.putExtra("code", code);
-                //startActivity(intent);
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("code", code);
+                startActivity(intent);
             }
         });
     }

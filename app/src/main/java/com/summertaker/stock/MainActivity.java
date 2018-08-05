@@ -2,21 +2,22 @@ package com.summertaker.stock;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.summertaker.stock.common.BaseActivity;
+import com.summertaker.stock.news.NewsListActivity;
+import com.summertaker.stock.portfolio.PortfolioActivity;
+import com.summertaker.stock.reco.RecoActivity;
+import com.summertaker.stock.setting.SettingActivity;
+import com.summertaker.stock.setting.TagListActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,13 +59,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //int id = item.getItemId();
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_search:
+                Intent search = new Intent(this, SearchActivity.class);
+                startActivity(search);
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        /*
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
@@ -80,14 +88,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_send) {
 
         }
-
+        */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void loadData() {
+        mDataManager.readSettings();
         mDataManager.readTags();
+        mDataManager.readPortfolios();
         init();
     }
 
@@ -97,8 +107,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         loNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(mContext, NewsListActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(mContext, NewsListActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -107,8 +117,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         loPortfolio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(mContext, PortfolioActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(mContext, PortfolioActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -118,6 +128,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, RiseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 추천
+        LinearLayout loReco = findViewById(R.id.loReco);
+        loReco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, RecoActivity.class);
                 startActivity(intent);
             }
         });

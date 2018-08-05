@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -112,11 +113,10 @@ public class BaseApplication extends Application {
         //mWordCategories.add(new WordCategory(Config.KEY_WORD_CATEGORY_DAUM_INCLUDE, getString(R.string.word_category_daum_exclude)));
 
         // 뉴스 페이저 아이템
-        mNewsPagerItems.add(new Site(Config.KEY_NEWS_BREAKING, getString(R.string.pager_item_news_breaking), Config.URL_BREAKING_LIST));
-        mNewsPagerItems.add(new Site(Config.KEY_NEWS_FEATURE, getString(R.string.pager_item_news_feature), Config.URL_FEATURE_LIST));
-        //mNewsPagerItems.add(new Site(Config.KEY_NEWS_FEATURE, getString(R.string.pager_item_news_feature), Config.URL_NAVER_NEWS_FEATURE));
-        mNewsPagerItems.add(new Site(Config.KEY_NEWS_RANKING, getString(R.string.pager_item_news_ranking), Config.URL_NAVER_NEWS_RANKING));
+        //mNewsPagerItems.add(new Site(Config.KEY_NEWS_BREAKING, getString(R.string.pager_item_news_breaking), Config.URL_BREAKING_LIST));
+        mNewsPagerItems.add(new Site(Config.KEY_NEWS_FEATURE, getString(R.string.pager_item_news_feature), Config.URL_NAVER_NEWS_FEATURE));
         mNewsPagerItems.add(new Site(Config.KEY_NEWS_MAIN, getString(R.string.pager_item_news_main), Config.URL_NAVER_NEWS_MAIN));
+        mNewsPagerItems.add(new Site(Config.KEY_NEWS_RANKING, getString(R.string.pager_item_news_ranking), Config.URL_NAVER_NEWS_RANKING));
 
         // TOP
         mTopPagerItems.add(new Site("", getString(R.string.pager_item_news_main), ""));
@@ -498,12 +498,15 @@ public class BaseApplication extends Application {
 
             TextView tv = new TextView(context);
             tv.setLayoutParams(mParams);
-
             tv.setText(tag.getName());
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, Config.TAG_TEXT_SIZE_XS);
-            tv.setBackground(context.getResources().getDrawable(R.drawable.tag_background_xs));
-            GradientDrawable drawable = (GradientDrawable) tv.getBackground();
+            tv.setTextColor(Color.parseColor(Config.TAG_FGC_ON));
+            tv.setBackground(ContextCompat.getDrawable(this, R.drawable.tag_background_xs));
 
+            GradientDrawable drawable = (GradientDrawable) tv.getBackground();
+            drawable.setColor(Color.parseColor(Config.TAG_BGC_ON));
+
+            /*
             // 글자색
             if (tag.getFgc() != null && tag.getFgc().length() == 7) {
                 tv.setTextColor(Color.parseColor(tag.getFgc()));
@@ -512,8 +515,10 @@ public class BaseApplication extends Application {
             // 배경색
             if (tag.getBgc() != null && tag.getBgc().length() == 7) {
                 // https://stackoverflow.com/questions/18391830/how-to-programmatically-round-corners-and-set-random-background-colors
+                GradientDrawable drawable = (GradientDrawable) tv.getBackground();
                 drawable.setColor(Color.parseColor(tag.getBgc()));
             }
+            */
 
             layout.addView(tv);
         }

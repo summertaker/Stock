@@ -93,7 +93,8 @@ public class RiseAdapter extends RecyclerView.Adapter<RiseAdapter.ItemViewHolder
         holder.tvName.setText(name);
 
         // 매수 가능 수량(주)
-        String buyVolume = "(매수 " + Config.NUMBER_FORMAT.format(item.getBuyVolume()) + "주)";
+        String buyVolume = Config.NUMBER_FORMAT.format(item.getBuyVolume());
+        buyVolume = " (" + String.format(mResources.getString(R.string.format_stock), buyVolume) + ")";
         holder.tvBuyVolume.setText(buyVolume);
 
         // 가격
@@ -107,7 +108,7 @@ public class RiseAdapter extends RecyclerView.Adapter<RiseAdapter.ItemViewHolder
 
         // 거래량
         String vot = Config.NUMBER_FORMAT.format(item.getVot());
-        vot = vot + "주";
+        vot = String.format(mResources.getString(R.string.format_stock), vot);
         holder.tvVot.setText(vot);
 
         // 태그
@@ -119,13 +120,7 @@ public class RiseAdapter extends RecyclerView.Adapter<RiseAdapter.ItemViewHolder
         }
 
         // 차트
-        String chartUrl;
-        if (item.isChart()) {
-            chartUrl = BaseApplication.getChartUrl(item.getCode(), System.currentTimeMillis());
-        } else {
-            chartUrl = BaseApplication.getDayChartUrl(item.getCode(), System.currentTimeMillis());
-        }
-        Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
+        Glide.with(mContext).load(item.getChartUrl()).apply(new RequestOptions()).into(holder.ivChart);
     }
 
     @Override

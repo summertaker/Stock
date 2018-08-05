@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.setting;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -228,7 +228,7 @@
     <string name="pager_item_trade_overseas_buy">외국계 증권사</string>
     <string name="pager_item_trade_domestic_buy">국내 증권사</string>
 
-    <string name="pager_item_reco_return">1주일 수익률</string>
+    <string name="pager_item_reco_return">1개월 수익률</string>
     <string name="pager_item_reco_top">추천수 상위</string>
     <string name="pager_item_reco_current">현재 추천</string>
     <string name="pager_item_reco_wise">와이즈 추천</string>
@@ -245,8 +245,10 @@
     <string name="option_default">Default</string>
 
     <string name="format_money">%S원</string>
+    <string name="format_stock">%S주</string>
+    <string name="format_buy_volume_per_money">매수 %S주</string>
 
-    <string name="title_activity_news">뉴스</string>
+    <string name="title_activity_news_list">뉴스</string>
     <string name="title_activity_portfolio">포트폴리오</string>
     <string name="title_activity_fluc">등락</string>
     <string name="title_activity_rise">상승</string>

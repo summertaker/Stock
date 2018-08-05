@@ -246,8 +246,8 @@ public class NaverParser extends BaseParser {
                 String listed = Util.getString(object, "IN_DT");        // 예측일
                 int elapsed = Util.getInt(object, "CNT");               // 경과일
                 //float ror = BigDecimal.valueOf(Util.getDouble(object, "ACCU_RTN")).floatValue(); // 추천일 후 수익률
-                //float ror = BigDecimal.valueOf(Util.getDouble(object, "MN_RTN")).floatValue(); // 1개월 수익률
-                float ror = BigDecimal.valueOf(Util.getDouble(object, "W_RTN")).floatValue(); // 1주일 수익률
+                float ror = BigDecimal.valueOf(Util.getDouble(object, "MN_RTN")).floatValue(); // 1개월 수익률
+                //float ror = BigDecimal.valueOf(Util.getDouble(object, "W_RTN")).floatValue(); // 1주일 수익률
                 //Log.e(TAG, name + " " + ror);
 
                 String reason = Util.getString(object, "REASON_IN");    // 추천 사유

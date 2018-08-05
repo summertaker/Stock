@@ -1,5 +1,6 @@
 package com.summertaker.stock;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,7 @@ import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Portfolio;
+import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.RecyclerTouchListener;
 
 import java.util.ArrayList;
@@ -76,9 +78,9 @@ public class RiseActivity extends BaseActivity {
 
                 //Util.startKakaoStockDeepLink(mContext, item.getCode());
 
-                //Intent intent = new Intent(mContext, DetailActivity.class);
-                //intent.putExtra("code", item.getCode());
-                //startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("code", item.getCode());
+                startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
             }
 
             @Override
@@ -97,6 +99,7 @@ public class RiseActivity extends BaseActivity {
             }
         });
 
+        /*
         mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
             @Override
             public void onItemTagSaved() {
@@ -104,13 +107,13 @@ public class RiseActivity extends BaseActivity {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+        */
 
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
                 //ViewCompat.animate(mFab).rotation(360f).withLayer().setDuration(3000L).setInterpolator(new OvershootInterpolator()).start();
                 onFabRefreshClick();
             }
@@ -166,8 +169,9 @@ public class RiseActivity extends BaseActivity {
 
         int itemId = menuItem.getItemId();
         Item item = mItems.get(itemId);
+
         String tagId = String.valueOf(menuItem.getGroupId());
-        mDataManager.getItemTagIds(item, tagId);
+        mDataManager.setItemTagIds(item, tagId);
 
         if (mTagMode && item.getTagIds().isEmpty()) {
             mItems.remove(itemId);
@@ -176,8 +180,8 @@ public class RiseActivity extends BaseActivity {
             mAdapter.notifyItemChanged(itemId);
         }
 
-        mSwipeRefreshLayout.setRefreshing(true);
-        mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        //mSwipeRefreshLayout.setRefreshing(true);
+        //mDataManager.saveItemTag(item.getCode(), item.getTagIds());
 
         return super.onContextItemSelected(menuItem);
     }
@@ -254,9 +258,16 @@ public class RiseActivity extends BaseActivity {
         renderData();
     }
 
+    @SuppressLint("RestrictedApi")
     private void renderData() {
+        long millis = System.currentTimeMillis();
         for (Item item : mItems) {
             item.setChart(mChartMode);
+
+            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode(), millis) :
+                    BaseApplication.getDayChartUrl(item.getCode(), millis);
+            item.setChartUrl(chartUrl);
+            item.setChartUrl(chartUrl);
         }
 
         mAdapter.notifyDataSetChanged();
@@ -264,6 +275,7 @@ public class RiseActivity extends BaseActivity {
 
         if (mIsFirstLoading) {
             hideBaseProgress();
+            mFab.setVisibility(View.VISIBLE);
             mIsFirstLoading = false;
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -332,8 +344,9 @@ public class RiseActivity extends BaseActivity {
 
         BaseApplication.getInstance().getPortfolios().clear();
 
-        mSwipeRefreshLayout.setRefreshing(true);
-        mDataManager.saveItemTag("clear", "");
+        //mSwipeRefreshLayout.setRefreshing(true);
+        //mDataManager.saveItemTag("clear", "");
+        mDataManager.writePortfolios();
     }
 
     private void onFabRefreshClick() {

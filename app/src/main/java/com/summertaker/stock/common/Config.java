@@ -10,12 +10,9 @@ public class Config {
 
     private final static String PACKAGE_NAME = "com.summertaker.stock";
     public final static String PREFERENCE_KEY = PACKAGE_NAME;
+    public final static String PREFERENCE_SETTINGS = "settings";
     public final static String PREFERENCE_TAGS = "tags";
-
-
-
-
-
+    public final static String PREFERENCE_PORTFOLIOS = "portfolios";
 
 
 
@@ -40,7 +37,6 @@ public class Config {
     public static String KEY_WORD_CATEGORY_DAUM_AD = "daum_ad";
 
     public static String KEY_FAVORITES = "favorites";
-    public static String KEY_PORTFOLIO = "portfolio";
     public static String KEY_BASE_ITEM = "base_item";
     public static String KEY_ITEM_PRICE = "item_price";
     //public static String KEY_ITEM_SEARCH = "item_search";
@@ -158,8 +154,10 @@ public class Config {
     public static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("+#,##0.00;-#");
 
     public static int TAG_TEXT_SIZE_XS = 13;
-    public static String TAG_DEFAULT_FGC = "#555555";
-    public static String TAG_DEFAULT_BGC = "#eeeeee";
+    public static String TAG_FGC_OFF = "#555555";
+    public static String TAG_BGC_OFF = "#eeeeee";
+    public static String TAG_FGC_ON = "#ffffff";
+    public static String TAG_BGC_ON = "#999999";
 
     public static String NEWS_TEXT_HIGHLIGHT_FORMAT = "<font color='#D32F2F'>%s</font>"; // Red
     public static String NEWS_ITEM_NAME_HIGHLIGHT_FORMAT = "<font color='#1976D2'>%s</font>"; // Blue

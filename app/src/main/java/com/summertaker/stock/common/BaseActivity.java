@@ -1,6 +1,7 @@
 package com.summertaker.stock.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.summertaker.stock.R;
+import com.summertaker.stock.detail.DetailActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -87,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            if (actionBar.getTitle() != null && mActivityTitle == null || mActivityTitle.isEmpty()) {
+            if (actionBar.getTitle() != null) {
                 mActivityTitle = actionBar.getTitle().toString();
             }
         }
@@ -231,9 +233,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 String code = span.getURL();
                 //Toast.makeText(mContext, span.getURL(), Toast.LENGTH_SHORT).show();
 
-                //Intent intent = new Intent(mContext, DetailActivity.class);
-                //intent.putExtra("code", code);
-                //startActivity(intent);
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("code", code);
+                startActivity(intent);
             }
         };
         strBuilder.setSpan(clickable, start, end, flags);

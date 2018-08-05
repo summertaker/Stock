@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".detail.ItemNewsActivity"
+    tools:showIn="@layout/item_news_activity">
+
+    <LinearLayout
+        android:id="@+id/loProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="70dp">
+
+        <include layout="@layout/progress" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:orientation="horizontal"
+            android:padding="@dimen/lg">
+
+            <!-- 현재가: 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_price"
+                android:textColor="@color/ink" />
+
+            <!-- 현재가 -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textColor="@color/success"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <!-- 등락률: 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/md"
+                android:text="@string/rate_of_fluctuation"
+                android:textColor="@color/ink" />
+
+            <!-- 등락 아이콘 -->
+            <TextView
+                android:id="@+id/tvFlucIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:text="@null"
+                android:visibility="gone" />
+
+            <!-- 등락률 -->
+            <TextView
+                android:id="@+id/tvRof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <!-- 전일비 -->
+            <TextView
+                android:id="@+id/tvPof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textSize="@dimen/text_md" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_padding">
+
+                <!-- 제목 -->
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="@dimen/title_line_spacing"
+                    android:textColor="@color/ink"
+                    android:textSize="@dimen/text_md"
+                    android:textStyle="bold" />
+
+                <!-- 날짜 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/sm"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvElapsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@null"
+                        android:textColor="@color/success" />
+
+                    <TextView
+                        android:id="@+id/tvPublished"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/xs"
+                        android:singleLine="true"
+                        android:text="@null"
+                        android:textColor="@color/gray" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:background="#cccccc" />
+
+                <!-- 내용 -->
+                <TextView
+                    android:id="@+id/tvContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:lineSpacingExtra="@dimen/sm"
+                    android:textColor="@color/ink"
+                    android:textColorLink="@color/primary"
+                    android:textSize="@dimen/text_md" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

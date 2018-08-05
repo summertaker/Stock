@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.setting;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,25 +22,14 @@ import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.util.Util;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class SettingActivity extends BaseActivity {
 
     EditText mEtBuyPricePerItem;
-    //EditText mEtPickerLowestRof;
-    //EditText mEtPickerHighestRof;
     EditText mEtLowestRof;
     EditText mEtHighestRof;
-    EditText mEtLowestPrice;
-    EditText mEtHighestPrice;
-
-    EditText mEtRecoLowestPrice;
-    EditText mEtRecoHighestPrice;
-    EditText mEtRecoRof;
 
     private LinearLayout mLoButton;
     private LinearLayout mLoProcessing;
@@ -61,16 +50,6 @@ public class SettingActivity extends BaseActivity {
         Util.addNumberFormat(mEtBuyPricePerItem);
         mEtBuyPricePerItem.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_BUY_PRICE_PER_ITEM));
 
-        /*
-        // 픽커 최저등락률
-        mEtPickerLowestRof = findViewById(R.id.etPickerLowestRof);
-        mEtPickerLowestRof.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_PICKER_LOWEST_ROF));
-
-        // 픽커 최고등락률
-        mEtPickerHighestRof = findViewById(R.id.etPickerHighestRof);
-        mEtPickerHighestRof.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_PICKER_HIGHEST_ROF));
-        */
-
         // 최저등락률
         mEtLowestRof = findViewById(R.id.etLowestRof);
         mEtLowestRof.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_LOWEST_ROF));
@@ -78,30 +57,6 @@ public class SettingActivity extends BaseActivity {
         // 최고등락률
         mEtHighestRof = findViewById(R.id.etHighestRof);
         mEtHighestRof.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_HIGHEST_ROF));
-
-        // 최저가
-        mEtLowestPrice = findViewById(R.id.etLowestPrice);
-        Util.addNumberFormat(mEtLowestPrice);
-        mEtLowestPrice.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_LOWEST_PRICE));
-
-        // 최고가
-        mEtHighestPrice = findViewById(R.id.etHighestPrice);
-        Util.addNumberFormat(mEtHighestPrice);
-        mEtHighestPrice.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_HIGHEST_PRICE));
-
-        // 추천 등락률
-        mEtRecoRof = findViewById(R.id.etRecoRof);
-        mEtRecoRof.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_RECO_RATE_OF_FLUCTUATION));
-
-        // 추천 최저가
-        mEtRecoLowestPrice = findViewById(R.id.etRecoLowestPrice);
-        Util.addNumberFormat(mEtRecoLowestPrice);
-        mEtRecoLowestPrice.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_RECO_LOWEST_PRICE));
-
-        // 추천 최고가
-        mEtRecoHighestPrice = findViewById(R.id.etRecoHighestPrice);
-        Util.addNumberFormat(mEtRecoHighestPrice);
-        mEtRecoHighestPrice.setText(BaseApplication.getInstance().getStringSetting(Config.SETTING_RECO_HIGHEST_PRICE));
 
         /*
         // 아이템 목록에서 아이템을 길게 눌렀을 때
@@ -165,16 +120,6 @@ public class SettingActivity extends BaseActivity {
         buyPricePerItem = buyPricePerItem.replaceAll(",", "");
         BaseApplication.getInstance().setSetting(Config.SETTING_BUY_PRICE_PER_ITEM, buyPricePerItem);
 
-        /*
-        String pickerLowestRof = mEtPickerLowestRof.getText().toString(); // 픽커 최저등락률
-        pickerLowestRof = pickerLowestRof.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_PICKER_LOWEST_ROF, pickerLowestRof);
-
-        String pickerHighestRof = mEtPickerHighestRof.getText().toString(); // 픽커 최고등락률
-        pickerHighestRof = pickerHighestRof.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_PICKER_HIGHEST_ROF, pickerHighestRof);
-        */
-
         String lowestRof = mEtLowestRof.getText().toString(); // 최저등락률
         lowestRof = lowestRof.replaceAll(",", "");
         BaseApplication.getInstance().setSetting(Config.SETTING_LOWEST_ROF, lowestRof);
@@ -183,25 +128,8 @@ public class SettingActivity extends BaseActivity {
         highestRof = highestRof.replaceAll(",", "");
         BaseApplication.getInstance().setSetting(Config.SETTING_HIGHEST_ROF, highestRof);
 
-        String lowestPrice = mEtLowestPrice.getText().toString(); // 최저가
-        lowestPrice = lowestPrice.replaceAll("[^\\d]", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_LOWEST_PRICE, lowestPrice);
-
-        String highestPrice = mEtHighestPrice.getText().toString(); // 최고가
-        highestPrice = highestPrice.replaceAll("[^\\d]", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_HIGHEST_PRICE, highestPrice);
-
-        String recoLowestPrice = mEtRecoLowestPrice.getText().toString(); // 추천 - 최저가
-        recoLowestPrice = recoLowestPrice.replaceAll("[^\\d]", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_RECO_LOWEST_PRICE, recoLowestPrice);
-
-        String recoHighestPrice = mEtRecoHighestPrice.getText().toString(); // 추천 - 최고가
-        recoHighestPrice = recoHighestPrice.replaceAll("[^\\d]", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_RECO_HIGHEST_PRICE, recoHighestPrice);
-
-        String recoRof = mEtRecoRof.getText().toString(); // 추천 - 등락률
-        recoRof = recoRof.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_RECO_RATE_OF_FLUCTUATION, recoRof);
+        mDataManager.writeSettings();
+        finish();
 
         /*
         // 종목을 길게 눌렀을 때
@@ -214,20 +142,13 @@ public class SettingActivity extends BaseActivity {
         mDataManager.save(Config.SETTING_ON_ITEM_LONG_CLICK, onItemLongClick);
         */
 
+        /*
         // 서버에 저장할 데이터 만들기
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(Config.SETTING_BUY_PRICE_PER_ITEM, buyPricePerItem);
-            //jsonObject.put(Config.SETTING_PICKER_LOWEST_ROF, pickerLowestRof);
-            //jsonObject.put(Config.SETTING_PICKER_HIGHEST_ROF, pickerHighestRof);
             jsonObject.put(Config.SETTING_LOWEST_ROF, lowestRof);
             jsonObject.put(Config.SETTING_HIGHEST_ROF, highestRof);
-            jsonObject.put(Config.SETTING_LOWEST_PRICE, lowestPrice);
-            jsonObject.put(Config.SETTING_HIGHEST_PRICE, highestPrice);
-
-            jsonObject.put(Config.SETTING_RECO_LOWEST_PRICE, recoLowestPrice);
-            jsonObject.put(Config.SETTING_RECO_HIGHEST_PRICE, recoHighestPrice);
-            jsonObject.put(Config.SETTING_RECO_RATE_OF_FLUCTUATION, recoRof);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -236,6 +157,7 @@ public class SettingActivity extends BaseActivity {
         //Log.e(TAG, "data: " + data);
 
         doPost(Config.URL_SETTING_SAVE, data);
+        */
     }
 
     private void doPost(String url, final String data) {

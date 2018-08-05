@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/svContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/loContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 현재가: 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_price"
+                android:textColor="@color/ink" />
+
+            <!-- 현재가 -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textColor="@color/success"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <!-- 등락률: 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/md"
+                android:text="@string/rate_of_fluctuation"
+                android:textColor="@color/ink" />
+
+            <!-- 등락 아이콘 -->
+            <TextView
+                android:id="@+id/tvFlucIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:text="@null"
+                android:visibility="gone" />
+
+            <!-- 등락률 -->
+            <TextView
+                android:id="@+id/tvRof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textSize="@dimen/text_md"
+                android:textStyle="bold" />
+
+            <!-- 전일비 -->
+            <TextView
+                android:id="@+id/tvPof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:textSize="@dimen/text_md" />
+
+        </LinearLayout>
+
+        <!-- 태그 목록: 래퍼 -->
+        <LinearLayout
+            android:id="@+id/loTag"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tag_wrapper_height"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/xl"
+            android:background="#ccc"
+            android:visibility="gone" />
+
+        <!-- 사이트 링크: 래퍼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/md"
+            android:orientation="horizontal">
+
+            <!-- 네이버 검색 링크 -->
+            <TextView
+                android:id="@+id/tvNaverSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/naver_search"
+                android:textColor="@color/info" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/activity_padding"
+                android:layout_marginStart="@dimen/activity_padding"
+                android:background="#ccc" />
+
+            <!-- 네이버 금융 링크 -->
+            <TextView
+                android:id="@+id/tvNaverFinance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/naver_finance"
+                android:textColor="@color/info" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/activity_padding"
+                android:layout_marginStart="@dimen/activity_padding"
+                android:background="#ccc" />
+
+            <!-- 다음 검색 링크 -->
+            <TextView
+                android:id="@+id/tvDaumSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daum_search"
+                android:textColor="@color/info" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/activity_padding"
+                android:layout_marginStart="@dimen/activity_padding"
+                android:background="#ccc" />
+
+            <!-- 다음 금융 링크 -->
+            <TextView
+                android:id="@+id/tvDaumFinance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daum_finance"
+                android:textColor="@color/info" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/lg"
+            android:background="#ccc" />
+
+        <!-- 추천 사유 -->
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_padding" />
+
+        <!-- 일 차트: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xl"
+            android:text="@string/daily_chart"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivDayChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/daum_chart_height"
+            android:layout_marginTop="@dimen/sm"
+            android:adjustViewBounds="true"
+            android:background="@drawable/chart_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <!-- 일봉: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xl"
+            android:text="@string/daily_candle_chart"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivDayCandleChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/daum_chart_height"
+            android:layout_marginTop="@dimen/sm"
+            android:adjustViewBounds="true"
+            android:background="@drawable/chart_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <!-- 주봉: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:text="@string/weekly_candle_chart"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivWeekCandleChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/daum_chart_height"
+            android:layout_marginTop="@dimen/md"
+            android:adjustViewBounds="true"
+            android:background="@drawable/chart_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <!-- 월봉: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:text="@string/monthly_candle_chart"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <!-- 월봉 -->
+        <ImageView
+            android:id="@+id/ivMonthCandleChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/daum_chart_height"
+            android:layout_marginTop="@dimen/md"
+            android:adjustViewBounds="true"
+            android:background="@drawable/chart_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+    </LinearLayout>
+
+</ScrollView>
