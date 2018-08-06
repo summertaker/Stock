@@ -81,7 +81,7 @@ public class BaseParser {
 
         ArrayList<String> foundList = new ArrayList<>();
 
-        for (Item item : BaseApplication.getInstance().getBaseItems()) {
+        for (Item item : BaseApplication.getInstance().getItemPrices()) {
             String name = item.getName();
             if (text.contains(name)) {
                 boolean valid = true;

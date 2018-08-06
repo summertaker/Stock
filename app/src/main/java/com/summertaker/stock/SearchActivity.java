@@ -54,10 +54,10 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        if (BaseApplication.getInstance().getBaseItems().size() == 0) {
+        if (BaseApplication.getInstance().getItemPrices().size() == 0) {
             showBaseProgress(2);
             setBaseProgressBar(1);
-            mDataManager.setOnBaseItemLoaded(new DataManager.BaseItemCallback() {
+            mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
                 @Override
                 public void onParse(int count) {
                     setBaseProgressBar(count + 1);
@@ -75,7 +75,7 @@ public class SearchActivity extends BaseActivity {
                     init();
                 }
             });
-            mDataManager.loadBaseItem();
+            mDataManager.loadItemPrice();
         } else {
             showBaseProgress(0);
             hideBaseProgress();

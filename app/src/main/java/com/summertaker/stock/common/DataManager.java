@@ -492,7 +492,7 @@ public class DataManager {
         mUrls.add(Config.URL_DAUM_PRICE_KOSDAQ);
 
         mUrlLoadCount = 0;
-        BaseApplication.getInstance().getItemPrices().clear();
+        mItems.clear();
         requestItemPrice();
 
         /*
@@ -538,7 +538,7 @@ public class DataManager {
 
     private void parseItemPrice(String response) {
         DaumParser daumParser = new DaumParser();
-        daumParser.parsePriceList(response, BaseApplication.getInstance().getItemPrices());
+        daumParser.parsePriceList(response, mItems);
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
@@ -547,6 +547,24 @@ public class DataManager {
         } else {
             //Log.e(TAG, "ItemPrice: mItems.size(): " + mItems.size());
             //writeCacheItems(Config.KEY_ITEM_PRICE, BaseApplication.getInstance().getItemPrices());
+
+            // 뉴스에서 종목 이름을 강조하기 위해 글자 길이로 정렬 (SK하이닉스 > SK)
+            for (Item item : mItems) {
+                item.setCharCount(item.getName().length());
+            }
+            Collections.sort(mItems, new Comparator<Item>() {
+                @Override
+                public int compare(Item a, Item b) {
+                    if (a.getCharCount() < b.getCharCount()) {
+                        return 1;
+                    } else if (a.getCharCount() > b.getCharCount()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
+            BaseApplication.getInstance().getItemPrices().addAll(mItems);
             mItemPriceCallback.onLoad();
         }
     }

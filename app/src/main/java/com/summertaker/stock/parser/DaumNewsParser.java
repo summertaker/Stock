@@ -162,18 +162,19 @@ public class DaumNewsParser extends BaseParser {
             list.add(text);
         }
 
-        String content = "";
+        StringBuilder sb = new StringBuilder();
         int count = 1;
         for (String text : list) {
             if (count < list.size()) {
                 text = "<p>" + text + "</p>";
             }
             //Log.e(TAG, text);
-
-            content += text;
+            //content += text;
+            sb.append(text);
             count++;
         }
 
+        String content = sb.toString();
         content = cleanText(content);
 
         // 단어 강조

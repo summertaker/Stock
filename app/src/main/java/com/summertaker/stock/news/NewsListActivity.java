@@ -51,20 +51,25 @@ public class NewsListActivity extends BaseActivity implements NewsListFragment.C
             }
         });
 
-        showBaseProgress(2); // 전종목 로드하기 (뉴스 내용에서 종목명 찾기 위해)
-        setBaseProgressBar(1);
-        mDataManager.setOnBaseItemLoaded(new DataManager.BaseItemCallback() {
-            @Override
-            public void onParse(int count) {
-                setBaseProgressBar(count + 1);
-            }
+        if (BaseApplication.getInstance().getItemPrices().size() == 0) {
+            showBaseProgress(2); // 전종목 로드하기 (뉴스 내용에서 종목명 찾기 위해)
+            setBaseProgressBar(1);
+            mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
+                @Override
+                public void onParse(int count) {
+                    setBaseProgressBar(count + 1);
+                }
 
-            @Override
-            public void onLoad() {
-                init();
-            }
-        });
-        mDataManager.loadBaseItem();
+                @Override
+                public void onLoad() {
+                    init();
+                }
+            });
+            mDataManager.loadItemPrice();
+        } else {
+            showBaseProgress(0);
+            init();
+        }
     }
 
     @Override
