@@ -564,6 +564,7 @@ public class DataManager {
                 }
             });
 
+            BaseApplication.getInstance().getItemPrices().clear();
             BaseApplication.getInstance().getItemPrices().addAll(mItems);
             mItemPriceCallback.onLoad();
         }
