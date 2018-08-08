@@ -134,7 +134,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
         }
 
         // [현재 추천] 목표가, 증권사, 포트폴리오
-        if (item.isChart() && mFragmentId.equals(Config.KEY_RECO_CURRENT)) {
+        if (item.isChartMode() && mFragmentId.equals(Config.KEY_RECO_CURRENT)) {
             String tpr = Config.NUMBER_FORMAT.format(item.getTpr());
             if (item.getTpr() == item.getPrice()) {
                 holder.tvTpr.setTextColor(BaseApplication.COLOR_INK);
@@ -164,33 +164,30 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
         holder.tvElapsed.setText(elapsed);
 
         // 태그
-        if (!item.isChart() || item.getTagIds() == null || item.getTagIds().isEmpty()) {
+        if (!item.isChartMode() || item.getTagIds() == null || item.getTagIds().isEmpty()) {
             holder.loTag.setVisibility(View.GONE);
         } else {
             holder.loTag.setVisibility(View.VISIBLE);
             BaseApplication.getInstance().renderTag(mContext, item, holder.loTag);
         }
 
-        // 차트
-        if (item.isChart()) {
-            String chartUrl = BaseApplication.getChartUrl(item.getCode(), System.currentTimeMillis());
-            Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
-        }
-
         // 표시 토글
-        if (item.isChart()) {
-
-            // 차트 모드
-            holder.loPrice.setVisibility(View.VISIBLE);
-            holder.loPriceL.setVisibility(View.GONE);
-            holder.loReco.setVisibility(View.VISIBLE);
-            holder.ivChart.setVisibility(View.VISIBLE);
-        } else {
+        if (item.isListMode()) {
             // 리스트 모드
             holder.loPrice.setVisibility(View.GONE);
             holder.loPriceL.setVisibility(View.VISIBLE);
             holder.loReco.setVisibility(View.GONE);
             holder.ivChart.setVisibility(View.GONE);
+        } else {
+            // 차트 모드
+            holder.loPrice.setVisibility(View.VISIBLE);
+            holder.loPriceL.setVisibility(View.GONE);
+            holder.loReco.setVisibility(View.VISIBLE);
+            holder.ivChart.setVisibility(View.VISIBLE);
+
+            // 차트
+            String chartUrl = BaseApplication.getMonthChartUrl(item.getCode());
+            Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
         }
     }
 

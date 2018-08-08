@@ -32,7 +32,7 @@
     <string name="broker">증권사</string>
     <string name="business_information">기업 정보</string>
 
-    <string name="chart">차트</string>
+    <string name="chartMode">차트</string>
     <string name="code">코드</string>
     <string name="corporate_overview">기업 개요</string>
     <string name="current_price">현재가</string>

@@ -151,9 +151,12 @@ public class PortfolioActivity extends BaseActivity implements PortfolioFragment
                 @Override
                 public void onPageSelected(int position) {
                     //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
-                    PortfolioFragment f = (PortfolioFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + position);
-                    if (f != null) {
-                        onFragmentItemSizeChanged(position, f.getItemSize());
+                    String pageId = "android:switcher:" + R.id.viewpager + ":" + position;
+                    PortfolioFragment fragment = (PortfolioFragment) getSupportFragmentManager().findFragmentByTag(pageId);
+                    if (fragment != null) {
+                        onFragmentItemSizeChanged(position, fragment.getItemSize());
+                        mChartMode = fragment.getChartMode();
+                        setMenuItemChart();
                     }
                 }
 

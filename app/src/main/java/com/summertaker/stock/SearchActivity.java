@@ -2,7 +2,6 @@ package com.summertaker.stock;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
@@ -20,8 +20,11 @@ import com.summertaker.stock.data.Item;
 import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.Util;
 
+import java.util.ArrayList;
+
 public class SearchActivity extends BaseActivity {
 
+    private ArrayList<Item> mItems = new ArrayList<>();
     private AutoCompleteTextView mTvAucoComplete;
 
     @Override
@@ -30,7 +33,6 @@ public class SearchActivity extends BaseActivity {
         setContentView(R.layout.search_activity);
 
         mContext = SearchActivity.this;
-
         initBaseActivity(mContext);
         initGesture();
 
@@ -109,9 +111,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void init() {
-        String[] searchData = new String[BaseApplication.getInstance().getBaseItems().size()];
-        for (int i = 0; i < BaseApplication.getInstance().getBaseItems().size(); i++) {
-            searchData[i] = BaseApplication.getInstance().getBaseItems().get(i).getName();
+        mItems.clear();
+        mItems.addAll(BaseApplication.getInstance().getItemPrices());
+        //Toast.makeText(mContext, "mItems.size() = " + mItems.size(), Toast.LENGTH_SHORT).show();
+
+        String[] searchData = new String[mItems.size()];
+        for (int i = 0; i < mItems.size(); i++) {
+            searchData[i] = mItems.get(i).getName();
         }
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete, searchData);
@@ -124,7 +130,7 @@ public class SearchActivity extends BaseActivity {
                 String name = parent.getItemAtPosition(position).toString();
                 String code = "";
 
-                for (Item item : BaseApplication.getInstance().getBaseItems()) {
+                for (Item item : mItems) {
                     if (name.equals(item.getName())) {
                         code = item.getCode();
                         break;

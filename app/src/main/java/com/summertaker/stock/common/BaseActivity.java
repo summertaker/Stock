@@ -41,9 +41,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected MenuItem mMenuItemFavorite;
     protected MenuItem mMenuItemTag;
     protected MenuItem mMenuItemChart;
+    protected MenuItem mMenuItemList;
     protected boolean mFavoriteMode = false;
     protected boolean mTagMode = false;
     protected boolean mChartMode = false;
+    protected boolean mListMode = false;
 
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -159,6 +161,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         mChartMode = !mChartMode;
         setMenuItemChart();
         runFragment(Config.PARAM_TOGGLE_CHART);
+    }
+
+    protected void setMenuItemList() {
+        if (mMenuItemList != null) {
+            int icon = mListMode ? R.drawable.baseline_bar_chart_white_24 : R.drawable.baseline_list_white_24;
+            mMenuItemList.setIcon(ContextCompat.getDrawable(mContext, icon));
+        }
+    }
+
+    protected void onActionListClick() {
+        mListMode = !mListMode;
+        setMenuItemList();
+        runFragment(Config.PARAM_TOGGLE_LIST);
     }
 
     protected void initGesture() {

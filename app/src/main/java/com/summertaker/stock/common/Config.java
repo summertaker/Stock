@@ -87,6 +87,7 @@ public class Config {
     public static String PARAM_GO_TO_THE_TOP = "go_to_the_top";
     public static String PARAM_DO_REFRESH = "do_refresh";
     public static String PARAM_TOGGLE_CHART = "toggle_chart";
+    public static String PARAM_TOGGLE_LIST = "toggle_list";
     public static String PARAM_DATA_CHANGED = "data_changed";
     public static String PARAM_LOAD_STARTED = "refresh_started";
     public static String PARAM_LOAD_FINISHED = "refresh_finished";
@@ -158,9 +159,9 @@ public class Config {
 
     public static int TAG_TEXT_SIZE_XS = 13;
     public static String TAG_FGC_OFF = "#555555";
-    public static String TAG_BGC_OFF = "#eeeeee";
+    public static String TAG_BGC_OFF = "#e6e6e6";
     public static String TAG_FGC_ON = "#ffffff";
-    public static String TAG_BGC_ON = "#999999";
+    public static String TAG_BGC_ON = "#777777";
 
     public static String NEWS_TEXT_HIGHLIGHT_FORMAT = "<font color='#D32F2F'>%s</font>"; // Red
     public static String NEWS_ITEM_NAME_HIGHLIGHT_FORMAT = "<font color='#1976D2'>%s</font>"; // Blue

@@ -38,7 +38,6 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
         setContentView(R.layout.reco_activity);
 
         mContext = RecoActivity.this;
-
         initBaseActivity(mContext);
 
         mToolbar.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +60,8 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reco, menu);
-        mMenuItemChart = menu.findItem(R.id.action_chart);
-        //setMenuItemChart();
+        mMenuItemList = menu.findItem(R.id.action_chart);
+        //setMenuItemList();
         return true;
     }
 
@@ -76,7 +75,7 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
                 startActivity(search);
                 return true;
             case R.id.action_chart:
-                onActionChartClick();
+                onActionListClick();
                 return true;
             case R.id.action_finish:
                 finish();
@@ -156,7 +155,11 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
                 //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
                 String tag = "android:switcher:" + R.id.viewpager + ":" + position;
                 RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
-                onFragmentItemSizeChange(position, fragment.getItemSize());
+                if (fragment != null) {
+                    onFragmentItemSizeChange(position, fragment.getItemSize());
+                    mListMode = fragment.getListMode();
+                    setMenuItemList();
+                }
             }
 
             @Override
@@ -222,6 +225,8 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
                 fragment.notifyDataSetChanged();
             } else if (command.equals(Config.PARAM_TOGGLE_CHART)) {
                 fragment.toggleChart();
+            } else if (command.equals(Config.PARAM_TOGGLE_LIST)) {
+                fragment.toggleList();
             }
         }
     }

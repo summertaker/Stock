@@ -286,10 +286,9 @@ public class RiseActivity extends BaseActivity {
     private void renderData() {
         long millis = System.currentTimeMillis();
         for (Item item : mItems) {
-            item.setChart(mChartMode);
+            item.setChartMode(mChartMode);
 
-            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode(), millis) :
-                    BaseApplication.getDayChartUrl(item.getCode(), millis);
+            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
             item.setChartUrl(chartUrl);
         }

@@ -27,7 +27,8 @@ public class Item {
     private boolean favorite;
     private String chartUrl;
 
-    private boolean chart;
+    private boolean chartMode;
+    private boolean listMode;
     private boolean rise;
     private boolean foreigner;
     private boolean institution;
@@ -228,12 +229,12 @@ public class Item {
         this.favorite = favorite;
     }
 
-    public boolean isChart() {
-        return chart;
+    public boolean isChartMode() {
+        return chartMode;
     }
 
-    public void setChart(boolean chart) {
-        this.chart = chart;
+    public void setChartMode(boolean chartMode) {
+        this.chartMode = chartMode;
     }
 
     public boolean isRise() {
@@ -298,5 +299,13 @@ public class Item {
 
     public void setChartUrl(String chartUrl) {
         this.chartUrl = chartUrl;
+    }
+
+    public boolean isListMode() {
+        return listMode;
+    }
+
+    public void setListMode(boolean listMode) {
+        this.listMode = listMode;
     }
 }

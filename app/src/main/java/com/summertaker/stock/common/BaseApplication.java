@@ -325,8 +325,8 @@ public class BaseApplication extends Application {
         mSettings.add(setting);
     }
 
-    public static String getChartUrl(String code, long millis) {
-        //long millis = System.currentTimeMillis();
+    public static String getChartUrl(String code) {
+        long millis = System.currentTimeMillis();
         //return "https://ssl.pstatic.net/imgfinance/chart/mobile/candle/day/" + code + "_end.png?sidcode=" + millis; // 네이버 일봉
         //return "https://ssl.pstatic.net/imgfinance/chart/mobile/candle/week/" + code + "_end.png?sidcode=" + millis; // 네이버 주봉
 
@@ -336,8 +336,13 @@ public class BaseApplication extends Application {
         //return "https://chart-finance.daumcdn.net/time3/year/" + code +"-290157.png?date=" + millis; // 다음 1년
     }
 
-    public static String getDayChartUrl(String code, long millis) {
-        //long millis = System.currentTimeMillis();
+    public static String getMonthChartUrl(String code) {
+        long millis = System.currentTimeMillis();
+        return "https://fn-chart.dunamu.com/images/kr/candle/m/A" + code + ".png?" + millis; // 다음 월봉
+    }
+
+    public static String getDayChartUrl(String code) {
+        long millis = System.currentTimeMillis();
         //return "https://fn-chart.dunamu.com/images/kr/stock/d/A" + code + ".png?" + millis;
         return "https://ssl.pstatic.net/imgfinance/chart/mobile/mini/" + code + "_end_up_tablet.png?" + millis; // 오늘
         //return "https://ssl.pstatic.net/imgfinance/chart/item/area/day/" + code + ".png?sidcode=" + millis; // 어제 + 오늘

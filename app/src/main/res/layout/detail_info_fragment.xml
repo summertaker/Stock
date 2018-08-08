@@ -172,7 +172,7 @@
         <ImageView
             android:id="@+id/ivDayChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/daum_chart_height"
+            android:layout_height="@dimen/pipe_chart_height"
             android:layout_marginTop="@dimen/sm"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
@@ -191,7 +191,7 @@
         <ImageView
             android:id="@+id/ivDayCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/daum_chart_height"
+            android:layout_height="@dimen/pipe_chart_height"
             android:layout_marginTop="@dimen/sm"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
@@ -210,7 +210,7 @@
         <ImageView
             android:id="@+id/ivWeekCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/daum_chart_height"
+            android:layout_height="@dimen/pipe_chart_height"
             android:layout_marginTop="@dimen/md"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
@@ -230,7 +230,7 @@
         <ImageView
             android:id="@+id/ivMonthCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/daum_chart_height"
+            android:layout_height="@dimen/pipe_chart_height"
             android:layout_marginTop="@dimen/md"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"

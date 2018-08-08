@@ -42,7 +42,7 @@ public class RecoFragment extends BaseFragment {
     private int mHighestPrice; // 최고가
     private float mRateOfFluctuation; // 등락률
 
-    private boolean mChartMode = false;
+    private boolean mListMode = false;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -244,11 +244,11 @@ public class RecoFragment extends BaseFragment {
 
     private void renderData() {
         for (Item item : mItems) {
-            item.setChart(mChartMode);
+            item.setListMode(mListMode);
         }
 
         mRecyclerView.removeItemDecoration(mDividerItemDecoration);
-        if (!mChartMode) {
+        if (mListMode) {
             mRecyclerView.addItemDecoration(mDividerItemDecoration); // Divider
         }
 
@@ -278,7 +278,9 @@ public class RecoFragment extends BaseFragment {
 
     public void goToTheTop() {
         LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        manager.scrollToPositionWithOffset(0, 0);
+        if (manager != null) {
+            manager.scrollToPositionWithOffset(0, 0);
+        }
     }
 
     public void refreshFragment(boolean isActionRefresh) {
@@ -299,8 +301,8 @@ public class RecoFragment extends BaseFragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    public void toggleChart() {
-        mChartMode = !mChartMode;
+    public void toggleList() {
+        mListMode = !mListMode;
         renderData();
     }
 
@@ -310,5 +312,9 @@ public class RecoFragment extends BaseFragment {
 
     public int getItemSize() {
         return mItems.size();
+    }
+
+    public boolean getListMode() {
+        return mListMode;
     }
 }

@@ -228,10 +228,10 @@ public class PortfolioFragment extends BaseFragment {
         // 차트
         long millis = System.currentTimeMillis();
         for (Item item : mItems) {
-            item.setChart(mChartMode);
+            item.setChartMode(mChartMode);
 
-            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode(), millis) :
-                    BaseApplication.getDayChartUrl(item.getCode(), millis);
+            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode()) :
+                    BaseApplication.getDayChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }
 
@@ -277,5 +277,9 @@ public class PortfolioFragment extends BaseFragment {
 
     public int getItemSize() {
         return mItems.size();
+    }
+
+    public boolean getChartMode() {
+        return mChartMode;
     }
 }

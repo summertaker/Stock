@@ -97,7 +97,7 @@
     <ImageView
         android:id="@+id/ivChart"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/daum_chart_height"
+        android:layout_height="@dimen/area_chart_height"
         android:layout_marginTop="@dimen/sm"
         android:adjustViewBounds="true"
         android:background="@drawable/chart_background"
