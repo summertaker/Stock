@@ -145,6 +145,11 @@ public class DetailInfoFragment extends BaseFragment {
         ImageView ivDayChart = rootView.findViewById(R.id.ivDayChart);
         setChart(ivDayChart, dayChart);
 
+        // 주 차트
+        final String weekChart = "https://ssl.pstatic.net/imgfinance/chart/item/area/week/" + mCode + ".png?sidcode=" + System.currentTimeMillis();
+        ImageView ivWeekChart = rootView.findViewById(R.id.ivWeekChart);
+        setChart(ivWeekChart, weekChart);
+
         // 일봉 차트
         //final String dayCandleChart = "https://ssl.pstatic.net/imgfinance/chart/mobile/candle/day/" + mCode + "_end.png"; // 네이버
         final String dayCandleChart = "https://fn-chart.dunamu.com/images/kr/candle/d/A" + mCode + ".png"; // 다음

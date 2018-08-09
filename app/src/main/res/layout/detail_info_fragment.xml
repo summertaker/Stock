@@ -165,12 +165,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xl"
-            android:text="@string/daily_chart"
+            android:text="@string/day_chart"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivDayChart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_marginTop="@dimen/sm"
+            android:adjustViewBounds="true"
+            android:background="@drawable/chart_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <!-- 주 차트: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xl"
+            android:text="@string/week_chart"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivWeekChart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/pipe_chart_height"
             android:layout_marginTop="@dimen/sm"
@@ -203,7 +222,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_padding"
-            android:text="@string/weekly_candle_chart"
+            android:text="@string/week_candle_chart"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -222,7 +241,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_padding"
-            android:text="@string/monthly_candle_chart"
+            android:text="@string/month_candle_chart"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

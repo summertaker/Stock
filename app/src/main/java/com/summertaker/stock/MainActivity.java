@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.summertaker.stock.common.BaseActivity;
+import com.summertaker.stock.news.BreakingListActivity;
 import com.summertaker.stock.news.NewsListActivity;
 import com.summertaker.stock.portfolio.PortfolioActivity;
 import com.summertaker.stock.reco.RecoActivity;
@@ -102,6 +103,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void init() {
+        // 속보
+        LinearLayout loBreaking = findViewById(R.id.loBreaking);
+        loBreaking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, BreakingListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // 뉴스
         LinearLayout loNews = findViewById(R.id.loNews);
         loNews.setOnClickListener(new View.OnClickListener() {

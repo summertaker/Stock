@@ -1276,7 +1276,8 @@ public class DataManager {
                 News news = new News();
                 news.setId(i + 1);
                 news.setTitle(Util.getString(obj, "title"));
-                news.setPublishedText(Util.getString(obj, "publishedText"));
+                news.setPublishedText(Util.getString(obj, "published"));
+                news.setElapsedText(Util.getString(obj, "elapsed"));
                 list.add(news);
             }
         } catch (JSONException e) {

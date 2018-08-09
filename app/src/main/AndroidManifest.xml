@@ -41,6 +41,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".news.BreakingListActivity"
+            android:label="@string/title_activity_breaking_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".news.NewsListActivity"
             android:label="@string/title_activity_news_list"
             android:theme="@style/AppTheme.NoActionBar" />
