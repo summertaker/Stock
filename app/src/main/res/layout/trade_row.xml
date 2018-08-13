@@ -235,7 +235,7 @@
         android:layout_height="@dimen/candle_chart_height"
         android:layout_marginTop="@dimen/sm"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:background="@drawable/chart_background"
         android:contentDescription="@null" />
 

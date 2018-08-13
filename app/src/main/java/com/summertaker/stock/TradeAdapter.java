@@ -112,12 +112,6 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.ItemViewHold
             BaseApplication.getInstance().renderTag(mContext, item, holder.loTag);
         }
 
-        // 차트
-        if (item.isChartMode()) {
-            String chartUrl = BaseApplication.getChartUrl(item.getCode());
-            Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
-        }
-
         // 거래량
         String vot = Config.NUMBER_FORMAT.format(item.getVot());
         vot = vot + "주";
@@ -140,6 +134,10 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.ItemViewHold
             holder.loPot.setVisibility(View.VISIBLE);
             //holder.loPotL.setVisibility(View.GONE);
             holder.ivChart.setVisibility(View.VISIBLE);
+
+            // 차트
+            String chartUrl = BaseApplication.getDayCandleChartUrl(item.getCode());
+            Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
         } else {
             // 리스트 모드
             holder.loPrice.setVisibility(View.GONE);

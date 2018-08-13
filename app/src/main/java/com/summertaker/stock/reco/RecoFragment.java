@@ -42,7 +42,7 @@ public class RecoFragment extends BaseFragment {
     private int mHighestPrice; // 최고가
     private float mRateOfFluctuation; // 등락률
 
-    private boolean mListMode = false;
+    private boolean mListMode = true;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -57,9 +57,6 @@ public class RecoFragment extends BaseFragment {
 
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
-
-            // This makes sure that the container activity has implemented
-            // the callback interface. If not, it throws an exception
             try {
                 mEventListener = (Callback) activity;
             } catch (ClassCastException e) {

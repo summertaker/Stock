@@ -54,9 +54,6 @@ public class PortfolioFragment extends BaseFragment {
 
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
-
-            // This makes sure that the container activity has implemented
-            // the callback interface. If not, it throws an exception
             try {
                 mEventListener = (Callback) activity;
             } catch (ClassCastException e) {
@@ -226,11 +223,10 @@ public class PortfolioFragment extends BaseFragment {
 
     private void renderData() {
         // 차트
-        long millis = System.currentTimeMillis();
+        //long millis = System.currentTimeMillis();
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
-
-            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode()) :
+            String chartUrl = mChartMode ? BaseApplication.getDayCandleChartUrl(item.getCode()) :
                     BaseApplication.getDayChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }

@@ -186,7 +186,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
             holder.ivChart.setVisibility(View.VISIBLE);
 
             // 차트
-            String chartUrl = BaseApplication.getWeekCandleChartUrl(item.getCode());
+            String chartUrl = BaseApplication.getDayCandleChartUrl(item.getCode());
             Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
         }
     }

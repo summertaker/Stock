@@ -68,7 +68,7 @@
     <dimen name="card_item_padding">10dp</dimen>
 
     <!-- Chart -->
-    <dimen name="candle_chart_height">190dp</dimen>
+    <dimen name="candle_chart_height">185dp</dimen>
     <dimen name="area_chart_height">185dp</dimen>
 
     <dimen name="box_inset_layout_padding">0dp</dimen>
