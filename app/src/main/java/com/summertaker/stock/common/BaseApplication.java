@@ -336,7 +336,12 @@ public class BaseApplication extends Application {
         //return "https://chart-finance.daumcdn.net/time3/year/" + code +"-290157.png?date=" + millis; // 다음 1년
     }
 
-    public static String getMonthChartUrl(String code) {
+    public static String getWeekCandleChartUrl(String code) {
+        long millis = System.currentTimeMillis();
+        return "https://fn-chart.dunamu.com/images/kr/candle/w/A" + code + ".png?" + millis; // 다음 주봉
+    }
+
+    public static String getMonthCandleChartUrl(String code) {
         long millis = System.currentTimeMillis();
         return "https://fn-chart.dunamu.com/images/kr/candle/m/A" + code + ".png?" + millis; // 다음 월봉
     }

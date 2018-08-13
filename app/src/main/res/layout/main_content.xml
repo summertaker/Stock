@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- 속보 -->
+        <!--
         <LinearLayout
             android:id="@+id/loBreaking"
             android:layout_width="match_parent"
@@ -49,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+            -->
 
         <!-- 뉴스 -->
         <LinearLayout
@@ -146,6 +148,38 @@
             android:layout_height="1dp"
             android:background="#ccc" />
 
+        <!-- 매매 -->
+        <LinearLayout
+            android:id="@+id/loTrade"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_item_trade_title"
+                android:textColor="@color/ink"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xs"
+                android:text="@string/main_item_trade_subtitle" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc" />
+
         <!-- 추천 -->
         <LinearLayout
             android:id="@+id/loReco"
@@ -180,7 +214,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:orientation="horizontal">
 
             <!-- 태그 -->

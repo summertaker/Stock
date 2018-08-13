@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void init() {
+        /*
         // 속보
         LinearLayout loBreaking = findViewById(R.id.loBreaking);
         loBreaking.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 뉴스
         LinearLayout loNews = findViewById(R.id.loNews);
@@ -139,6 +141,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, RiseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 매매
+        LinearLayout loTrade = findViewById(R.id.loTrade);
+        loTrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, TradeActivity.class);
                 startActivity(intent);
             }
         });

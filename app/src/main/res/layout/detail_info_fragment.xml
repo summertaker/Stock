@@ -172,12 +172,12 @@
         <ImageView
             android:id="@+id/ivDayChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_height="@dimen/candle_chart_height"
             android:layout_marginTop="@dimen/sm"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <!-- 주 차트: 텍스트 -->
         <TextView
@@ -191,12 +191,12 @@
         <ImageView
             android:id="@+id/ivWeekChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_height="@dimen/candle_chart_height"
             android:layout_marginTop="@dimen/sm"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <!-- 일봉: 텍스트 -->
         <TextView
@@ -210,12 +210,12 @@
         <ImageView
             android:id="@+id/ivDayCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_height="@dimen/candle_chart_height"
             android:layout_marginTop="@dimen/sm"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <!-- 주봉: 텍스트 -->
         <TextView
@@ -229,12 +229,12 @@
         <ImageView
             android:id="@+id/ivWeekCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_height="@dimen/candle_chart_height"
             android:layout_marginTop="@dimen/md"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <!-- 월봉: 텍스트 -->
         <TextView
@@ -249,12 +249,12 @@
         <ImageView
             android:id="@+id/ivMonthCandleChart"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pipe_chart_height"
+            android:layout_height="@dimen/candle_chart_height"
             android:layout_marginTop="@dimen/md"
             android:adjustViewBounds="true"
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 

@@ -102,6 +102,6 @@
         android:adjustViewBounds="true"
         android:background="@drawable/chart_background"
         android:contentDescription="@null"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitCenter" />
 
 </LinearLayout>
