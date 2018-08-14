@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
@@ -80,7 +79,10 @@
             android:name=".setting.SettingActivity"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".TraderActivity"
+            android:label="@string/title_activity_trader"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

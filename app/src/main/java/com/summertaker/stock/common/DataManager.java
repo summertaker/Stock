@@ -17,6 +17,7 @@ import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Reason;
 import com.summertaker.stock.data.Setting;
 import com.summertaker.stock.data.Tag;
+import com.summertaker.stock.data.Trader;
 import com.summertaker.stock.data.Word;
 import com.summertaker.stock.parser.DaumParser;
 import com.summertaker.stock.parser.NaverNewsParser;
@@ -945,6 +946,129 @@ public class DataManager {
 
             //writeCacheItems(mSiteId, mItems);
             mAccuTradeCallback.onLoad(mItems);
+        }
+    }
+
+    /**
+     * [다음 금융 > 국내 > 거래원별] 거래원 목록 가져오기
+     */
+    public interface TraderListCallback {
+        void onLoad(ArrayList<String> urls);
+    }
+
+    private TraderListCallback mTraderListCallback;
+
+    public void setOnTraderListLoaded(TraderListCallback callback) {
+        mTraderListCallback = callback;
+    }
+
+    public void loadTraderList() {
+        mItems.clear();
+        requestTraderList();
+    }
+
+    private void requestTraderList() {
+        String url = Config.URL_DAUM_TRADER_LIST;
+        //Log.e(TAG, url);
+        StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                parseTraderList(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage());
+                Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+                parseTraderList("");
+            }
+        });
+
+        BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
+    }
+
+    private void parseTraderList(String response) {
+        ArrayList<String> urls = new ArrayList<>();
+        DaumParser daumParser = new DaumParser();
+        daumParser.parseTraderList(response, urls);
+
+        //Log.e(TAG, "urls.size(): " + urls.size());
+        //writeCacheItems(mSiteId, mItems);
+        mTraderListCallback.onLoad(urls);
+    }
+
+    /**
+     * [다음 금융 > 국내 > 거래원별] 거래원 종목 목록 가져오기
+     */
+    public interface TraderItemListCallback {
+        void onParse(int count);
+
+        void onLoad(ArrayList<Item> items);
+    }
+
+    private TraderItemListCallback mTraderItemListCallback;
+
+    public void setOnTraderItemListLoaded(TraderItemListCallback callback) {
+        mTraderItemListCallback = callback;
+    }
+
+    public void loadTraderItemList() {
+        mUrls.clear();
+        mUrlLoadCount = 0;
+        mItems.clear();
+        requestTraderItemList();
+    }
+
+    private void requestTraderItemList() {
+        final String url = mUrls.get(mUrlLoadCount);
+        //Log.e(TAG, url);
+        StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                parseTraderItemList(url, response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage());
+                Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+                parseTraderItemList(url, "");
+            }
+        });
+
+        BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
+    }
+
+    private void parseTraderItemList(String url, String response) {
+        DaumParser daumParser = new DaumParser();
+        //daumParser.parseTraderItemListList(url, response, mItems);
+
+        mUrlLoadCount++;
+        if (mUrlLoadCount < mUrls.size()) {
+            mTraderItemListCallback.onParse(mUrlLoadCount);
+            requestTraderItemList();
+        } else {
+            //Log.e(TAG, "TraderItemList: mItems.size(): " + mItems.size());
+
+            // 거래량 정렬
+            Collections.sort(mItems, new Comparator<Item>() {
+                @Override
+                public int compare(Item a, Item b) {
+                    if (a.getVot() < b.getVot()) {
+                        return 1;
+                    } else if (a.getVot() > b.getVot()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
+            //for (Item item : mItems) {
+            //    Log.e(TAG, item.getName() + " / " + item.isForeigner() + " / " + item.isInstitution());
+            //}
+
+            //writeCacheItems(mSiteId, mItems);
+            mTraderItemListCallback.onLoad(mItems);
         }
     }
 

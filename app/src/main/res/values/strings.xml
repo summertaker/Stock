@@ -164,6 +164,8 @@
     <string name="main_item_fluctuation_subtitle">등락</string>
     <string name="main_item_trade_title">TRADE</string>
     <string name="main_item_trade_subtitle">매매</string>
+    <string name="main_item_trader_title">TRADER</string>
+    <string name="main_item_trader_subtitle">거래원</string>
     <string name="main_item_buy_title">BUY</string>
     <string name="main_item_buy_subtitle">매수</string>
     <string name="main_item_top_title">TOP</string>
@@ -273,5 +275,6 @@
     <string name="title_activity_alert">알림</string>
     <string name="title_activity_picker">픽커</string>
     <string name="title_activity_item_history">전종목</string>
+    <string name="title_activity_trader">TraderActivity</string>
 
 </resources>

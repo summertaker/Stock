@@ -107,6 +107,7 @@ public class Config {
     public static String URL_DAUM_TRADE_OVERSEAS_KOSDAQ_LIST = "http://finance.daum.net/quote/trader.daum?trcode=1&stype=Q&type=P";
     public static String URL_DAUM_TRADE_DOMESTIC_KOSPI_LIST = "http://finance.daum.net/quote/trader.daum?trcode=0&stype=P&type=P";
     public static String URL_DAUM_TRADE_DOMESTIC_KOSDAQ_LIST = "http://finance.daum.net/quote/trader.daum?trcode=0&stype=Q&type=P";
+    public static String URL_DAUM_TRADER_LIST = "http://finance.daum.net/quote/trader.daum";
     public static String URL_DAUM_ACCUTRADE_FOREIGN_KOSPI_LIST = "http://finance.daum.net/quote/signal_foreign.daum?col=accumul_volume&order=desc&stype=1&type=buy&gubun=F"; // 누적매매순
     public static String URL_DAUM_ACCUTRADE_FOREIGN_KODAQ_LIST = "http://finance.daum.net/quote/signal_foreign.daum?col=accumul_volume&order=desc&stype=2&type=buy&gubun=F"; // 누적매매순
     public static String URL_DAUM_ACCUTRADE_INSTITUTION_KOSPI_LIST = "http://finance.daum.net/quote/signal_foreign.daum?col=accumul_volume&order=desc&stype=1&type=buy&gubun=I"; // 누적매매순

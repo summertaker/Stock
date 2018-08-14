@@ -155,6 +155,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        // 거래원
+        LinearLayout loTrader = findViewById(R.id.loTrader);
+        loTrader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, TraderActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // 추천
         LinearLayout loReco = findViewById(R.id.loReco);
         loReco.setOnClickListener(new View.OnClickListener() {

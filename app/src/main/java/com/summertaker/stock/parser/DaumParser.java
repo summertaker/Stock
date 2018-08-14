@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.summertaker.stock.common.BaseParser;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Trader;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +17,7 @@ public class DaumParser extends BaseParser {
 
     /**
      * [다음 금융 > 국내] 페이지 파싱하기
+     *
      * @param response
      * @param weekRiseItems
      * @param weekTradeItems
@@ -434,6 +436,33 @@ public class DaumParser extends BaseParser {
 
                 items.add(item);
             }
+        }
+    }
+
+    public void parseTraderList(String response, ArrayList<String> urls) {
+        if (response == null || response.isEmpty()) {
+            return;
+        }
+
+        Document doc = Jsoup.parse(response);
+
+        Element select = doc.getElementById("trcode");
+        Elements options = select.getElementsByTag("option");
+
+        String url;
+        for (Element option : options) {
+            String name = option.text();
+            name = name.replace("=", "");
+            String code = option.attr("value");
+
+            //Log.e(TAG, code + " " + name);
+            if (code.equals("0") || code.equals("1")) continue;
+
+            url = "http://finance.daum.net/quote/trader.daum?trcode=" + code + "&stype=P&type=P"; // 코스피
+            urls.add(url);
+
+            url = "http://finance.daum.net/quote/trader.daum?trcode=" + code + "&stype=Q&type=P"; // 코스닥
+            urls.add(url);
         }
     }
 
