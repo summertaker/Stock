@@ -466,6 +466,48 @@ public class DaumParser extends BaseParser {
         }
     }
 
+    public void parseTraderItemList(String response, ArrayList<Item> items) {
+        if (response == null || response.isEmpty()) {
+            return;
+        }
+
+        Document doc = Jsoup.parse(response);
+
+        int column = 1;
+        Elements tables = doc.getElementsByTag("table");
+        for (Element table : tables) {
+            String attr = table.attr("class");
+            if (!attr.equals("dTable clr")) continue;
+
+            boolean buy = (column == 1);
+            boolean sell = (column == 2);
+
+            Elements trs = table.getElementsByTag("tr");
+            for (Element tr : trs)
+            {
+                Elements tds = tr.getElementsByTag("td");
+                if (tds.size() != 5) continue;
+
+                Element a = tds.get(0).getElementsByTag("a").get(0);
+                String href = a.attr("href");
+                String[] array = href.split("=");
+                String code = array[1];
+                String name = a.text();
+
+                Log.e(TAG, code +" " + name);
+
+                Item item = new Item();
+                item.setCode(code);
+                item.setName(name);
+                item.setBuy(buy);
+                item.setSell(sell);
+                items.add(item);
+            }
+
+            column++;
+        }
+    }
+
     public Item parseItemDetail(String response) {
         Item item = new Item();
 

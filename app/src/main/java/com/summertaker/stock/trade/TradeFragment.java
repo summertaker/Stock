@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.trade;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,15 +31,15 @@ public class TradeFragment extends BaseFragment {
 
     private Site mSite;
 
-    private int mUrlLoadingCount = 0;
-    private ArrayList<String> mTradeItemUrls = new ArrayList<>();
+    //private int mUrlLoadingCount = 0;
+    //private ArrayList<String> mTradeItemUrls = new ArrayList<>();
 
     private ArrayList<Item> mItems = new ArrayList<>();
     private TradeAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DividerItemDecoration mDividerItemDecoration;
 
-    private boolean mChartMode = false;
+    private boolean mChartMode = true;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -55,8 +55,6 @@ public class TradeFragment extends BaseFragment {
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
 
-            // This makes sure that the container activity has implemented
-            // the callback interface. If not, it throws an exception
             try {
                 mEventListener = (Callback) activity;
             } catch (ClassCastException e) {
@@ -133,20 +131,32 @@ public class TradeFragment extends BaseFragment {
 
                 long id = 1;
                 for (Item item : items) {
-                    if (item.isForeigner() && item.isBuy()) { // 외국이 매수
+                    if (item.isForeigner() && item.isBuy()) {
                         if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            // 외국인 매수
+                            item.setId(id);
+                            mItems.add(item);
+                            id++;
+                        } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            // 외국인 누적 매수
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isForeigner() && item.isSell()) { // 외국이 매도
+                    } else if (item.isForeigner() && item.isSell()) { // 외국인 매도
                         if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_SELL)) {
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isInstitution() && item.isBuy()) { // 기관 매수
+                    } else if (item.isInstitution() && item.isBuy()) {
                         if (mSite.getId().equals(Config.KEY_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            // 기관 매수
+                            item.setId(id);
+                            mItems.add(item);
+                            id++;
+                        } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            // 기관 누적 매수
                             item.setId(id);
                             mItems.add(item);
                             id++;

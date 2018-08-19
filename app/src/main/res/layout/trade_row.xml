@@ -15,207 +15,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <!-- 번호 -->
-            <TextView
-                android:id="@+id/tvId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/ns"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@null"
-                android:textColor="@color/ink"
-                android:textSize="@dimen/text_md" />
-
-            <!-- 종목 이름 -->
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                android:text="@null"
-                android:textColor="@color/ink"
-                android:textSize="@dimen/text_md"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- 리스트 모드에서 사용 -->
-        <LinearLayout
-            android:id="@+id/loPriceL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- 등락 아이콘 -->
-            <TextView
-                android:id="@+id/tvFlucIconL"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="@null"
-                android:textSize="@dimen/text_sm"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- 등락률 -->
-                <TextView
-                    android:id="@+id/tvRofL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@null" />
-
-                <!-- 거래량 -->
-                <TextView
-                    android:id="@+id/tvVotL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@null"
-                    android:textColor="@color/ink"
-                    android:textSize="@dimen/text_xs" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- 현재가 -->
-                <TextView
-                    android:id="@+id/tvPriceL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@null"
-                    android:textStyle="bold" />
-
-                <!-- 거래금액 -->
-                <TextView
-                    android:id="@+id/tvPotL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@null"
-                    android:textColor="@color/ink"
-                    android:textSize="@dimen/text_xs" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xs"
-        android:orientation="horizontal">
-
-        <!-- 현재가: 텍스트 -->
+        <!-- 번호 -->
         <TextView
+            android:id="@+id/tvId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/current_price"
-            android:textColor="@color/ink" />
-
-        <!-- 현재가 -->
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
+            android:layout_marginEnd="@dimen/ns"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@null"
-            android:textColor="@color/success"
-            android:textStyle="bold" />
+            android:textColor="@color/ink"
+            android:textSize="@dimen/text_md" />
 
-        <!-- 등락률: 텍스트 -->
+        <!-- 종목 이름 -->
         <TextView
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/md"
-            android:text="@string/rate_of_fluctuation"
-            android:textColor="@color/ink" />
-
-        <!-- 등락 아이콘 -->
-        <TextView
-            android:id="@+id/tvFlucIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
+            android:ellipsize="middle"
+            android:singleLine="true"
             android:text="@null"
-            android:textSize="@dimen/text_sm"
-            android:visibility="gone" />
-
-        <!-- 등락률 -->
-        <TextView
-            android:id="@+id/tvRof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
-            android:text="@null"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loPot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xs"
-        android:orientation="horizontal">
-
-        <!-- 거래액: 텍스트 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/price_of_trade"
-            android:textColor="@color/ink" />
-
-        <!-- 거래액 -->
-        <TextView
-            android:id="@+id/tvPot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
-            android:text="@null"
-            android:textColor="@color/success"
-            android:textStyle="bold" />
-
-        <!-- 거래량: 텍스트 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/md"
-            android:text="@string/volume_of_trade"
-            android:textColor="@color/ink" />
-
-        <!-- 거래량 -->
-        <TextView
-            android:id="@+id/tvVot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
-            android:text="@null"
+            android:textColor="@color/ink"
+            android:textSize="@dimen/text_md"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -235,8 +58,8 @@
         android:layout_height="@dimen/candle_chart_height"
         android:layout_marginTop="@dimen/sm"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:background="@drawable/chart_background"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.summertaker.stock.reco;
+package com.summertaker.stock.recommend;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,7 +19,7 @@ import com.summertaker.stock.data.Item;
 
 import java.util.ArrayList;
 
-public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder> {
+public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ItemViewHolder> {
 
     private Context mContext;
     private Resources mResources;
@@ -78,7 +78,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
         }
     }
 
-    public RecoAdapter(Context context, String fragmentId, ArrayList<Item> mItems) {
+    public RecommendAdapter(Context context, String fragmentId, ArrayList<Item> mItems) {
         this.mContext = context;
         this.mResources = context.getResources();
         this.mFragmentId = fragmentId;
@@ -87,7 +87,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.reco_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_row, parent, false);
         return new ItemViewHolder(itemView);
     }
 
@@ -113,7 +113,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
         BaseApplication.getInstance().renderRof(item, holder.tvFlucIcon, holder.tvFlucIconL, holder.tvRof, holder.tvRofL);
 
         // 수익률
-        if (mFragmentId.equals(Config.KEY_RECO_RETURN)) {
+        if (mFragmentId.equals(Config.KEY_RECOMMEND_RETURN)) {
             if (item.getRor() > 0) {
                 holder.tvRor.setTextColor(BaseApplication.COLOR_DANGER);
                 holder.tvRorH.setTextColor(BaseApplication.COLOR_DANGER);
@@ -134,7 +134,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
         }
 
         // [현재 추천] 목표가, 증권사, 포트폴리오
-        if (item.isChartMode() && mFragmentId.equals(Config.KEY_RECO_CURRENT)) {
+        if (item.isChartMode() && mFragmentId.equals(Config.KEY_RECOMMEND_CURRENT)) {
             String tpr = Config.NUMBER_FORMAT.format(item.getTpr());
             if (item.getTpr() == item.getPrice()) {
                 holder.tvTpr.setTextColor(BaseApplication.COLOR_INK);
@@ -186,7 +186,7 @@ public class RecoAdapter extends RecyclerView.Adapter<RecoAdapter.ItemViewHolder
             holder.ivChart.setVisibility(View.VISIBLE);
 
             // 차트
-            String chartUrl = BaseApplication.getDayCandleChartUrl(item.getCode());
+            String chartUrl = BaseApplication.getWeekCandleChartUrl(item.getCode());
             Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
         }
     }

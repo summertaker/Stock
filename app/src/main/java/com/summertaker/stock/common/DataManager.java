@@ -17,7 +17,6 @@ import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Reason;
 import com.summertaker.stock.data.Setting;
 import com.summertaker.stock.data.Tag;
-import com.summertaker.stock.data.Trader;
 import com.summertaker.stock.data.Word;
 import com.summertaker.stock.parser.DaumParser;
 import com.summertaker.stock.parser.NaverNewsParser;
@@ -372,59 +371,59 @@ public class DataManager {
     /**
      * [네이버 금융 > 국내 > 전종목 시세] 가져오기 (기초 정보)
      */
-    public interface BaseItemCallback {
+    public interface BaseItemsCallback {
         void onParse(int count);
 
         void onLoad();
     }
 
-    private BaseItemCallback mBaseItemCallback;
+    private BaseItemsCallback mBaseItemsCallback;
 
-    public void setOnBaseItemLoaded(BaseItemCallback callback) {
-        mBaseItemCallback = callback;
+    public void setOnBaseItemLoaded(BaseItemsCallback callback) {
+        mBaseItemsCallback = callback;
     }
 
-    public void loadBaseItem() {
+    public void loadBaseItems() {
         if (BaseApplication.getInstance().getBaseItems().size() == 0) {
             mUrls.clear();
             mUrls.add(Config.URL_DAUM_PRICE_KOSPI);
             mUrls.add(Config.URL_DAUM_PRICE_KOSDAQ);
-
             mUrlLoadCount = 0;
+
             mItems.clear();
-            requestBaseItem();
+            requestBaseItems();
         } else {
             //Toast.makeText(mContext, "BaseItems Memory Loaded!", Toast.LENGTH_SHORT).show();
-            mBaseItemCallback.onLoad();
+            mBaseItemsCallback.onLoad();
         }
     }
 
-    private void requestBaseItem() {
+    private void requestBaseItems() {
         StringRequest strReq = new StringRequest(Request.Method.GET, mUrls.get(mUrlLoadCount), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                parseBaseItem(response);
+                parseBaseItems(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage());
                 Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-                parseBaseItem("");
+                parseBaseItems("");
             }
         });
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
 
-    private void parseBaseItem(String response) {
+    private void parseBaseItems(String response) {
         DaumParser daumParser = new DaumParser();
         daumParser.parsePriceList(response, mItems);
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
-            mBaseItemCallback.onParse(mUrlLoadCount);
-            requestBaseItem();
+            mBaseItemsCallback.onParse(mUrlLoadCount);
+            requestBaseItems();
         } else {
             //Log.e(TAG, "BaseApplication.getInstance().getBaseItems().size(): " + BaseApplication.getInstance().getBaseItems().size());
 
@@ -467,8 +466,7 @@ public class DataManager {
 
             BaseApplication.getInstance().getBaseItems().addAll(mItems);
             //writeCacheItems(Config.KEY_BASE_ITEM, BaseApplication.getInstance().getBaseItems());
-
-            mBaseItemCallback.onLoad();
+            mBaseItemsCallback.onLoad();
         }
     }
 
@@ -549,10 +547,18 @@ public class DataManager {
             //Log.e(TAG, "ItemPrice: mItems.size(): " + mItems.size());
             //writeCacheItems(Config.KEY_ITEM_PRICE, BaseApplication.getInstance().getItemPrices());
 
-            // 뉴스에서 종목 이름을 강조하기 위해 글자 길이로 정렬 (SK하이닉스 > SK)
             for (Item item : mItems) {
-                item.setCharCount(item.getName().length());
+                item.setCharCount(item.getName().length()); // 종목 이름 글자수 설정
+
+                // 추천수
+                for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
+                    if (item.getCode().equals(ti.getCode())) {
+                        item.setNor(ti.getNor());
+                    }
+                }
             }
+
+            // 뉴스에서 종목 이름을 강조하기 위해 글자 길이로 정렬 ("SK하이닉스"를 "SK" 보다 먼저)
             Collections.sort(mItems, new Comparator<Item>() {
                 @Override
                 public int compare(Item a, Item b) {
@@ -789,9 +795,15 @@ public class DataManager {
         if (sideId.equals(Config.KEY_TRADE_FOREIGNER)) {
             mUrls.add(Config.URL_DAUM_TRADE_FOREIGNER_KOSPI_LIST);
             mUrls.add(Config.URL_DAUM_TRADE_FOREIGNER_KOSDAQ_LIST);
+        } else if (sideId.equals(Config.KEY_ACC_TRADE_FOREIGNER)) {
+            mUrls.add(Config.URL_DAUM_ACC_TRADE_FOREIGNER_KOSPI_LIST);
+            mUrls.add(Config.URL_DAUM_ACC_TRADE_FOREIGNER_KOSDAQ_LIST);
         } else if (sideId.equals(Config.KEY_TRADE_INSTITUTION)) {
             mUrls.add(Config.URL_DAUM_TRADE_INSTITUTION_KOSPI_LIST);
             mUrls.add(Config.URL_DAUM_TRADE_INSTITUTION_KOSDAQ_LIST);
+        } else if (sideId.equals(Config.KEY_ACC_TRADE_INSTITUTION)) {
+            mUrls.add(Config.URL_DAUM_ACC_TRADE_INSTITUTION_KOSPI_LIST);
+            mUrls.add(Config.URL_DAUM_ACC_TRADE_INSTITUTION_KOSDAQ_LIST);
         } else if (sideId.equals(Config.KEY_TRADE_OVERSEAS)) {
             mUrls.add(Config.URL_DAUM_TRADE_OVERSEAS_KOSPI_LIST);
             mUrls.add(Config.URL_DAUM_TRADE_OVERSEAS_KOSDAQ_LIST);
@@ -802,7 +814,11 @@ public class DataManager {
 
         mUrlLoadCount = 0;
         mItems.clear();
-        requestTrade();
+        if (mUrls.size() > 0) {
+            requestTrade();
+        } else {
+            Toast.makeText(mContext, "No URL", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void requestTrade() {
@@ -835,6 +851,15 @@ public class DataManager {
             requestTrade();
         } else {
             //Log.e(TAG, "mTrades.size(): " + mTrades.size());
+
+            // 추천수
+            for (Item item : mItems) {
+                for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
+                    if (item.getCode().equals(ti.getCode())) {
+                        item.setNor(ti.getNor());
+                    }
+                }
+            }
 
             if (mItems.get(0).isForeigner() || mItems.get(0).isInstitution()) {
                 // 거래금액으로 정렬
@@ -998,7 +1023,7 @@ public class DataManager {
     }
 
     /**
-     * [다음 금융 > 국내 > 거래원별] 거래원 종목 목록 가져오기
+     * [다음 금융 > 국내 > 거래원별] 거래원별 종목 목록 가져오기
      */
     public interface TraderItemListCallback {
         void onParse(int count);
@@ -1012,93 +1037,76 @@ public class DataManager {
         mTraderItemListCallback = callback;
     }
 
-    public void loadTraderItemList() {
+    public void loadTraderItemList(ArrayList<String> urls) {
         mUrls.clear();
+        mUrls.addAll(urls);
         mUrlLoadCount = 0;
+
         mItems.clear();
         requestTraderItemList();
     }
 
     private void requestTraderItemList() {
-        final String url = mUrls.get(mUrlLoadCount);
-        //Log.e(TAG, url);
+        String url = mUrls.get(mUrlLoadCount);
+        Log.e(TAG, url);
         StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                parseTraderItemList(url, response);
+                parseTraderItemList(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage());
                 Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-                parseTraderItemList(url, "");
+                parseTraderItemList("");
             }
         });
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
 
-    private void parseTraderItemList(String url, String response) {
+    private void parseTraderItemList(String response) {
         DaumParser daumParser = new DaumParser();
-        //daumParser.parseTraderItemListList(url, response, mItems);
+        daumParser.parseTraderItemList(response, mItems);
 
         mUrlLoadCount++;
-        if (mUrlLoadCount < mUrls.size()) {
-            mTraderItemListCallback.onParse(mUrlLoadCount);
-            requestTraderItemList();
-        } else {
-            //Log.e(TAG, "TraderItemList: mItems.size(): " + mItems.size());
-
-            // 거래량 정렬
-            Collections.sort(mItems, new Comparator<Item>() {
-                @Override
-                public int compare(Item a, Item b) {
-                    if (a.getVot() < b.getVot()) {
-                        return 1;
-                    } else if (a.getVot() > b.getVot()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            //for (Item item : mItems) {
-            //    Log.e(TAG, item.getName() + " / " + item.isForeigner() + " / " + item.isInstitution());
-            //}
-
-            //writeCacheItems(mSiteId, mItems);
-            mTraderItemListCallback.onLoad(mItems);
-        }
+        //if (mUrlLoadCount < mUrls.size()) {
+        //    mTraderItemListCallback.onParse(mUrlLoadCount);
+        //    requestTraderItemList();
+        //} else {
+        Log.e(TAG, "parseTraderItemList: mItems.size(): " + mItems.size());
+        mTraderItemListCallback.onLoad(mItems);
+        //}
     }
 
     /**
      * [네이버 금융 > 국내 > 추천 종목별 수익률] 가져오기
      */
-    public interface RecoReturnItemCallback {
+    public interface RecommendReturnItemCallback {
         void onLoad(ArrayList<Item> items);
     }
 
-    private RecoReturnItemCallback mRecoReturnItemCallback;
+    private RecommendReturnItemCallback mRecommendReturnItemCallback;
 
-    public void setOnRecoReturnItemLoaded(RecoReturnItemCallback callback) {
-        mRecoReturnItemCallback = callback;
+    public void setOnRecommendReturnItemLoaded(RecommendReturnItemCallback callback) {
+        mRecommendReturnItemCallback = callback;
     }
 
-    public void loadRecoReturnItem(Activity activity) {
+    public void loadRecommendReturnItem(Activity activity) {
         mItems.clear();
-        //mItems = readCacheItems(Config.KEY_RECO_RETURN, 60 * 24); // 1 day
+        //mItems = readCacheItems(Config.KEY_RECOMMEND_RETURN, 60 * 24); // 1 day
         //if (mItems.size() > 0) {
-        //    mRecoReturnItemCallback.onLoad(mItems);
+        //    mRecommendReturnItemCallback.onLoad(mItems);
         //} else {
-        requestRecoReturnItem(activity);
+        requestRecommendReturnItem(activity);
         //}
     }
 
-    private void requestRecoReturnItem(final Activity activity) {
-        String param = getRequestParameter(Config.KEY_RECO_RETURN, "");
+    private void requestRecommendReturnItem(final Activity activity) {
+        String param = getRequestParameter(Config.KEY_RECOMMEND_RETURN, "");
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
-        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_RETURN_LIST).post(requestBody).build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECOMMEND_RETURN_LIST).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
@@ -1107,7 +1115,7 @@ public class DataManager {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        parseRecoReturnItem(responseString);
+                        parseRecommendReturnItem(responseString);
                     }
                 });
             }
@@ -1116,59 +1124,59 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "CHECK URL: " + Config.URL_NAVER_RECO_RETURN_LIST);
-                parseRecoReturnItem("");
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECOMMEND_RETURN_LIST);
+                parseRecommendReturnItem("");
             }
         });
     }
 
-    private void parseRecoReturnItem(String response) {
+    private void parseRecommendReturnItem(String response) {
         NaverParser naverParser = new NaverParser();
-        naverParser.parseReco(response, Config.KEY_RECO_RETURN, mItems, false);
-        //Log.e(TAG, "RecoReturn: Items.size(): " + mItems.size());
+        naverParser.parseRecommend(response, Config.KEY_RECOMMEND_RETURN, mItems, false);
+        //Log.e(TAG, "RecommendReturn: Items.size(): " + mItems.size());
 
-        //writeCacheItems(Config.KEY_RECO_RETURN, mItems);
-        mRecoReturnItemCallback.onLoad(mItems);
+        //writeCacheItems(Config.KEY_RECOMMEND_RETURN, mItems);
+        mRecommendReturnItemCallback.onLoad(mItems);
     }
 
     /**
      * [네이버 금융 > 국내 > 추천수 상위 종목] 가져오기
      */
-    public interface RecoTopItemCallback {
+    public interface RecommendTopItemCallback {
         void onLoad();
     }
 
-    private RecoTopItemCallback mRecoTopItemCallback;
+    private RecommendTopItemCallback mRecommendTopItemCallback;
 
-    public void setOnRecoTopItemLoaded(RecoTopItemCallback callback) {
-        mRecoTopItemCallback = callback;
+    public void setOnRecommendTopItemLoaded(RecommendTopItemCallback callback) {
+        mRecommendTopItemCallback = callback;
     }
 
-    public void loadRecoTopItem(Activity activity) {
-        BaseApplication.getInstance().getRecoTopItems().clear();
-        BaseApplication.getInstance().getRecoTopItems().addAll(readCacheItems(Config.KEY_RECO_TOP, 60 * 24));
-
-        //if (BaseApplication.getInstance().getRecoTopItems().size() == 0) {
-        requestRecoTopItem(activity);
-        //} else {
-        //    //Toast.makeText(mContext, "RecoTop Cache Loaded!", Toast.LENGTH_SHORT).show();
-        //    mRecoTopItemCallback.onLoad();
-        //}
+    public void loadRecommendTopItem(Activity activity) {
+        //BaseApplication.getInstance().getRecommendTopItems().clear();
+        //BaseApplication.getInstance().getRecommendTopItems().addAll(readCacheItems(Config.KEY_RECOMMEND_TOP, 60 * 24));
+        if (BaseApplication.getInstance().getRecommendTopItems().size() == 0) {
+            mItems.clear();
+            requestRecommendTopItem(activity);
+        } else {
+            //Toast.makeText(mContext, "RecommendTop Cache Loaded!", Toast.LENGTH_SHORT).show();
+            mRecommendTopItemCallback.onLoad();
+        }
     }
 
-    private void requestRecoTopItem(final Activity activity) {
-        String param = getRequestParameter(Config.KEY_RECO_TOP, "");
+    private void requestRecommendTopItem(final Activity activity) {
+        String param = getRequestParameter(Config.KEY_RECOMMEND_TOP, "");
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
         okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_TOP_LIST).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 final String responseString = response.body().string();
-                //Log.e(TAG, "RecoTop: responseString\n" + responseString);
+                //Log.e(TAG, "RecommendTop: responseString\n" + responseString);
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        parseRecoTopItem(responseString);
+                        parseRecommendTopItem(responseString);
                     }
                 });
             }
@@ -1177,46 +1185,58 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "CHECK URL: " + Config.URL_NAVER_RECO_TOP_LIST);
-                parseRecoTopItem("");
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECO_TOP_LIST);
+                parseRecommendTopItem("");
             }
         });
     }
 
-    private void parseRecoTopItem(String response) {
+    private void parseRecommendTopItem(String response) {
         NaverParser naverParser = new NaverParser();
-        naverParser.parseReco(response, Config.KEY_RECO_TOP, BaseApplication.getInstance().getRecoTopItems(), false);
-        //Log.e(TAG, "BaseApplication.getInstance().getRecoTopItems().size() = " + BaseApplication.getInstance().getRecoTopItems().size());
+        naverParser.parseRecommend(response, Config.KEY_RECOMMEND_TOP, mItems, false);
+        //Log.e(TAG, "mItems.size() = " + mItems.size());
 
-        //writeCacheItems(Config.KEY_RECO_TOP, BaseApplication.getInstance().getRecoTopItems());
-        mRecoTopItemCallback.onLoad();
+        /*
+        for (Item bi : BaseApplication.getInstance().getBaseItems()) {
+            for (Item item : mItems) {
+                if (bi.getCode().equals(item.getCode())) {
+                    bi.setNor(item.getNor());
+                }
+            }
+        }
+        */
+
+        BaseApplication.getInstance().getRecommendTopItems().clear();
+        BaseApplication.getInstance().getRecommendTopItems().addAll(mItems);
+        //writeCacheItems(Config.KEY_RECOMMEND_TOP, BaseApplication.getInstance().getRecommendTopItems());
+        mRecommendTopItemCallback.onLoad();
     }
 
     /**
      * [네이버 금융 > 국내 > 현재 추천 종목] 가져오기
      */
-    public interface RecoCurrentItemCallback {
+    public interface RecommendCurrentItemCallback {
         void onLoad(ArrayList<Item> items);
     }
 
-    private RecoCurrentItemCallback mRecoCurrentItemCallback;
+    private RecommendCurrentItemCallback mRecommendCurrentItemCallback;
 
-    public void setOnRecoCurrentItemLoaded(RecoCurrentItemCallback callback) {
-        mRecoCurrentItemCallback = callback;
+    public void setOnRecommendCurrentItemLoaded(RecommendCurrentItemCallback callback) {
+        mRecommendCurrentItemCallback = callback;
     }
 
-    public void loadRecoCurrentItem(Activity activity) {
+    public void loadRecommendCurrentItem(Activity activity) {
         mItems.clear();
-        //mItems = readCacheItems(Config.KEY_RECO_CURRENT, 60 * 24); // 1 day
+        //mItems = readCacheItems(Config.KEY_RECOMMEND_CURRENT, 60 * 24); // 1 day
         //if (mItems.size() > 0) {
-        //    mRecoCurrentItemCallback.onLoad(mItems);
+        //    mRecommendCurrentItemCallback.onLoad(mItems);
         //} else {
-        requestRecoCurrentItem(activity);
+        requestRecommendCurrentItem(activity);
         //}
     }
 
-    private void requestRecoCurrentItem(final Activity activity) {
-        String param = getRequestParameter(Config.KEY_RECO_CURRENT, "");
+    private void requestRecommendCurrentItem(final Activity activity) {
+        String param = getRequestParameter(Config.KEY_RECOMMEND_CURRENT, "");
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
         okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_CURRENT_LIST).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
@@ -1227,7 +1247,7 @@ public class DataManager {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        parseRecoCurrentItem(responseString);
+                        parseRecommendCurrentItem(responseString);
                     }
                 });
             }
@@ -1236,43 +1256,43 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "CHECK URL: " + Config.URL_NAVER_RECO_CURRENT_LIST);
-                parseRecoCurrentItem("");
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECO_CURRENT_LIST);
+                parseRecommendCurrentItem("");
             }
         });
     }
 
-    private void parseRecoCurrentItem(String response) {
+    private void parseRecommendCurrentItem(String response) {
         NaverParser naverParser = new NaverParser();
-        naverParser.parseReco(response, Config.KEY_RECO_CURRENT, mItems, false);
-        //Log.e(TAG, "RecoCurrentItems.size(): " + BaseApplication.getInstance().getRecoCurrentItems().size());
+        naverParser.parseRecommend(response, Config.KEY_RECOMMEND_CURRENT, mItems, false);
+        //Log.e(TAG, "RecommendCurrentItems.size(): " + BaseApplication.getInstance().getRecommendCurrentItems().size());
 
-        //writeCacheItems(Config.KEY_RECO_CURRENT, mItems);
-        mRecoCurrentItemCallback.onLoad(mItems);
+        //writeCacheItems(Config.KEY_RECOMMEND_CURRENT, mItems);
+        mRecommendCurrentItemCallback.onLoad(mItems);
     }
 
     /**
      * [네이버 금융 > 국내 > 추천종목 > 현재 추천종목 > 추천 사유] 로드하기
      */
 
-    public interface RecoReasonCallback {
+    public interface RecommendReasonCallback {
         void onLoad(ArrayList<Reason> reasons);
     }
 
-    private RecoReasonCallback mRecoReasonCallback;
+    private RecommendReasonCallback mRecommendReasonCallback;
 
-    public void setOnRecoReasonLoaded(RecoReasonCallback callback) {
-        mRecoReasonCallback = callback;
+    public void setOnRecommendReasonLoaded(RecommendReasonCallback callback) {
+        mRecommendReasonCallback = callback;
     }
 
-    public void loadRecoReason(Activity activity, String code) {
-        requestRecoReason(activity, code);
+    public void loadRecommendReason(Activity activity, String code) {
+        requestRecommendReason(activity, code);
     }
 
-    private void requestRecoReason(final Activity activity, String code) {
-        String param = getRequestParameter(Config.KEY_RECO_REASON, code);
+    private void requestRecommendReason(final Activity activity, String code) {
+        String param = getRequestParameter(Config.KEY_RECOMMEND_REASON, code);
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
-        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_REASON).post(requestBody).build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECOMMEND_REASON).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
@@ -1281,7 +1301,7 @@ public class DataManager {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        parseRecoReason(responseString);
+                        parseRecommendReason(responseString);
                     }
                 });
             }
@@ -1290,20 +1310,20 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "CHECK URL: " + Config.URL_NAVER_RECO_REASON);
-                parseRecoReason("");
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECOMMEND_REASON);
+                parseRecommendReason("");
             }
         });
     }
 
-    private void parseRecoReason(String response) {
+    private void parseRecommendReason(String response) {
         ArrayList<Reason> reasons = new ArrayList<>();
 
         NaverParser naverParser = new NaverParser();
-        naverParser.parseRecoReasonList(response, reasons);
+        naverParser.parseRecommendReasonList(response, reasons);
         //Log.e(TAG, "reasons.size(): " + reasons.size());
 
-        mRecoReasonCallback.onLoad(reasons);
+        mRecommendReasonCallback.onLoad(reasons);
     }
 
     /*
@@ -1595,16 +1615,22 @@ public class DataManager {
     private String getRequestParameter(String siteId, String code) {
         JSONObject jsonObject = new JSONObject();
         try {
-            if (siteId.equals(Config.KEY_RECO_RETURN)) { // 추천 종목 수익률
+            if (siteId.equals(Config.KEY_RECOMMEND_RETURN)) {
+                //-------------------
+                // 추천 종목 수익률
+                //-------------------
                 jsonObject.put("brkcd", "0");
                 jsonObject.put("cmpcd", "");
                 jsonObject.put("curPage", "1");
                 jsonObject.put("enddt", Util.getToday("yyyyMMdd"));
-                jsonObject.put("orderCol", "7"); // 6 = 추천일 후 수익률, 7 = 1주일 수익률, 8 = 1개월 수익률
+                jsonObject.put("orderCol", "8"); // 6 = 추천일 후 수익률, 7 = 1주일 수익률, 8 = 1개월 수익률
                 jsonObject.put("orderType", "D");
                 jsonObject.put("perPage", "50");
                 jsonObject.put("pfcd", "0");
-            } else if (siteId.equals(Config.KEY_RECO_TOP)) { // 추천 건수 상위
+            } else if (siteId.equals(Config.KEY_RECOMMEND_TOP)) {
+                //-------------------
+                // 추천 건수 상위
+                //-------------------
                 jsonObject.put("brkcd", "0");
                 jsonObject.put("cmpcd", "");
                 jsonObject.put("curPage", "1");
@@ -1613,7 +1639,10 @@ public class DataManager {
                 jsonObject.put("orderType", "D");
                 jsonObject.put("perPage", "50");
                 jsonObject.put("pfcd", "0");
-            } else if (siteId.equals(Config.KEY_RECO_CURRENT)) { // 현재 추천 종목
+            } else if (siteId.equals(Config.KEY_RECOMMEND_CURRENT)) {
+                //-------------------
+                // 현재 추천 종목
+                //-------------------
                 jsonObject.put("brkCD", "0");
                 jsonObject.put("cmpC", "");
                 jsonObject.put("curPage", "1");
@@ -1622,7 +1651,10 @@ public class DataManager {
                 jsonObject.put("perPage", "120");
                 jsonObject.put("pfCD", "0");
                 jsonObject.put("stdDt", Util.getToday("yyyy-MM-dd"));
-            } else if (siteId.equals(Config.KEY_RECO_REASON)) { // 종목 추천 이유
+            } else if (siteId.equals(Config.KEY_RECOMMEND_REASON)) {
+                //-------------------
+                // 종목 추천 이유
+                //-------------------
                 jsonObject.put("brkCD", "0");
                 jsonObject.put("cmpCD", code);
                 jsonObject.put("curPage", "1");

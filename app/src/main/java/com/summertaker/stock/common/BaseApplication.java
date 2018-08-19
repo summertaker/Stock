@@ -69,16 +69,16 @@ public class BaseApplication extends Application {
     private ArrayList<Item> mBaseTradeItems = new ArrayList<>(); // 다음 외국인, 기관 매수 (for 기초 데이터)
 
     //private ArrayList<Item> mTradeItems = new ArrayList<>(); // 다음 외국인, 기관 매매 종목
-    //private ArrayList<Item> mRecoReturnItems = new ArrayList<>(); // 네이버 추천 종목별 수익률
-    private ArrayList<Item> mRecoTopItems = new ArrayList<>(); // 네이버 종목별 추천 건수 상위
-    //private ArrayList<Item> mRecoCurrentItems = new ArrayList<>(); // 네이버 현재 추천 종목
+    //private ArrayList<Item> mRecommendReturnItems = new ArrayList<>(); // 네이버 추천 종목별 수익률
+    private ArrayList<Item> mRecommendTopItems = new ArrayList<>(); // 네이버 종목별 추천 건수 상위
+    //private ArrayList<Item> mRecommendCurrentItems = new ArrayList<>(); // 네이버 현재 추천 종목
 
     private ArrayList<Site> mNewsPagerItems = new ArrayList<>();
     private ArrayList<Site> mTopPagerItems = new ArrayList<>();
     private ArrayList<Site> mWeekPagerItems = new ArrayList<>();
     private ArrayList<Site> mFlucPagerItems = new ArrayList<>();
     private ArrayList<Site> mTradePagerItems = new ArrayList<>();
-    private ArrayList<Site> mRecoPagerItems = new ArrayList<>();
+    private ArrayList<Site> mRecommendPagerItems = new ArrayList<>();
     private ArrayList<Site> mDetailPagerItems = new ArrayList<>();
 
     @Override
@@ -140,17 +140,19 @@ public class BaseApplication extends Application {
 
         // 매매 페이저 아이템
         mTradePagerItems.add(new Site(Config.KEY_TRADE_FOREIGNER, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_foreign_buy), ""));
+        mTradePagerItems.add(new Site(Config.KEY_ACC_TRADE_FOREIGNER, Config.KEY_TRADE_BUY, getString(R.string.pager_item_acc_trade_foreign_buy), ""));
         mTradePagerItems.add(new Site(Config.KEY_TRADE_INSTITUTION, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_institution_buy), ""));
+        mTradePagerItems.add(new Site(Config.KEY_ACC_TRADE_INSTITUTION, Config.KEY_TRADE_BUY, getString(R.string.pager_item_acc_trade_institution_buy), ""));
         //mTradePagerItems.add(new Site(Config.KEY_TRADE_FOREIGNER, Config.KEY_TRADE_SELL, getString(R.string.pager_item_trade_foreign_sell), ""));
         //mTradePagerItems.add(new Site(Config.KEY_TRADE_INSTITUTION, Config.KEY_TRADE_SELL, getString(R.string.pager_item_trade_institution_sell), ""));
         mTradePagerItems.add(new Site(Config.KEY_TRADE_OVERSEAS, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_overseas_buy), ""));
         mTradePagerItems.add(new Site(Config.KEY_TRADE_DOMESTIC, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_domestic_buy), ""));
 
         // 추천 페이저 아이템
-        mRecoPagerItems.add(new Site(Config.KEY_RECO_CURRENT, getString(R.string.pager_item_reco_current), Config.URL_NAVER_RECO_CURRENT_LIST));
-        mRecoPagerItems.add(new Site(Config.KEY_RECO_TOP, getString(R.string.pager_item_reco_top), Config.URL_NAVER_RECO_TOP_LIST));
-        mRecoPagerItems.add(new Site(Config.KEY_RECO_RETURN, getString(R.string.pager_item_reco_return), Config.URL_NAVER_RECO_RETURN_LIST));
-        //mRecoPagerItems.add(new Site(Config.KEY_RECO_WISE, getString(R.string.pager_item_reco_wise), Config.URL_NAVER_RECO_WISE_LIST));
+        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_CURRENT, getString(R.string.pager_item_recommend_current), Config.URL_NAVER_RECO_CURRENT_LIST));
+        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_TOP, getString(R.string.pager_item_recommend_top), Config.URL_NAVER_RECO_TOP_LIST));
+        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_RETURN, getString(R.string.pager_item_recommend_return), Config.URL_NAVER_RECOMMEND_RETURN_LIST));
+        //mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_WISE, getString(R.string.pager_item_recommend_wise), Config.URL_NAVER_RECOMMEND_WISE_LIST));
 
         // 종목 상세 페이저 아이템
         mDetailPagerItems.add(new Site(Config.KEY_DETAIL_INFO, getString(R.string.pager_item_detail_info), ""));
@@ -266,8 +268,8 @@ public class BaseApplication extends Application {
         return mWeekPagerItems;
     }
 
-    public ArrayList<Item> getRecoTopItems() {
-        return mRecoTopItems;
+    public ArrayList<Item> getRecommendTopItems() {
+        return mRecommendTopItems;
     }
 
     public ArrayList<Site> getNewsPagerItems() {
@@ -282,11 +284,11 @@ public class BaseApplication extends Application {
         return mTradePagerItems;
     }
 
-    public ArrayList<Site> getRecoPagerItems() {
-        return mRecoPagerItems;
+    public ArrayList<Site> getRecommendPagerItems() {
+        return mRecommendPagerItems;
     }
 
-    public ArrayList<Site> getmDetailPagerItems() {
+    public ArrayList<Site> getDetailPagerItems() {
         return mDetailPagerItems;
     }
 

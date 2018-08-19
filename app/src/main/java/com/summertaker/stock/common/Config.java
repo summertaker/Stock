@@ -17,8 +17,6 @@ public class Config {
     public final static String PREFERENCE_TAG_MODE_OFF = "tag_mode_off";
     public final static String PREFERENCE_PORTFOLIOS = "portfolios";
 
-
-
     //public static String USER_AGENT_DESKTOP = "Mozilla/5.0 (Macintosh; U; Mac OS X 10_6_1; en-US) AppleWebKit/530.5 (KHTML, like Gecko) Chrome/ Safari/530.5";
     //public static String USER_AGENT_MOBILE = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16";
 
@@ -59,7 +57,9 @@ public class Config {
     public static String KEY_TRADE_BUY = "trade_buy";
     public static String KEY_TRADE_SELL = "trade_sell";
     public static String KEY_TRADE_FOREIGNER = "trade_foreigner";
+    public static String KEY_ACC_TRADE_FOREIGNER = "acc_trade_foreigner";
     public static String KEY_TRADE_INSTITUTION = "trade_institution";
+    public static String KEY_ACC_TRADE_INSTITUTION = "acc_trade_institution";
     //public static String KEY_ACCUTRADE_FOREIGNER = "accutrade_foreigner";
     //public static String KEY_ACCUTRADE_INSTITUTION = "accutrade_institution";
     public static String KEY_TRADE_OVERSEAS = "trade_overseas";
@@ -71,11 +71,11 @@ public class Config {
 
     public static String KEY_RECOMMEND = "recommend";
 
-    public static String KEY_RECO_RETURN = "reco_return";
-    public static String KEY_RECO_TOP = "reco_top";
-    public static String KEY_RECO_CURRENT = "reco_current";
-    public static String KEY_RECO_WISE = "reco_wise";
-    public static String KEY_RECO_REASON = "reco_reason";
+    public static String KEY_RECOMMEND_RETURN = "recommend_return";
+    public static String KEY_RECOMMEND_TOP = "recommend_top";
+    public static String KEY_RECOMMEND_CURRENT = "recommend_current";
+    public static String KEY_RECOMMEND_WISE = "recommend_wise";
+    public static String KEY_RECOMMEND_REASON = "recommend_reason";
     public static String KEY_DETAIL_INFO = "detail_info";
     public static String KEY_DETAIL_REASON = "detail_reason";
     public static String KEY_DETAIL_NEWS = "detail_news";
@@ -101,8 +101,12 @@ public class Config {
     //public static String URL_DAUM_RISE_LIST = "http://finance.daum.net/quote/rise.daum?stype=P&col=pchgrate&order=desc&page=";
     public static String URL_DAUM_TRADE_FOREIGNER_KOSPI_LIST = "http://finance.daum.net/quote/foreign.daum?stype=P";
     public static String URL_DAUM_TRADE_FOREIGNER_KOSDAQ_LIST = "http://finance.daum.net/quote/foreign.daum?stype=Q";
+    public static String URL_DAUM_ACC_TRADE_FOREIGNER_KOSPI_LIST = "http://finance.daum.net/quote/foreign.daum?stype=P&before=5";
+    public static String URL_DAUM_ACC_TRADE_FOREIGNER_KOSDAQ_LIST = "http://finance.daum.net/quote/foreign.daum?stype=Q&before=5";
     public static String URL_DAUM_TRADE_INSTITUTION_KOSPI_LIST = "http://finance.daum.net/quote/institution.daum?stype=P";
     public static String URL_DAUM_TRADE_INSTITUTION_KOSDAQ_LIST = "http://finance.daum.net/quote/institution.daum?stype=Q";
+    public static String URL_DAUM_ACC_TRADE_INSTITUTION_KOSPI_LIST = "http://finance.daum.net/quote/institution.daum?stype=P&before=5";
+    public static String URL_DAUM_ACC_TRADE_INSTITUTION_KOSDAQ_LIST = "http://finance.daum.net/quote/institution.daum?stype=Q&before=5";
     public static String URL_DAUM_TRADE_OVERSEAS_KOSPI_LIST = "http://finance.daum.net/quote/trader.daum?trcode=1&stype=P&type=P";
     public static String URL_DAUM_TRADE_OVERSEAS_KOSDAQ_LIST = "http://finance.daum.net/quote/trader.daum?trcode=1&stype=Q&type=P";
     public static String URL_DAUM_TRADE_DOMESTIC_KOSPI_LIST = "http://finance.daum.net/quote/trader.daum?trcode=0&stype=P&type=P";
@@ -130,10 +134,10 @@ public class Config {
     public static String URL_NAVER_FLUC_CRASH_LIST_KOSPI = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=0"; // 급락(코스피)
     public static String URL_NAVER_FLUC_CRASH_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=1"; // 급락(코스닥)
     //public static String URL_NAVER_FLUC_FLOOR_LIST = "https://finance.naver.com/sise/sise_lower.nhn"; // 하한가
-    public static String URL_NAVER_RECO_RETURN_LIST = "https://recommend.finance.naver.com/Home/GetYieldList"; // 추천 수익률
+    public static String URL_NAVER_RECOMMEND_RETURN_LIST = "https://recommend.finance.naver.com/Home/GetYieldList"; // 추천 수익률
     public static String URL_NAVER_RECO_TOP_LIST = "https://recommend.finance.naver.com/Home/GetTopCompanyList"; // 추천수 상위
     public static String URL_NAVER_RECO_CURRENT_LIST = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 현재 추천
-    public static String URL_NAVER_RECO_REASON = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 종목 추천 사유
+    public static String URL_NAVER_RECOMMEND_REASON = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 종목 추천 사유
     public static String URL_NAVER_RECO_WISE_LIST = "https://m.stock.naver.com/api/json/sise/recomItemListJson.nhn?pageSize=20&page="; // 와이즈 리포트 추천
     public static String URL_NAVER_SEARCH = "https://m.search.naver.com/search.naver?query=%s";
     public static String URL_NAVER_FINANCE = "https://m.stock.naver.com/item/main.nhn#/stocks/%s/total";
@@ -180,7 +184,7 @@ public class Config {
     //public static String SETTING_PICKER_LOWEST_ROF = "picker_lowest_rof";
     //public static String SETTING_PICKER_HIGHEST_ROF = "picker_highest_rof";
 
-    public static String SETTING_RECO_LOWEST_PRICE = "reco_lowest_price";
-    public static String SETTING_RECO_HIGHEST_PRICE = "reco_highest_price";
-    public static String SETTING_RECO_RATE_OF_FLUCTUATION = "reco_rate_of_fluctuation";
+    public static String SETTING_RECOMMEND_LOWEST_PRICE = "recommend_lowest_price";
+    public static String SETTING_RECOMMEND_HIGHEST_PRICE = "recommend_highest_price";
+    public static String SETTING_RECOMMEND_RATE_OF_FLUCTUATION = "recommend_rate_of_fluctuation";
 }

@@ -103,7 +103,7 @@ public class DetailReasonFragment extends BaseFragment {
 
         showBaseProgress();
 
-        mDataManager.setOnRecoReasonLoaded(new DataManager.RecoReasonCallback() {
+        mDataManager.setOnRecommendReasonLoaded(new DataManager.RecommendReasonCallback() {
             @Override
             public void onLoad(ArrayList<Reason> reasons) {
                 mReasons = reasons;
@@ -111,7 +111,7 @@ public class DetailReasonFragment extends BaseFragment {
                 renderData();
             }
         });
-        mDataManager.loadRecoReason((Activity) mContext, mCode);
+        mDataManager.loadRecommendReason((Activity) mContext, mCode);
 
         return rootView;
     }

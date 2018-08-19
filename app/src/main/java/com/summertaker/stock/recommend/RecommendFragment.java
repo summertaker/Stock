@@ -1,4 +1,4 @@
-package com.summertaker.stock.reco;
+package com.summertaker.stock.recommend;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +23,7 @@ import com.summertaker.stock.util.RecyclerTouchListener;
 
 import java.util.ArrayList;
 
-public class RecoFragment extends BaseFragment {
+public class RecommendFragment extends BaseFragment {
 
     private Callback mEventListener;
 
@@ -34,7 +34,7 @@ public class RecoFragment extends BaseFragment {
     private Site mSite;
 
     private ArrayList<Item> mItems = new ArrayList<>();
-    private RecoAdapter mAdapter;
+    private RecommendAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DividerItemDecoration mDividerItemDecoration;
 
@@ -42,7 +42,7 @@ public class RecoFragment extends BaseFragment {
     private int mHighestPrice; // 최고가
     private float mRateOfFluctuation; // 등락률
 
-    private boolean mListMode = true;
+    private boolean mListMode = false;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -65,11 +65,11 @@ public class RecoFragment extends BaseFragment {
         }
     }
 
-    public RecoFragment() {
+    public RecommendFragment() {
     }
 
-    public static RecoFragment newInstance(int position) {
-        RecoFragment fragment = new RecoFragment();
+    public static RecommendFragment newInstance(int position) {
+        RecommendFragment fragment = new RecommendFragment();
         Bundle args = new Bundle();
         args.putInt("position", position);
         fragment.setArguments(args);
@@ -79,7 +79,7 @@ public class RecoFragment extends BaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.reco_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.recommend_fragment, container, false);
 
         mContext = getContext();
         initBaseFragment(mContext, rootView);
@@ -87,10 +87,10 @@ public class RecoFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             mPosition = getArguments().getInt("position", 0);
-            mSite = BaseApplication.getInstance().getRecoPagerItems().get(mPosition);
+            mSite = BaseApplication.getInstance().getRecommendPagerItems().get(mPosition);
         }
 
-        mAdapter = new RecoAdapter(mContext, mSite.getId(), mItems);
+        mAdapter = new RecommendAdapter(mContext, mSite.getId(), mItems);
         mAdapter.setHasStableIds(true);
 
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -119,48 +119,60 @@ public class RecoFragment extends BaseFragment {
 
         mDividerItemDecoration = new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
 
-        mLowestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECO_LOWEST_PRICE); // 최저가
-        mHighestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECO_HIGHEST_PRICE); // 최고가
-        mRateOfFluctuation = BaseApplication.getInstance().getFloatSetting(Config.SETTING_RECO_RATE_OF_FLUCTUATION); // 등락률
+        mLowestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECOMMEND_LOWEST_PRICE); // 최저가
+        mHighestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECOMMEND_HIGHEST_PRICE); // 최고가
+        mRateOfFluctuation = BaseApplication.getInstance().getFloatSetting(Config.SETTING_RECOMMEND_RATE_OF_FLUCTUATION); // 등락률
         //Log.e(TAG, mLowestPrice + " ~ " + mHighestPrice + ", " + mRateOfFluctuation);
 
         showBaseProgress();
 
         //final DataManager dm = new DataManager(mContext);
 
-        if (mSite.getId().equals(Config.KEY_RECO_RETURN)) { // 추천 종목 수익률
-            mDataManager.setOnRecoReturnItemLoaded(new DataManager.RecoReturnItemCallback() {
+        if (mSite.getId().equals(Config.KEY_RECOMMEND_CURRENT)) {
+            //-------------------
+            // 현재 추천 종목
+            //-------------------
+            mDataManager.setOnRecommendCurrentItemLoaded(new DataManager.RecommendCurrentItemCallback() {
                 @Override
                 public void onLoad(ArrayList<Item> items) {
                     parseData(items);
                 }
             });
-            mDataManager.loadRecoReturnItem((Activity) mContext);
-        } else if (mSite.getId().equals(Config.KEY_RECO_TOP)) { // 추천수 상위
-            mDataManager.setOnRecoTopItemLoaded(new DataManager.RecoTopItemCallback() {
+            mDataManager.loadRecommendCurrentItem((Activity) mContext);
+        } else if (mSite.getId().equals(Config.KEY_RECOMMEND_TOP)) {
+            //-------------------
+            // 추천수 상위
+            //-------------------
+            parseData(BaseApplication.getInstance().getRecommendTopItems());
+            /*
+            mDataManager.setOnRecommendTopItemLoaded(new DataManager.RecommendTopItemCallback() {
                 @Override
                 public void onLoad() {
-                    parseData(BaseApplication.getInstance().getRecoTopItems());
+                    parseData(BaseApplication.getInstance().getRecommendTopItems());
                 }
             });
-            mDataManager.loadRecoTopItem((Activity) mContext);
-        } else if (mSite.getId().equals(Config.KEY_RECO_CURRENT)) { // 현재 추천 종목
-            mDataManager.setOnRecoCurrentItemLoaded(new DataManager.RecoCurrentItemCallback() {
+            mDataManager.loadRecommendTopItem((Activity) mContext);
+            */
+        } else if (mSite.getId().equals(Config.KEY_RECOMMEND_RETURN)) {
+            //-------------------
+            // 추천 종목 수익률
+            //-------------------
+            mDataManager.setOnRecommendReturnItemLoaded(new DataManager.RecommendReturnItemCallback() {
                 @Override
                 public void onLoad(ArrayList<Item> items) {
                     parseData(items);
                 }
             });
-            mDataManager.loadRecoCurrentItem((Activity) mContext);
+            mDataManager.loadRecommendReturnItem((Activity) mContext);
         }
 
         return rootView;
     }
 
     /*
-    private void parseRecoTop() {
+    private void parseRecommendTop() {
         for (Item bi : BaseApplication.getInstance().getItemPrices()) {
-            if (bi.isRecoTopItem() && isValidItem(bi)) {
+            if (bi.isRecommendTopItem() && isValidItem(bi)) {
                 mItems.add(bi);
             }
         }
@@ -201,11 +213,11 @@ public class RecoFragment extends BaseFragment {
                         item.setPof(bi.getPof());       // 전일비
                         item.setRof(bi.getRof());       // 등락률
                         item.setTagIds(bi.getTagIds()); // 태그
-                        //item.setNor(bi.getNor());       // 추천수
+                        item.setNor(bi.getNor());       // 추천수
                         mItems.add(item);
                         id++;
 
-                        //if (mSite.getId().equals(Config.KEY_RECO_RETURN)) {
+                        //if (mSite.getId().equals(Config.KEY_RECOMMEND_RETURN)) {
                         //    Log.e(TAG, item.getName() + " " + item.getRor());
                         //}
                     }
@@ -214,7 +226,7 @@ public class RecoFragment extends BaseFragment {
         }
 
         /*
-        if (mSite.getId().equals(Config.KEY_RECO_TOP)) {
+        if (mSite.getId().equals(Config.KEY_RECOMMEND_TOP)) {
             // 추천수 정렬
             Collections.sort(mItems, new Comparator<Item>() {
                 @Override

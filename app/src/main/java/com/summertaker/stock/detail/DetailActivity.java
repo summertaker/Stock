@@ -125,9 +125,9 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
             }
         });
 
-        // 추천 사유
-        mSites = BaseApplication.getInstance().getmDetailPagerItems();
+        mSites = BaseApplication.getInstance().getDetailPagerItems();
 
+        // 추천 사유
         if (mItem.getNor() > 0) {
             if (mSites.size() == 2) {
                 mSites.add(new Site(Config.KEY_DETAIL_REASON, getString(R.string.pager_item_detail_reason), ""));
@@ -160,7 +160,7 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
             public void onPageSelected(int position) {
                 //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
                 //String tag = "android:switcher:" + R.id.viewpager + ":" + position;
-                //RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                //RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
                 //onFragmentItemSizeChange(position, fragment.getItemSize());
             }
 

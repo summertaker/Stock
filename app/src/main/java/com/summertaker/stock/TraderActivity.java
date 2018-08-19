@@ -18,7 +18,6 @@ import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Portfolio;
-import com.summertaker.stock.data.Trader;
 import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.RecyclerTouchListener;
 
@@ -33,7 +32,6 @@ public class TraderActivity extends BaseActivity {
     private RiseAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private FloatingActionButton mFab;
 
     private boolean mIsFirstLoading = true;
     private boolean mIsDataLoading = false;
@@ -91,15 +89,15 @@ public class TraderActivity extends BaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                loadTraderList();
             }
         });
 
         showBaseProgress(2);
-        loadData();
+        loadTraderList();
     }
 
-    private void loadData() {
+    private void loadTraderList() {
         if (mIsDataLoading) {
             Toast.makeText(mContext, getString(R.string.loading), Toast.LENGTH_SHORT).show();
             return;
@@ -112,28 +110,33 @@ public class TraderActivity extends BaseActivity {
         mDataManager.setOnTraderListLoaded(new DataManager.TraderListCallback() {
             @Override
             public void onLoad(ArrayList<String> urls) {
-                //setData(urls);
+                loadTraderItemList(urls);
             }
         });
         mDataManager.loadTraderList();
     }
 
+    private void loadTraderItemList(ArrayList<String> urls) {
+        mDataManager.setOnTraderItemListLoaded(new DataManager.TraderItemListCallback() {
+            @Override
+            public void onParse(int count) {
+
+            }
+
+            @Override
+            public void onLoad(ArrayList<Item> items) {
+                setData(items);
+            }
+        });
+        mDataManager.loadTraderItemList(urls);
+    }
+
     private void setData(ArrayList<Item> items) {
-        mItemsBackup.clear();
+        mItems.clear();
 
-        float low = BaseApplication.getInstance().getFloatSetting(Config.SETTING_LOWEST_ROF); // 최저 등락률
-        float high = BaseApplication.getInstance().getFloatSetting(Config.SETTING_HIGHEST_ROF); // 최고 등락률
-
+        long id = 1;
         for (Item item : items) {
-            if (item.getPer() == 0) {
-                continue;
-            }
-            if (low > 0 && item.getRof() < low) { // 최저 등락률
-                continue;
-            }
-            if (high > 0 && item.getRof() > high) { // 최고 등락률
-                continue;
-            }
+            item.setId(id);
 
             int buyVolume = 0;
             if (item.getPrice() > 0 && mBuyPricePerItem > 0) {
@@ -147,36 +150,8 @@ public class TraderActivity extends BaseActivity {
                 }
             }
 
-            mItemsBackup.add(item);
-        }
-
-        // 등락률 정렬
-        Collections.sort(mItemsBackup, new Comparator<Item>() {
-            @Override
-            public int compare(Item a, Item b) {
-                if (a.getRof() < b.getRof()) {
-                    return 1;
-                } else if (a.getRof() > b.getRof()) {
-                    return -1;
-                }
-                return 0;
-            }
-        });
-
-        mItems.clear();
-        long id = 1;
-        for (Item item : mItemsBackup) {
-            if (mTagMode) {
-                if (item.getTagIds() != null && !item.getTagIds().isEmpty()) {
-                    item.setId(id);
-                    mItems.add(item);
-                    id++;
-                }
-            } else {
-                item.setId(id);
-                mItems.add(item);
-                id++;
-            }
+            mItems.add(item);
+            id++;
         }
 
         renderData();
@@ -184,7 +159,6 @@ public class TraderActivity extends BaseActivity {
 
     @SuppressLint("RestrictedApi")
     private void renderData() {
-        long millis = System.currentTimeMillis();
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
 
@@ -198,7 +172,6 @@ public class TraderActivity extends BaseActivity {
 
         if (mIsFirstLoading) {
             hideBaseProgress();
-            mFab.setVisibility(View.VISIBLE);
             mIsFirstLoading = false;
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -235,7 +208,7 @@ public class TraderActivity extends BaseActivity {
                 return true;
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
-                loadData();
+                loadTraderList();
                 return true;
         }
 

@@ -160,7 +160,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_padding" />
 
-        <!-- 일 차트: 텍스트 -->
+        <!-- 일 차트 -->
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -178,8 +179,9 @@
             android:background="@drawable/chart_background"
             android:contentDescription="@null"
             android:scaleType="fitCenter" />
+            -->
 
-        <!-- 주 차트: 텍스트 -->
+        <!-- 주 차트 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

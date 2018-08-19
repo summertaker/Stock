@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.recommend;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.summertaker.stock.R;
+import com.summertaker.stock.SearchActivity;
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
@@ -20,18 +22,22 @@ import com.summertaker.stock.util.SlidingTabLayout;
 
 import java.util.ArrayList;
 
-public class TradeActivity extends BaseActivity implements TradeFragment.Callback {
+public class RecommendActivity extends BaseActivity implements RecommendFragment.Callback {
+
+    private boolean mIsActionRefresh = false;
 
     private ArrayList<Site> mSites = new ArrayList<>();
     private SectionsPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
+    private int mProgress = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trade_activity);
+        setContentView(R.layout.recommend_activity);
 
-        mContext = TradeActivity.this;
+        mContext = RecommendActivity.this;
         initBaseActivity(mContext);
 
         mToolbar.setOnClickListener(new View.OnClickListener() {
@@ -41,20 +47,10 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
             }
         });
 
-        showBaseProgress(2);
-        setBaseProgressBar(1);
-        mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
-            @Override
-            public void onParse(int count) {
-                setBaseProgressBar(count + 1);
-            }
+        mListMode = false;
 
-            @Override
-            public void onLoad() {
-                init();
-            }
-        });
-        mDataManager.loadItemPrice();
+        showBaseProgress(0);
+        loadItemPrice();
     }
 
     @Override
@@ -65,9 +61,9 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.trade, menu);
-        mMenuItemChart = menu.findItem(R.id.action_chart);
-        //setMenuItemChart();
+        getMenuInflater().inflate(R.menu.recommend, menu);
+        mMenuItemList = menu.findItem(R.id.action_chart);
+        //setMenuItemList();
         return true;
     }
 
@@ -81,7 +77,7 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
                 startActivity(search);
                 return true;
             case R.id.action_chart:
-                onActionChartClick();
+                onActionListClick();
                 return true;
             case R.id.action_finish:
                 finish();
@@ -90,10 +86,53 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadItemPrice() {
+        setBaseProgressBar(mProgress++);
+        mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
+            @Override
+            public void onParse(int count) {
+                setBaseProgressBar(mProgress++);
+            }
+
+            @Override
+            public void onLoad() {
+                loadRecommendTop();
+            }
+        });
+        mDataManager.loadItemPrice();
+    }
+
+    private void loadBaseTrade() {
+        setBaseProgressBar(mProgress++);
+        mDataManager.setOnBaseTradeLoaded(new DataManager.BaseTradeCallback() {
+            @Override
+            public void onParse(int count) {
+                setBaseProgressBar(mProgress++);
+            }
+
+            @Override
+            public void onLoad() {
+                loadRecommendTop();
+            }
+        });
+        mDataManager.loadBaseTrade();
+    }
+
+    private void loadRecommendTop() {
+        setBaseProgressBar(mProgress++);
+        mDataManager.setOnRecommendTopItemLoaded(new DataManager.RecommendTopItemCallback() {
+            @Override
+            public void onLoad() {
+                init();
+            }
+        });
+        mDataManager.loadRecommendTopItem(this);
+    }
+
     private void init() {
         hideBaseProgress();
 
-        mSites = BaseApplication.getInstance().getTradePagerItems();
+        mSites = BaseApplication.getInstance().getRecommendPagerItems();
 
         mPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
@@ -117,8 +156,12 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
             public void onPageSelected(int position) {
                 //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
                 String tag = "android:switcher:" + R.id.viewpager + ":" + position;
-                TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
-                onFragmentItemSizeChange(position, fragment.getItemSize());
+                RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment != null) {
+                    onFragmentItemSizeChange(position, fragment.getItemSize());
+                    mListMode = fragment.getListMode();
+                    setMenuItemList();
+                }
             }
 
             @Override
@@ -129,12 +172,9 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
     }
 
     @Override
-    public void onTradeFragmentEvent(String event) {
-        if (event.equals(Config.PARAM_LOAD_STARTED)) {
-            //startRefreshAnimation();
-        } else if (event.equals(Config.PARAM_LOAD_FINISHED)) {
-            //stopRefreshAnimation();
-        } else if (event.equals(Config.PARAM_DATA_CHANGED)) {
+    public void onRecoFragmentEvent(String event) {
+        if (event.equals(Config.PARAM_DATA_CHANGED)) {
+            mIsActionRefresh = false;
             refreshAllFragment();
         } else if (event.equals(Config.PARAM_FINISH)) {
             finish();
@@ -156,7 +196,7 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
 
         @Override
         public Fragment getItem(int position) {
-            return TradeFragment.newInstance(position);
+            return RecommendFragment.newInstance(position);
         }
 
         @Override
@@ -176,17 +216,19 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
         // https://stackoverflow.com/questions/34861257/how-can-i-set-a-tag-for-viewpager-fragments
         //--------------------------------------------------------------------------------------------
         String tag = "android:switcher:" + R.id.viewpager + ":" + mViewPager.getCurrentItem();
-        TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
+        RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
 
         if (fragment != null) {
             if (command.equals(Config.PARAM_GO_TO_THE_TOP)) {
                 fragment.goToTheTop();
             } else if (command.equals(Config.PARAM_DO_REFRESH)) {
-                fragment.refreshFragment();
+                fragment.refreshFragment(false);
             } else if (command.equals(Config.PARAM_DATA_CHANGED)) {
                 fragment.notifyDataSetChanged();
             } else if (command.equals(Config.PARAM_TOGGLE_CHART)) {
                 fragment.toggleChart();
+            } else if (command.equals(Config.PARAM_TOGGLE_LIST)) {
+                fragment.toggleList();
             }
         }
     }
@@ -198,7 +240,7 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
         //--------------------------------------------------------------------------------------------
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             String tag = "android:switcher:" + R.id.viewpager + ":" + i;
-            TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
             fragment.updateFragmentItem(item);
         }
     }
@@ -212,14 +254,28 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
         // 모든 프레그먼트 새로 고침
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             String tag = "android:switcher:" + R.id.viewpager + ":" + i;
-            TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
-            fragment.refreshFragment();
+            RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            fragment.refreshFragment(mIsActionRefresh);
         }
 
         // 개별 프레그먼트 새로 고침
         //Fragment f = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + mViewPager.getCurrentItem());
         //((BaseFragment) f).refreshFragment();
     }
+
+    /*
+    private void startRefreshAnimation() {
+        if (mMenuItemRefreshView != null) {
+            mMenuItemRefreshView.startAnimation(mRotateAnimation);
+        }
+    }
+
+    private void stopRefreshAnimation() {
+        if (mMenuItemRefreshView != null) {
+            mMenuItemRefreshView.clearAnimation();
+        }
+    }
+    */
 
     @Override
     protected void onSwipeRight() {
@@ -245,17 +301,17 @@ public class TradeActivity extends BaseActivity implements TradeFragment.Callbac
                     //Toast.makeText(mContext, code + ": " + tagIds, Toast.LENGTH_LONG).show();
 
                     // 변경된 포트폴리오 태그 정보 업데이트
-                    Item newItem = null;
-                    for (Item item : BaseApplication.getInstance().getItemPrices()) {
-                        if (item.getCode().equals(code)) {
-                            newItem = item;
-                            newItem.setTagIds(tagIds);
+                    Item item = null;
+                    for (Item bi : BaseApplication.getInstance().getItemPrices()) {
+                        if (bi.getCode().equals(code)) {
+                            bi.setTagIds(tagIds);
+                            item = bi;
                             break;
                         }
                     }
 
-                    if (newItem != null) {
-                        updateFragmentItem(newItem);
+                    if (item != null) {
+                        updateFragmentItem(item);
                     }
                 }
             }

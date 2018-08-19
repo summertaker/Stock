@@ -140,10 +140,9 @@ public class DetailInfoFragment extends BaseFragment {
         }
 
         // 일 차트
-        //final String dayChart = "https://ssl.pstatic.net/imgfinance/chart/item/area/day/" + mCode + ".png?sidcode=" + System.currentTimeMillis();
-        final String dayChart = "https://fn-chart.dunamu.com/images/kr/stock/d/A" + mCode + ".png?" + System.currentTimeMillis();
-        ImageView ivDayChart = rootView.findViewById(R.id.ivDayChart);
-        setChart(ivDayChart, dayChart);
+        //final String dayChart = "https://fn-chart.dunamu.com/images/kr/stock/d/A" + mCode + ".png?" + System.currentTimeMillis();
+        //ImageView ivDayChart = rootView.findViewById(R.id.ivDayChart);
+        //setChart(ivDayChart, dayChart);
 
         // 주 차트
         final String weekChart = "https://ssl.pstatic.net/imgfinance/chart/item/area/week/" + mCode + ".png?sidcode=" + System.currentTimeMillis();

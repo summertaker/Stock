@@ -140,7 +140,7 @@ public class NewsListActivity extends BaseActivity implements NewsListFragment.C
             public void onPageSelected(int position) {
                 //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
                 //String tag = "android:switcher:" + R.id.viewpager + ":" + position;
-                //RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                //RecommendFragment fragment = (RecommendFragment) getSupportFragmentManager().findFragmentByTag(tag);
                 //onFragmentItemSizeChange(position, fragment.getItemSize());
             }
 

@@ -174,8 +174,6 @@
     <string name="main_item_week_subtitle">주간 상위</string>
     <string name="main_item_recommend_title">RECOMMEND</string>
     <string name="main_item_recommend_subtitle">추천</string>
-    <string name="main_item_reco_title">RECOMMEND</string>
-    <string name="main_item_reco_subtitle">추천</string>
     <string name="main_item_tag_title">TAG</string>
     <string name="main_item_word_title">WORD</string>
     <string name="main_item_word_subtitle">강조, 제외 글자</string>
@@ -188,7 +186,7 @@
     <string name="setting_highest_rof">최고 등락률 (%)</string>
     <string name="setting_lowest_rof">최저 등락률 (%)</string>
     <string name="setting_rof">등락률</string>
-    <string name="setting_reco_setting">추천</string>
+    <string name="setting_recommend_setting">추천</string>
     <string name="setting_picker_rof_setting">피커 등락률 설정</string>
     <string name="setting_price_setting">가격</string>
     <string name="setting_rise_rof_setting">상승 등락률 설정</string>
@@ -224,17 +222,19 @@
     <string name="pager_item_fluc_crash">급락</string>
     <string name="pager_item_fluc_floor">하한가</string>
 
-    <string name="pager_item_trade_foreign_buy">외국인</string>
+    <string name="pager_item_trade_foreign_buy">외국인 매수</string>
+    <string name="pager_item_acc_trade_foreign_buy">외국인 누적</string>
     <string name="pager_item_trade_foreign_sell">외국인 매도</string>
-    <string name="pager_item_trade_institution_buy">기관</string>
+    <string name="pager_item_trade_institution_buy">기관 매수</string>
+    <string name="pager_item_acc_trade_institution_buy">기관 누적</string>
     <string name="pager_item_trade_institution_sell">기관 매도</string>
     <string name="pager_item_trade_overseas_buy">외국계 증권사</string>
     <string name="pager_item_trade_domestic_buy">국내 증권사</string>
 
-    <string name="pager_item_reco_return">1개월 수익률</string>
-    <string name="pager_item_reco_top">추천수 상위</string>
-    <string name="pager_item_reco_current">현재 추천</string>
-    <string name="pager_item_reco_wise">와이즈 추천</string>
+    <string name="pager_item_recommend_return">1개월 수익률</string>
+    <string name="pager_item_recommend_top">추천수 상위</string>
+    <string name="pager_item_recommend_current">현재 추천</string>
+    <string name="pager_item_recommend_wise">와이즈 추천</string>
 
     <string name="pager_item_detail_info">기본 정보</string>
     <string name="pager_item_detail_news">종목 뉴스</string>
@@ -257,7 +257,6 @@
     <string name="title_activity_fluc">등락</string>
     <string name="title_activity_rise">상승</string>
     <string name="title_activity_trade">매매</string>
-    <string name="title_activity_reco">추천</string>
     <string name="title_activity_search">검색</string>
     <string name="title_activity_web">웹</string>
     <string name="title_activity_setting">설정</string>

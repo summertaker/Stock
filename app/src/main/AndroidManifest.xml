@@ -60,12 +60,12 @@
             android:label="@string/title_activity_rise"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TradeActivity"
+            android:name=".trade.TradeActivity"
             android:label="@string/title_activity_trade"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".reco.RecoActivity"
-            android:label="@string/title_activity_reco"
+            android:name=".recommend.RecommendActivity"
+            android:label="@string/title_activity_recommend"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".setting.TagListActivity"
@@ -82,7 +82,7 @@
         <activity
             android:name=".TraderActivity"
             android:label="@string/title_activity_trader"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

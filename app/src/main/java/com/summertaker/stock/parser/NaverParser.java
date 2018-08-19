@@ -142,7 +142,7 @@ public class NaverParser extends BaseParser {
         }
     }
 
-    public void parseReco(String response, String siteId, ArrayList<Item> items, boolean applyFilter) {
+    public void parseRecommend(String response, String siteId, ArrayList<Item> items, boolean applyFilter) {
         if (response == null || response.isEmpty()) {
             return;
         }
@@ -257,7 +257,7 @@ public class NaverParser extends BaseParser {
 
                 int nor = 0;
                 int tpr = 0;
-                if (siteId.equals(Config.KEY_RECO_TOP)) {
+                if (siteId.equals(Config.KEY_RECOMMEND_TOP)) {
                     nor = Util.getInt(object, "RECOMAND_CNT");     // 추천수
                     listed = Util.getString(object, "LAST_IN_DT"); // 최근 추천일
                     tpr = Util.getInt(object, "TO_ADJ_PRICE");     // 목표가
@@ -271,7 +271,7 @@ public class NaverParser extends BaseParser {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                } else if (siteId.equals(Config.KEY_RECO_CURRENT)) {
+                } else if (siteId.equals(Config.KEY_RECOMMEND_CURRENT)) {
                     listed = Util.getString(object, "IN_DT");       // 추천일
                     tpr = Util.getInt(object, "PRE_ADJ_CLOSE_PRC"); // 목표가
                     elapsed = Util.getInt(object, "TERM_CNT");      // 경과일
@@ -344,7 +344,7 @@ public class NaverParser extends BaseParser {
         }
     }
 
-    public void parseRecoReasonList(String response, ArrayList<Reason> reasons) {
+    public void parseRecommendReasonList(String response, ArrayList<Reason> reasons) {
         if (response == null || response.isEmpty()) {
             return;
         }

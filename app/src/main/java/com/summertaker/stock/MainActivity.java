@@ -13,14 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.summertaker.stock.common.BaseActivity;
-import com.summertaker.stock.news.BreakingListActivity;
+import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.news.NewsListActivity;
 import com.summertaker.stock.portfolio.PortfolioActivity;
-import com.summertaker.stock.reco.RecoActivity;
+import com.summertaker.stock.recommend.RecommendActivity;
 import com.summertaker.stock.setting.SettingActivity;
 import com.summertaker.stock.setting.TagListActivity;
+import com.summertaker.stock.trade.TradeActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private int mProgress = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadData();
+        showBaseProgress(0);
+        loadSettings();
     }
 
     @Override
@@ -95,14 +99,44 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void loadData() {
+    private void loadSettings() {
         mDataManager.readSettings();
         mDataManager.readTags();
         mDataManager.readPortfolios();
-        init();
+
+        loadRecommendTop();
+    }
+
+    private void loadBaseItems() {
+        setBaseProgressBar(mProgress++);
+        mDataManager.setOnBaseItemLoaded(new DataManager.BaseItemsCallback() {
+            @Override
+            public void onParse(int count) {
+                setBaseProgressBar(mProgress++);
+            }
+
+            @Override
+            public void onLoad() {
+                loadRecommendTop();
+            }
+        });
+        mDataManager.loadBaseItems();
+    }
+
+    private void loadRecommendTop() {
+        //setBaseProgressBar(mProgress++);
+        mDataManager.setOnRecommendTopItemLoaded(new DataManager.RecommendTopItemCallback() {
+            @Override
+            public void onLoad() {
+                init();
+            }
+        });
+        mDataManager.loadRecommendTopItem(this);
     }
 
     private void init() {
+        hideBaseProgress();
+
         /*
         // 속보
         LinearLayout loBreaking = findViewById(R.id.loBreaking);
@@ -135,6 +169,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 상승
         LinearLayout loRise = findViewById(R.id.loRise);
         loRise.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +179,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 매매
         LinearLayout loTrade = findViewById(R.id.loTrade);
@@ -155,6 +191,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 거래원
         LinearLayout loTrader = findViewById(R.id.loTrader);
         loTrader.setOnClickListener(new View.OnClickListener() {
@@ -164,13 +201,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 추천
         LinearLayout loReco = findViewById(R.id.loReco);
         loReco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, RecoActivity.class);
+                Intent intent = new Intent(mContext, RecommendActivity.class);
                 startActivity(intent);
             }
         });

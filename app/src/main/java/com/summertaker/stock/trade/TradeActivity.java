@@ -1,4 +1,4 @@
-package com.summertaker.stock.reco;
+package com.summertaker.stock.trade;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,22 +22,18 @@ import com.summertaker.stock.util.SlidingTabLayout;
 
 import java.util.ArrayList;
 
-public class RecoActivity extends BaseActivity implements RecoFragment.Callback {
-
-    private boolean mIsActionRefresh = false;
+public class TradeActivity extends BaseActivity implements TradeFragment.Callback {
 
     private ArrayList<Site> mSites = new ArrayList<>();
     private SectionsPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
-    private int mProgress = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reco_activity);
+        setContentView(R.layout.trade_activity);
 
-        mContext = RecoActivity.this;
+        mContext = TradeActivity.this;
         initBaseActivity(mContext);
 
         mToolbar.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +43,25 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
             }
         });
 
+        showBaseProgress(0);
+        init();
+
+        /*
         showBaseProgress(2);
-        loadItemPrice();
+        setBaseProgressBar(1);
+        mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
+            @Override
+            public void onParse(int count) {
+                setBaseProgressBar(count + 1);
+            }
+
+            @Override
+            public void onLoad() {
+                init();
+            }
+        });
+        mDataManager.loadItemPrice();
+        */
     }
 
     @Override
@@ -59,9 +72,9 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.reco, menu);
-        mMenuItemList = menu.findItem(R.id.action_chart);
-        //setMenuItemList();
+        getMenuInflater().inflate(R.menu.trade, menu);
+        //mMenuItemChart = menu.findItem(R.id.action_chart);
+        //setMenuItemChart();
         return true;
     }
 
@@ -74,9 +87,9 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
                 Intent search = new Intent(this, SearchActivity.class);
                 startActivity(search);
                 return true;
-            case R.id.action_chart:
-                onActionListClick();
-                return true;
+            //case R.id.action_chart:
+            //    onActionChartClick();
+            //    return true;
             case R.id.action_finish:
                 finish();
                 return true;
@@ -84,53 +97,10 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadItemPrice() {
-        setBaseProgressBar(mProgress++);
-        mDataManager.setOnItemPriceLoaded(new DataManager.ItemPriceCallback() {
-            @Override
-            public void onParse(int count) {
-                setBaseProgressBar(mProgress++);
-            }
-
-            @Override
-            public void onLoad() {
-                init();
-            }
-        });
-        mDataManager.loadItemPrice();
-    }
-
-    private void loadBaseTrade() {
-        setBaseProgressBar(mProgress++);
-        mDataManager.setOnBaseTradeLoaded(new DataManager.BaseTradeCallback() {
-            @Override
-            public void onParse(int count) {
-                setBaseProgressBar(mProgress++);
-            }
-
-            @Override
-            public void onLoad() {
-                loadRecoTop();
-            }
-        });
-        mDataManager.loadBaseTrade();
-    }
-
-    private void loadRecoTop() {
-        setBaseProgressBar(mProgress++);
-        mDataManager.setOnRecoTopItemLoaded(new DataManager.RecoTopItemCallback() {
-            @Override
-            public void onLoad() {
-                init();
-            }
-        });
-        mDataManager.loadRecoTopItem(this);
-    }
-
     private void init() {
         hideBaseProgress();
 
-        mSites = BaseApplication.getInstance().getRecoPagerItems();
+        mSites = BaseApplication.getInstance().getTradePagerItems();
 
         mPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
@@ -154,11 +124,9 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
             public void onPageSelected(int position) {
                 //Toast.makeText(mContext, "onPageSelected(): " + position, Toast.LENGTH_SHORT).show();
                 String tag = "android:switcher:" + R.id.viewpager + ":" + position;
-                RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
+                TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
                 if (fragment != null) {
                     onFragmentItemSizeChange(position, fragment.getItemSize());
-                    mListMode = fragment.getListMode();
-                    setMenuItemList();
                 }
             }
 
@@ -170,9 +138,12 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
     }
 
     @Override
-    public void onRecoFragmentEvent(String event) {
-        if (event.equals(Config.PARAM_DATA_CHANGED)) {
-            mIsActionRefresh = false;
+    public void onTradeFragmentEvent(String event) {
+        if (event.equals(Config.PARAM_LOAD_STARTED)) {
+            //startRefreshAnimation();
+        } else if (event.equals(Config.PARAM_LOAD_FINISHED)) {
+            //stopRefreshAnimation();
+        } else if (event.equals(Config.PARAM_DATA_CHANGED)) {
             refreshAllFragment();
         } else if (event.equals(Config.PARAM_FINISH)) {
             finish();
@@ -194,7 +165,7 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
 
         @Override
         public Fragment getItem(int position) {
-            return RecoFragment.newInstance(position);
+            return TradeFragment.newInstance(position);
         }
 
         @Override
@@ -214,19 +185,17 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
         // https://stackoverflow.com/questions/34861257/how-can-i-set-a-tag-for-viewpager-fragments
         //--------------------------------------------------------------------------------------------
         String tag = "android:switcher:" + R.id.viewpager + ":" + mViewPager.getCurrentItem();
-        RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
+        TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
 
         if (fragment != null) {
             if (command.equals(Config.PARAM_GO_TO_THE_TOP)) {
                 fragment.goToTheTop();
             } else if (command.equals(Config.PARAM_DO_REFRESH)) {
-                fragment.refreshFragment(false);
+                fragment.refreshFragment();
             } else if (command.equals(Config.PARAM_DATA_CHANGED)) {
                 fragment.notifyDataSetChanged();
             } else if (command.equals(Config.PARAM_TOGGLE_CHART)) {
                 fragment.toggleChart();
-            } else if (command.equals(Config.PARAM_TOGGLE_LIST)) {
-                fragment.toggleList();
             }
         }
     }
@@ -238,8 +207,10 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
         //--------------------------------------------------------------------------------------------
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             String tag = "android:switcher:" + R.id.viewpager + ":" + i;
-            RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
-            fragment.updateFragmentItem(item);
+            TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            if (fragment != null) {
+                fragment.updateFragmentItem(item);
+            }
         }
     }
 
@@ -252,28 +223,16 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
         // 모든 프레그먼트 새로 고침
         for (int i = 0; i < mPagerAdapter.getCount(); i++) {
             String tag = "android:switcher:" + R.id.viewpager + ":" + i;
-            RecoFragment fragment = (RecoFragment) getSupportFragmentManager().findFragmentByTag(tag);
-            fragment.refreshFragment(mIsActionRefresh);
+            TradeFragment fragment = (TradeFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            if (fragment != null) {
+                fragment.refreshFragment();
+            }
         }
 
         // 개별 프레그먼트 새로 고침
         //Fragment f = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewpager + ":" + mViewPager.getCurrentItem());
         //((BaseFragment) f).refreshFragment();
     }
-
-    /*
-    private void startRefreshAnimation() {
-        if (mMenuItemRefreshView != null) {
-            mMenuItemRefreshView.startAnimation(mRotateAnimation);
-        }
-    }
-
-    private void stopRefreshAnimation() {
-        if (mMenuItemRefreshView != null) {
-            mMenuItemRefreshView.clearAnimation();
-        }
-    }
-    */
 
     @Override
     protected void onSwipeRight() {
@@ -299,17 +258,17 @@ public class RecoActivity extends BaseActivity implements RecoFragment.Callback 
                     //Toast.makeText(mContext, code + ": " + tagIds, Toast.LENGTH_LONG).show();
 
                     // 변경된 포트폴리오 태그 정보 업데이트
-                    Item item = null;
-                    for (Item bi : BaseApplication.getInstance().getItemPrices()) {
-                        if (bi.getCode().equals(code)) {
-                            bi.setTagIds(tagIds);
-                            item = bi;
+                    Item newItem = null;
+                    for (Item item : BaseApplication.getInstance().getItemPrices()) {
+                        if (item.getCode().equals(code)) {
+                            newItem = item;
+                            newItem.setTagIds(tagIds);
                             break;
                         }
                     }
 
-                    if (item != null) {
-                        updateFragmentItem(item);
+                    if (newItem != null) {
+                        updateFragmentItem(newItem);
                     }
                 }
             }
