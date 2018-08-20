@@ -494,14 +494,30 @@ public class DaumParser extends BaseParser {
                 String code = array[1];
                 String name = a.text();
 
-                Log.e(TAG, code +" " + name);
+                //Log.e(TAG, code +" " + name);
 
-                Item item = new Item();
-                item.setCode(code);
-                item.setName(name);
-                item.setBuy(buy);
-                item.setSell(sell);
-                items.add(item);
+                boolean found = false;
+                for (Item it : items) {
+                    if (it.getCode().equals(code) && buy) {
+                        int count = it.getCount() + 1;
+                        it.setCount(count);
+                        found = true;
+                        if (name.equals("HDC현")) {
+                            Log.e(TAG, name + " (" + count + ")");
+                        }
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    Item item = new Item();
+                    item.setCode(code);
+                    item.setName(name);
+                    item.setBuy(buy);
+                    item.setSell(sell);
+                    item.setCount(1);
+                    items.add(item);
+                }
             }
 
             column++;

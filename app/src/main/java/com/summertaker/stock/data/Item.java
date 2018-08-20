@@ -22,6 +22,7 @@ public class Item {
     private int vot;        // Volume of Trade
     private String tagIds;
     private int point;      // Grade Point
+    private int count = 0;
     private int charCount = 0;
     private int buyVolume;
     private boolean favorite;
@@ -307,5 +308,13 @@ public class Item {
 
     public void setListMode(boolean listMode) {
         this.listMode = listMode;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

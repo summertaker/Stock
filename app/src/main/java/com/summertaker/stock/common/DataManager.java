@@ -1048,7 +1048,7 @@ public class DataManager {
 
     private void requestTraderItemList() {
         String url = mUrls.get(mUrlLoadCount);
-        Log.e(TAG, url);
+        //Log.e(TAG, url);
         StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1071,13 +1071,13 @@ public class DataManager {
         daumParser.parseTraderItemList(response, mItems);
 
         mUrlLoadCount++;
-        //if (mUrlLoadCount < mUrls.size()) {
-        //    mTraderItemListCallback.onParse(mUrlLoadCount);
-        //    requestTraderItemList();
-        //} else {
-        Log.e(TAG, "parseTraderItemList: mItems.size(): " + mItems.size());
-        mTraderItemListCallback.onLoad(mItems);
-        //}
+        if (mUrlLoadCount < mUrls.size()) {
+            mTraderItemListCallback.onParse(mUrlLoadCount);
+            requestTraderItemList();
+        } else {
+            //Log.e(TAG, "mItems.size(): " + mItems.size());
+            mTraderItemListCallback.onLoad(mItems);
+        }
     }
 
     /**

@@ -90,6 +90,9 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
         if (item.getNor() > 0) { // 추천수
             name = name + " (" + item.getNor() + ")";
         }
+        if (item.getCount() > 0) { // 중복수
+            name = name + " (" + item.getCount() + ")";
+        }
         holder.tvName.setText(name);
 
         // 매수 가능 수량(주)

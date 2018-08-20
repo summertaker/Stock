@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,7 +94,7 @@ public class TraderActivity extends BaseActivity {
             }
         });
 
-        showBaseProgress(2);
+        showBaseProgress(0);
         loadTraderList();
     }
 
@@ -117,10 +118,13 @@ public class TraderActivity extends BaseActivity {
     }
 
     private void loadTraderItemList(ArrayList<String> urls) {
+        hideBaseProgress();
+        showBaseProgress(urls.size());
+
         mDataManager.setOnTraderItemListLoaded(new DataManager.TraderItemListCallback() {
             @Override
             public void onParse(int count) {
-
+                setBaseProgressBar(count);
             }
 
             @Override
@@ -136,7 +140,9 @@ public class TraderActivity extends BaseActivity {
 
         long id = 1;
         for (Item item : items) {
-            item.setId(id);
+            if (!item.isBuy()) {
+                continue;
+            }
 
             int buyVolume = 0;
             if (item.getPrice() > 0 && mBuyPricePerItem > 0) {
@@ -150,7 +156,32 @@ public class TraderActivity extends BaseActivity {
                 }
             }
 
+            item.setId(id);
             mItems.add(item);
+            id++;
+
+            if (id > 20) {
+                break;
+            }
+        }
+
+        // 정렬
+        Collections.sort(mItems, new Comparator<Item>() {
+            @Override
+            public int compare(Item a, Item b) {
+                if (a.getCount() < b.getCount()) {
+                    return 1;
+                } else if (a.getCount() > b.getCount()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+
+        id = 1;
+        for (Item item : mItems) {
+            item.setId(id);
+            Log.e(TAG, id + ". " + item.getName() + " (" + item.getCount() + ")");
             id++;
         }
 
