@@ -302,7 +302,7 @@ public class Util {
 
     // 카카오 스탁 앱 내부 액티비티 실행하기
     public static void startKakaoStockDeepLink(Context context, String code) {
-        startKakaoStockDeepLink(context, code, 0, 0); // marketIndex: 0=시세, 1=차트
+        startKakaoStockDeepLink(context, code, 0, 1); // marketIndex: 0=시세, 1=차트
     }
 
     // 카카오 스탁 앱 내부 액티비티 실행하기
@@ -317,4 +317,3 @@ public class Util {
         context.startActivity(intent);
     }
 }
-

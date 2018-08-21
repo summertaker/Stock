@@ -20,6 +20,7 @@ import com.summertaker.stock.recommend.RecommendActivity;
 import com.summertaker.stock.setting.SettingActivity;
 import com.summertaker.stock.setting.TagListActivity;
 import com.summertaker.stock.trade.TradeActivity;
+import com.summertaker.stock.trader.TraderActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 

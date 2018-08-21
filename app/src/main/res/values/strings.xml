@@ -230,6 +230,8 @@
     <string name="pager_item_trade_institution_sell">기관 매도</string>
     <string name="pager_item_trade_overseas_buy">외국계 증권사</string>
     <string name="pager_item_trade_domestic_buy">국내 증권사</string>
+    <string name="pager_item_trader_buy">거래원 매수</string>
+    <string name="pager_item_trader_sell">거래원 매도</string>
 
     <string name="pager_item_recommend_return">1개월 수익률</string>
     <string name="pager_item_recommend_top">추천수 상위</string>
@@ -274,6 +276,6 @@
     <string name="title_activity_alert">알림</string>
     <string name="title_activity_picker">픽커</string>
     <string name="title_activity_item_history">전종목</string>
-    <string name="title_activity_trader">TraderActivity</string>
+    <string name="title_activity_trader">거래원</string>
 
 </resources>

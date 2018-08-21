@@ -64,6 +64,8 @@ public class Config {
     //public static String KEY_ACCUTRADE_INSTITUTION = "accutrade_institution";
     public static String KEY_TRADE_OVERSEAS = "trade_overseas";
     public static String KEY_TRADE_DOMESTIC = "trade_domestic";
+    public static String KEY_TRADER_BUY = "trader_buy";
+    public static String KEY_TRADER_SELL = "trader_sell";
 
     public static String KEY_WEEK_RISE = "week_rise";
     public static String KEY_WEEK_FB = "week_fb";

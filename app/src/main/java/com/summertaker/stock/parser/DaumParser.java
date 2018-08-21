@@ -483,8 +483,7 @@ public class DaumParser extends BaseParser {
             boolean sell = (column == 2);
 
             Elements trs = table.getElementsByTag("tr");
-            for (Element tr : trs)
-            {
+            for (Element tr : trs) {
                 Elements tds = tr.getElementsByTag("td");
                 if (tds.size() != 5) continue;
 
@@ -494,17 +493,23 @@ public class DaumParser extends BaseParser {
                 String code = array[1];
                 String name = a.text();
 
-                //Log.e(TAG, code +" " + name);
+                String temp = tds.get(4).text();
+                temp = temp.replace(",", "");
+                temp = temp.replace("%", "");
+                temp = temp.replace("％", "");
+                float rof = Float.valueOf(temp);
+
+                //Log.e(TAG, name + " (" + buy + " / " + sell + ")");
 
                 boolean found = false;
                 for (Item it : items) {
-                    if (it.getCode().equals(code) && buy) {
-                        int count = it.getCount() + 1;
-                        it.setCount(count);
-                        found = true;
-                        if (name.equals("HDC현")) {
-                            Log.e(TAG, name + " (" + count + ")");
+                    if (it.getCode().equals(code)) {
+                        if (buy) {
+                            it.setBuyCount(it.getBuyCount() + 1);
+                        } else if (sell) {
+                            it.setSellCount(it.getSellCount() + 1);
                         }
+                        found = true;
                         break;
                     }
                 }
@@ -513,9 +518,11 @@ public class DaumParser extends BaseParser {
                     Item item = new Item();
                     item.setCode(code);
                     item.setName(name);
+                    item.setRof(rof);
                     item.setBuy(buy);
                     item.setSell(sell);
-                    item.setCount(1);
+                    item.setBuyCount(1);
+                    item.setSellCount(1);
                     items.add(item);
                 }
             }

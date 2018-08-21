@@ -80,7 +80,7 @@
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TraderActivity"
+            android:name=".trader.TraderActivity"
             android:label="@string/title_activity_trader"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

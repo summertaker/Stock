@@ -1,4 +1,4 @@
-package com.summertaker.stock;
+package com.summertaker.stock.trader;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.data.Item;
@@ -37,11 +38,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public TextView tvId;
         public TextView tvName;
-        public TextView tvBuyVolume;
-        public TextView tvPrice;
-        public TextView tvPof;
         public TextView tvRof;
-        public TextView tvVot;
         public LinearLayout loTag;
         public ImageView ivChart;
 
@@ -50,11 +47,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
 
             tvId = view.findViewById(R.id.tvId);
             tvName = view.findViewById(R.id.tvName);
-            tvBuyVolume = view.findViewById(R.id.tvBuyVolume);
-            tvPrice = view.findViewById(R.id.tvPrice);
-            tvPof = view.findViewById(R.id.tvPof);
             tvRof = view.findViewById(R.id.tvRof);
-            tvVot = view.findViewById(R.id.tvVot);
             loTag = view.findViewById(R.id.loTag);
             ivChart = view.findViewById(R.id.ivChart);
 
@@ -85,34 +78,22 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
         String id = item.getId() + ".";
         holder.tvId.setText(id);
 
-        // 종목이름
+        // 종목 이름
         String name = item.getName();
-        if (item.getNor() > 0) { // 추천수
-            name = name + " (" + item.getNor() + ")";
+
+        if (item.isBuy() && item.getBuyCount() > 0) { // 거래원 매수 중복수
+            name = name + " (" + item.getBuyCount() + ")";
+        } else if (item.isSell() && item.getSellCount() > 0) { // 거래원 매도 중복수
+            name = name + " (" + item.getSellCount() + ")";
         }
-        if (item.getCount() > 0) { // 중복수
-            name = name + " (" + item.getCount() + ")";
+
+        if (item.getNor() > 0) { // 추천수
+            name = name + " +" + item.getNor();
         }
         holder.tvName.setText(name);
 
-        // 매수 가능 수량(주)
-        String buyVolume = Config.NUMBER_FORMAT.format(item.getBuyVolume());
-        buyVolume = " (" + String.format(mResources.getString(R.string.format_stock), buyVolume) + ")";
-        holder.tvBuyVolume.setText(buyVolume);
-
-        // 가격
-        BaseApplication.getInstance().renderPrice(item, holder.tvPrice, null);
-
         // 등락률
         BaseApplication.getInstance().renderRof(item, null, null, holder.tvRof, null);
-
-        // 전일비
-        BaseApplication.getInstance().renderPof(item, holder.tvPof, mResources.getString(R.string.format_money), null, mResources.getString(R.string.format_money));
-
-        // 거래량
-        String vot = Config.NUMBER_FORMAT.format(item.getVot());
-        vot = String.format(mResources.getString(R.string.format_stock), vot);
-        holder.tvVot.setText(vot);
 
         // 태그
         if (item.getTagIds() == null || item.getTagIds().isEmpty()) {
@@ -123,7 +104,8 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
         }
 
         // 차트
-        Glide.with(mContext).load(item.getChartUrl()).apply(new RequestOptions()).into(holder.ivChart);
+        String chartUrl = BaseApplication.getDayChartUrl(item.getCode());
+        Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
     }
 
     @Override

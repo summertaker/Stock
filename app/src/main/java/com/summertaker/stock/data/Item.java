@@ -22,7 +22,8 @@ public class Item {
     private int vot;        // Volume of Trade
     private String tagIds;
     private int point;      // Grade Point
-    private int count = 0;
+    private int buyCount = 0; // 거래원 매수 중복수
+    private int sellCount = 0; // 거래원 매도 중복수
     private int charCount = 0;
     private int buyVolume;
     private boolean favorite;
@@ -310,11 +311,19 @@ public class Item {
         this.listMode = listMode;
     }
 
-    public int getCount() {
-        return count;
+    public int getBuyCount() {
+        return buyCount;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setBuyCount(int buyCount) {
+        this.buyCount = buyCount;
+    }
+
+    public int getSellCount() {
+        return sellCount;
+    }
+
+    public void setSellCount(int sellCount) {
+        this.sellCount = sellCount;
     }
 }

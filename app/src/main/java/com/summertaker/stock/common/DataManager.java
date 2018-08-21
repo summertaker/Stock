@@ -1028,7 +1028,7 @@ public class DataManager {
     public interface TraderItemListCallback {
         void onParse(int count);
 
-        void onLoad(ArrayList<Item> items);
+        void onLoad();
     }
 
     private TraderItemListCallback mTraderItemListCallback;
@@ -1049,6 +1049,7 @@ public class DataManager {
     private void requestTraderItemList() {
         String url = mUrls.get(mUrlLoadCount);
         //Log.e(TAG, url);
+
         StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1072,11 +1073,15 @@ public class DataManager {
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
+        //if (mUrlLoadCount < 2) {
             mTraderItemListCallback.onParse(mUrlLoadCount);
             requestTraderItemList();
         } else {
             //Log.e(TAG, "mItems.size(): " + mItems.size());
-            mTraderItemListCallback.onLoad(mItems);
+
+            BaseApplication.getInstance().getTraderItems().clear();
+            BaseApplication.getInstance().getTraderItems().addAll(mItems);
+            mTraderItemListCallback.onLoad();
         }
     }
 

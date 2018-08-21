@@ -67,6 +67,7 @@ public class BaseApplication extends Application {
     private ArrayList<Item> mWeekTradeItems = new ArrayList<>(); // 다음 금융 > 국내 > 주간 마켓 트렌드 > 외국인 + 기관 순매도
 
     private ArrayList<Item> mBaseTradeItems = new ArrayList<>(); // 다음 외국인, 기관 매수 (for 기초 데이터)
+    private ArrayList<Item> mTraderItems = new ArrayList<>(); // 거래원 종목 목록
 
     //private ArrayList<Item> mTradeItems = new ArrayList<>(); // 다음 외국인, 기관 매매 종목
     //private ArrayList<Item> mRecommendReturnItems = new ArrayList<>(); // 네이버 추천 종목별 수익률
@@ -78,6 +79,7 @@ public class BaseApplication extends Application {
     private ArrayList<Site> mWeekPagerItems = new ArrayList<>();
     private ArrayList<Site> mFlucPagerItems = new ArrayList<>();
     private ArrayList<Site> mTradePagerItems = new ArrayList<>();
+    private ArrayList<Site> mTraderPagerItems = new ArrayList<>();
     private ArrayList<Site> mRecommendPagerItems = new ArrayList<>();
     private ArrayList<Site> mDetailPagerItems = new ArrayList<>();
 
@@ -147,6 +149,10 @@ public class BaseApplication extends Application {
         //mTradePagerItems.add(new Site(Config.KEY_TRADE_INSTITUTION, Config.KEY_TRADE_SELL, getString(R.string.pager_item_trade_institution_sell), ""));
         mTradePagerItems.add(new Site(Config.KEY_TRADE_OVERSEAS, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_overseas_buy), ""));
         mTradePagerItems.add(new Site(Config.KEY_TRADE_DOMESTIC, Config.KEY_TRADE_BUY, getString(R.string.pager_item_trade_domestic_buy), ""));
+
+        // 거래원
+        mTraderPagerItems.add(new Site(Config.KEY_TRADER_BUY, null, getString(R.string.pager_item_trader_buy), ""));
+        mTraderPagerItems.add(new Site(Config.KEY_TRADER_SELL, null, getString(R.string.pager_item_trader_sell), ""));
 
         // 추천 페이저 아이템
         mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_CURRENT, getString(R.string.pager_item_recommend_current), Config.URL_NAVER_RECO_CURRENT_LIST));
@@ -260,6 +266,10 @@ public class BaseApplication extends Application {
         return mWeekTradeItems;
     }
 
+    public ArrayList<Item> getTraderItems() {
+        return mTraderItems;
+    }
+
     public ArrayList<Site> getTopPagerItems() {
         return mTopPagerItems;
     }
@@ -282,6 +292,10 @@ public class BaseApplication extends Application {
 
     public ArrayList<Site> getTradePagerItems() {
         return mTradePagerItems;
+    }
+
+    public ArrayList<Site> getTraderPagerItems() {
+        return mTraderPagerItems;
     }
 
     public ArrayList<Site> getRecommendPagerItems() {
