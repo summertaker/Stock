@@ -43,6 +43,30 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/loPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xs"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rate_of_fluctuation"
+            android:textColor="@color/ink" />
+
+        <!-- 등락률 -->
+        <TextView
+            android:id="@+id/tvRof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <!-- 태그 목록: 래퍼 -->
     <LinearLayout
         android:id="@+id/loTag"

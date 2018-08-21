@@ -31,6 +31,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.ItemViewHold
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         public TextView tvId;
         public TextView tvName;
+        public TextView tvRof;
         public LinearLayout loTag;
         public ImageView ivChart;
 
@@ -39,6 +40,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.ItemViewHold
 
             tvId = view.findViewById(R.id.tvId);
             tvName = view.findViewById(R.id.tvName);
+            tvRof = view.findViewById(R.id.tvRof);
             loTag = view.findViewById(R.id.loTag);
             ivChart = view.findViewById(R.id.ivChart);
         }
@@ -59,12 +61,15 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.ItemViewHold
         String id = item.getId() + ".";
         holder.tvId.setText(id);
 
-        // 종목이름
+        // 종목 이름
         String name = item.getName();
         if (item.getNor() > 0) { // 추천수
             name = name + " (" + item.getNor() + ")";
         }
         holder.tvName.setText(name);
+
+        // 등락률
+        BaseApplication.getInstance().renderRof(item, null, null, holder.tvRof, null);
 
         // 태그
         if (!item.isChartMode() || item.getTagIds() == null || item.getTagIds().isEmpty()) {
