@@ -265,6 +265,7 @@ public class DaumParser extends BaseParser {
         boolean institution = url.contains("institution.daum");
         boolean overseas = url.contains("trcode=1");
         boolean domestic = url.contains("trcode=0");
+        boolean trader = url.contains("trader.daum");
 
         Document doc = Jsoup.parse(response);
 
@@ -288,7 +289,9 @@ public class DaumParser extends BaseParser {
                     continue;
                 }
 
-                Item item = parseTradeRow(tds.get(0), tds.get(1), tds.get(2), tds.get(3));
+                Element td4 = trader ? tds.get(4) : tds.get(3);
+
+                Item item = parseTradeRow(tds.get(0), tds.get(1), tds.get(2), td4);
                 item.setForeigner(foreigner);
                 item.setInstitution(institution);
                 item.setOverseas(overseas);
@@ -310,7 +313,7 @@ public class DaumParser extends BaseParser {
 
             count++;
 
-            break; // 왼쪽 테이블(매수 목록)만 파싱하려면 주석 해제
+            break; // 왼쪽(매수) 테이블만 파싱
         }
     }
 

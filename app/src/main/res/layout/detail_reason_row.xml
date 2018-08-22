@@ -52,6 +52,6 @@
         android:lineSpacingExtra="@dimen/title_line_spacing"
         android:text="@null"
         android:textColor="@color/ink"
-        android:textSize="@dimen/text_md" />
+        android:textSize="15sp" />
 
 </LinearLayout>

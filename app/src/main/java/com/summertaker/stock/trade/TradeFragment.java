@@ -133,17 +133,24 @@ public class TradeFragment extends BaseFragment {
                 for (Item item : items) {
                     if (item.isForeigner() && item.isBuy()) {
                         if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            //-------------------
                             // 외국인 매수
+                            //-------------------
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            //-------------------
                             // 외국인 누적 매수
+                            //-------------------
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isForeigner() && item.isSell()) { // 외국인 매도
+                    } else if (item.isForeigner() && item.isSell()) {
+                        //-------------------
+                        // 외국인 매도
+                        //-------------------
                         if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_SELL)) {
                             item.setId(id);
                             mItems.add(item);
@@ -151,29 +158,42 @@ public class TradeFragment extends BaseFragment {
                         }
                     } else if (item.isInstitution() && item.isBuy()) {
                         if (mSite.getId().equals(Config.KEY_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            //-------------------
                             // 기관 매수
+                            //-------------------
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
+                            //-------------------
                             // 기관 누적 매수
+                            //-------------------
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isInstitution() && item.isSell()) { // 기관 매도
+                    } else if (item.isInstitution() && item.isSell()) {
+                        //-------------------
+                        // 기관 매도
+                        //-------------------
                         if (mSite.getId().equals(Config.KEY_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_SELL)) {
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isOverseas() && item.isBuy()) { // 외국계 증권사 매수
+                    } else if (item.isOverseas() && item.isBuy()) {
+                        //-------------------
+                        // 외국계 증권사 매수
+                        //-------------------
                         if (mSite.getId().equals(Config.KEY_TRADE_OVERSEAS) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
                             item.setId(id);
                             mItems.add(item);
                             id++;
                         }
-                    } else if (item.isDomestic() && item.isBuy()) { // 국내 증권사 매수
+                    } else if (item.isDomestic() && item.isBuy()) {
+                        //-------------------
+                        // 국내 증권사 매수
+                        //-------------------
                         if (mSite.getId().equals(Config.KEY_TRADE_DOMESTIC) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
                             item.setId(id);
                             mItems.add(item);

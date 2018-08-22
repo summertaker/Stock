@@ -45,7 +45,7 @@
             android:id="@+id/tvBuyVolume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
+            android:layout_marginStart="@dimen/ns"
             android:text="@null"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_md" />

@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_breaking_subtitle" />
 
         </LinearLayout>
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_news_subtitle" />
 
         </LinearLayout>
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_portfolio_subtitle" />
 
         </LinearLayout>
@@ -117,7 +117,6 @@
             android:background="#ccc" />
 
         <!-- 상승 -->
-        <!--
         <LinearLayout
             android:id="@+id/loRise"
             android:layout_width="match_parent"
@@ -139,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_rise_subtitle" />
 
         </LinearLayout>
@@ -148,7 +147,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
-            -->
 
         <!-- 매매 -->
         <LinearLayout
@@ -172,7 +170,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_trade_subtitle" />
 
         </LinearLayout>
@@ -204,7 +202,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_trader_subtitle" />
 
         </LinearLayout>
@@ -236,7 +234,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xs"
+                android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_recommend_subtitle" />
 
         </LinearLayout>
@@ -248,7 +246,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="70dp"
             android:orientation="horizontal">
 
             <!-- 태그 -->

@@ -93,9 +93,14 @@ public class RiseAdapter extends RecyclerView.Adapter<RiseAdapter.ItemViewHolder
         holder.tvName.setText(name);
 
         // 매수 가능 수량(주)
-        String buyVolume = Config.NUMBER_FORMAT.format(item.getBuyVolume());
-        buyVolume = " (" + String.format(mResources.getString(R.string.format_stock), buyVolume) + ")";
-        holder.tvBuyVolume.setText(buyVolume);
+        if (item.getBuyVolume() == 0) {
+            holder.tvBuyVolume.setVisibility(View.GONE);
+        } else {
+            holder.tvBuyVolume.setVisibility(View.VISIBLE);
+            String buyVolume = Config.NUMBER_FORMAT.format(item.getBuyVolume());
+            buyVolume = " (" + String.format(mResources.getString(R.string.format_stock), buyVolume) + ")";
+            holder.tvBuyVolume.setText(buyVolume);
+        }
 
         // 가격
         BaseApplication.getInstance().renderPrice(item, holder.tvPrice, null);

@@ -65,6 +65,12 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
         mDataManager.setOnItemLoaded(new DataManager.ItemCallback() {
             @Override
             public void onLoad(Item item) {
+                for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
+                    if (ti.getCode().equals(item.getCode())) {
+                        item.setNor(ti.getNor());
+                        break;
+                    }
+                }
                 mItem = item;
                 BaseApplication.getInstance().setItem(item);
                 init();
