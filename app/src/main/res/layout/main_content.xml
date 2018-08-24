@@ -117,6 +117,7 @@
             android:background="#ccc" />
 
         <!-- 상승 -->
+        <!--
         <LinearLayout
             android:id="@+id/loRise"
             android:layout_width="match_parent"
@@ -147,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+        -->
 
         <!-- 매매 -->
         <LinearLayout
@@ -181,6 +183,7 @@
             android:background="#ccc" />
 
         <!-- 거래원 -->
+        <!--
         <LinearLayout
             android:id="@+id/loTrader"
             android:layout_width="match_parent"
@@ -211,6 +214,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+            -->
 
         <!-- 추천 -->
         <LinearLayout
@@ -246,7 +250,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <!-- 태그 -->

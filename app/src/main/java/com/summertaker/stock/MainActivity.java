@@ -170,6 +170,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 상승
         LinearLayout loRise = findViewById(R.id.loRise);
         loRise.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +180,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 매매
         LinearLayout loTrade = findViewById(R.id.loTrade);
@@ -190,6 +192,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 거래원
         LinearLayout loTrader = findViewById(R.id.loTrader);
         loTrader.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +202,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 추천
         LinearLayout loReco = findViewById(R.id.loReco);
