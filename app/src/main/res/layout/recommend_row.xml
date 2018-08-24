@@ -273,14 +273,22 @@
         android:layout_marginTop="@dimen/sm"
         android:orientation="horizontal" />
 
+    <!-- 추천 사유 -->
+    <TextView
+        android:id="@+id/tvReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xs"
+        android:lineSpacingExtra="3sp" />
+
     <ImageView
         android:id="@+id/ivChart"
         android:layout_width="match_parent"
         android:layout_height="@dimen/candle_chart_height"
         android:layout_marginTop="@dimen/md"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:background="@drawable/chart_background"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

@@ -48,6 +48,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Item
         public LinearLayout loBroker;
         public TextView tvBroker;
         public LinearLayout loTag;
+        public TextView tvReason;
         public ImageView ivChart;
 
         public ItemViewHolder(View view) {
@@ -74,6 +75,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Item
             loBroker = view.findViewById(R.id.loBroker);
             tvBroker = view.findViewById(R.id.tvBroker);
             loTag = view.findViewById(R.id.loTag);
+            tvReason = view.findViewById(R.id.tvReason);
             ivChart = view.findViewById(R.id.ivChart);
         }
     }
@@ -164,28 +166,39 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Item
         holder.tvElapsed.setText(elapsed);
 
         // 태그
-        if (!item.isChartMode() || item.getTagIds() == null || item.getTagIds().isEmpty()) {
+        if (item.isListMode() || item.getTagIds() == null || item.getTagIds().isEmpty()) {
             holder.loTag.setVisibility(View.GONE);
         } else {
             holder.loTag.setVisibility(View.VISIBLE);
             BaseApplication.getInstance().renderTag(mContext, item, holder.loTag);
         }
 
-        // 표시 토글
+        // 추천 사유
+        if (item.isListMode() || item.getReason() == null || item.getReason().isEmpty()) {
+            holder.tvReason.setVisibility(View.GONE);
+        } else {
+            holder.tvReason.setVisibility(View.VISIBLE);
+            holder.tvReason.setText(item.getReason());
+        }
+
         if (item.isListMode()) {
+            //---------------
             // 리스트 모드
+            //---------------
             holder.loPrice.setVisibility(View.GONE);
             holder.loPriceL.setVisibility(View.VISIBLE);
             holder.loReco.setVisibility(View.GONE);
             holder.ivChart.setVisibility(View.GONE);
         } else {
+            //---------------
             // 차트 모드
+            //---------------
             holder.loPrice.setVisibility(View.VISIBLE);
             holder.loPriceL.setVisibility(View.GONE);
             holder.loReco.setVisibility(View.VISIBLE);
-            holder.ivChart.setVisibility(View.VISIBLE);
 
             // 차트
+            holder.ivChart.setVisibility(View.VISIBLE);
             String chartUrl = BaseApplication.getWeekCandleChartUrl(item.getCode());
             Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
         }
