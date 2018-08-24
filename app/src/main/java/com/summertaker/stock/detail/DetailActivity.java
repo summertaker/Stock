@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.summertaker.stock.R;
 import com.summertaker.stock.SearchActivity;
@@ -29,6 +30,8 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
         DetailNewsFragment.Callback {
 
     private String mCode;
+    private String mNor;
+
     private Item mItem;
 
     private View mMenuItemRefreshView;
@@ -51,6 +54,8 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
 
         Intent intent = getIntent();
         mCode = intent.getStringExtra("code");
+        mNor = intent.getStringExtra("nor");
+        //Toast.makeText(mContext, mCode + " " + mNor, Toast.LENGTH_SHORT).show();
 
         initBaseActivity(mContext);
         mToolbar.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +70,12 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
         mDataManager.setOnItemLoaded(new DataManager.ItemCallback() {
             @Override
             public void onLoad(Item item) {
-                for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
-                    if (ti.getCode().equals(item.getCode())) {
-                        item.setNor(ti.getNor());
-                        break;
-                    }
-                }
+                //for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
+                //    if (ti.getCode().equals(item.getCode())) {
+                //        item.setNor(ti.getNor());
+                //        break;
+                //    }
+                //}
                 mItem = item;
                 BaseApplication.getInstance().setItem(item);
                 init();
@@ -134,13 +139,13 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
         mSites = BaseApplication.getInstance().getDetailPagerItems();
 
         // 추천 사유
-        if (mItem.getNor() > 0) {
-            if (mSites.size() == 2) {
-                mSites.add(new Site(Config.KEY_DETAIL_REASON, getString(R.string.pager_item_detail_reason), ""));
-            }
-        } else {
+        if (mNor == null || mNor.isEmpty()) {
             if (mSites.size() == 3) {
                 mSites.remove(2);
+            }
+        } else {
+            if (mSites.size() == 2) {
+                mSites.add(new Site(Config.KEY_DETAIL_REASON, getString(R.string.pager_item_detail_reason), ""));
             }
         }
 

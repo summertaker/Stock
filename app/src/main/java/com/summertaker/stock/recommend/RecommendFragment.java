@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
@@ -100,11 +102,12 @@ public class RecommendFragment extends BaseFragment {
             @Override
             public void onClick(View view, int position) {
                 Item item = mItems.get(position);
-                //Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, item.getName() + " " + item.getNor(), Toast.LENGTH_SHORT).show();
                 BaseApplication.getInstance().setItem(item);
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra("code", item.getCode());
+                intent.putExtra("nor", String.valueOf(item.getNor()));
                 startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
             }
 
@@ -213,12 +216,12 @@ public class RecommendFragment extends BaseFragment {
                         item.setPof(bi.getPof());       // 전일비
                         item.setRof(bi.getRof());       // 등락률
                         item.setTagIds(bi.getTagIds()); // 태그
-                        item.setNor(bi.getNor());       // 추천수
+                        //item.setNor(bi.getNor());       // 추천수
                         mItems.add(item);
                         id++;
 
-                        //if (mSite.getId().equals(Config.KEY_RECOMMEND_RETURN)) {
-                        //    Log.e(TAG, item.getName() + " " + item.getRor());
+                        //if (mSite.getId().equals(Config.KEY_RECOMMEND_CURRENT)) {
+                        //    Log.e(TAG, item.getName() + " " + item.getNor());
                         //}
                     }
                 }

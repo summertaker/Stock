@@ -255,7 +255,7 @@ public class NaverParser extends BaseParser {
                 reason = reason.replaceAll("\n+$", "");
                 //Log.e(TAG, reason);
 
-                int nor = 0;
+                int nor = 1;
                 int tpr = 0;
                 if (siteId.equals(Config.KEY_RECOMMEND_TOP)) {
                     nor = Util.getInt(object, "RECOMAND_CNT");     // 추천수
