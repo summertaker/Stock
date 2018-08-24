@@ -220,6 +220,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        // 단어
+        TextView tvWord = findViewById(R.id.tvWord);
+        tvWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // 설정
         TextView tvSetting = findViewById(R.id.tvSetting);
         tvSetting.setOnClickListener(new View.OnClickListener() {
