@@ -103,7 +103,7 @@ public class BreakingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // 제목
             String title = news.getTitle();
             title = news.getId() + ". " + title;
-            ((ItemViewHolder) holder).tvTitle.setText(Html.fromHtml(title), TextView.BufferType.SPANNABLE);
+            ((ItemViewHolder) holder).tvTitle.setText(Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
             int elapsed = 0;
             Date published = null;

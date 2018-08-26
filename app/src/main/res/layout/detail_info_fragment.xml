@@ -153,13 +153,6 @@
             android:layout_marginTop="@dimen/lg"
             android:background="#ccc" />
 
-        <!-- 추천 사유 -->
-        <TextView
-            android:id="@+id/tvReason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_padding" />
-
         <!-- 일 차트 -->
         <!--
         <TextView

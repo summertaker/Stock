@@ -1,10 +1,7 @@
 package com.summertaker.stock.parser;
 
-import android.util.Log;
-
 import com.summertaker.stock.common.BaseParser;
 import com.summertaker.stock.data.Item;
-import com.summertaker.stock.data.Trader;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -555,6 +552,10 @@ public class DaumParser extends BaseParser {
                 break;
             }
         }
+
+        // 개요
+        Element overview = doc.getElementsByClass("tooltip_overview hide").get(0);
+        item.setOverview(overview.html());
 
         // 상세
         Elements uls = doc.getElementsByTag("ul");

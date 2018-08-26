@@ -162,7 +162,9 @@ public class BaseApplication extends Application {
 
         // 종목 상세 페이저 아이템
         mDetailPagerItems.add(new Site(Config.KEY_DETAIL_INFO, getString(R.string.pager_item_detail_info), ""));
+        mDetailPagerItems.add(new Site(Config.KEY_DETAIL_OVERVIEW, getString(R.string.pager_item_detail_overview), ""));
         mDetailPagerItems.add(new Site(Config.KEY_DETAIL_NEWS, getString(R.string.pager_item_detail_news), ""));
+        //mDetailPagerItems.add(new Site(Config.KEY_DETAIL_REASON, getString(R.string.pager_item_detail_reason), ""));
     }
 
     public static synchronized BaseApplication getInstance() {

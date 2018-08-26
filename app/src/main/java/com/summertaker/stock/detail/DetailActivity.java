@@ -25,7 +25,9 @@ import com.summertaker.stock.util.SlidingTabLayout;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends BaseActivity implements DetailInfoFragment.Callback,
+public class DetailActivity extends BaseActivity implements
+        DetailInfoFragment.Callback,
+        DetailOverviewFragment.Callback,
         DetailReasonFragment.Callback,
         DetailNewsFragment.Callback {
 
@@ -138,13 +140,13 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
 
         mSites = BaseApplication.getInstance().getDetailPagerItems();
 
-        // 추천 사유
+        // 추천 사유 설정
         if (mNor == null || mNor.isEmpty()) {
-            if (mSites.size() == 3) {
-                mSites.remove(2);
+            if (mSites.size() == 4) {
+                mSites.remove(3);
             }
         } else {
-            if (mSites.size() == 2) {
+            if (mSites.size() == 3) {
                 mSites.add(new Site(Config.KEY_DETAIL_REASON, getString(R.string.pager_item_detail_reason), ""));
             }
         }
@@ -217,6 +219,13 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
 
     }
 
+    @Override
+    public void onDetailOverviewFragmentEvent(String event, String field, String value) {
+        if (event.equals(Config.PARAM_FINISH)) {
+            finish();
+        }
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private SectionsPagerAdapter(FragmentManager fm) {
@@ -228,6 +237,8 @@ public class DetailActivity extends BaseActivity implements DetailInfoFragment.C
             Site site = mSites.get(position);
             if (site.getId().equals(Config.KEY_DETAIL_INFO)) {
                 return DetailInfoFragment.newInstance(position, mCode);
+            } else if (site.getId().equals(Config.KEY_DETAIL_OVERVIEW)) {
+                return DetailOverviewFragment.newInstance(position, mCode);
             } else if (site.getId().equals(Config.KEY_DETAIL_NEWS)) {
                 return DetailNewsFragment.newInstance(position, mCode);
             } else {

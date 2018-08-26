@@ -65,7 +65,7 @@ public class DetailNewsAdapter extends RecyclerView.Adapter<DetailNewsAdapter.It
             holder.tvTitle.setText(title);
         } else {
             title = title.replace(mItem.getName(), String.format(Config.NEWS_ITEM_NAME_HIGHLIGHT_FORMAT, mItem.getName()));
-            holder.tvTitle.setText(Html.fromHtml(title), TextView.BufferType.SPANNABLE);
+            holder.tvTitle.setText(Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
         }
 
         // 경과일, 발행일 설정

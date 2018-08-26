@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,6 @@ public class DetailInfoFragment extends BaseFragment {
     private String mCode;
     private Item mItem;
 
-    private boolean mIsLoading = false;
-
     private ScrollView mScrollView;
 
     private LinearLayout.LayoutParams mParams;
@@ -47,7 +47,6 @@ public class DetailInfoFragment extends BaseFragment {
     // Container Activity must implement this interface
     public interface Callback {
         void onDetailInfoFragmentEvent(String event, String field, String value);
-        //void onFragmentItemSizeChanged(int position, int itemSize);
     }
 
     @Override
@@ -131,14 +130,6 @@ public class DetailInfoFragment extends BaseFragment {
 
         setSiteLink(rootView);
 
-        // 추천 사유
-        TextView tvReason = rootView.findViewById(R.id.tvReason);
-        if (mItem.getReason() == null || mItem.getReason().isEmpty()) {
-            tvReason.setVisibility(View.GONE);
-        } else {
-            tvReason.setText(mItem.getReason());
-        }
-
         // 일 차트
         //final String dayChart = "https://fn-chart.dunamu.com/images/kr/stock/d/A" + mCode + ".png?" + System.currentTimeMillis();
         //ImageView ivDayChart = rootView.findViewById(R.id.ivDayChart);
@@ -162,6 +153,7 @@ public class DetailInfoFragment extends BaseFragment {
         setChart(ivW1Chart, weekCandleChart);
 
         // 월봉 차트
+        //final String monthCandleChart = "https://ssl.pstatic.net/imgfinance/chart/mobile/candle/month/" + mCode + "_end.png";
         final String monthCandleChart = "https://fn-chart.dunamu.com/images/kr/candle/m/A" + mCode + ".png"; // 다음
         ImageView ivYear3Chart = rootView.findViewById(R.id.ivMonthCandleChart);
         setChart(ivYear3Chart, monthCandleChart);

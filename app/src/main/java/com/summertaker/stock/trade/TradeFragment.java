@@ -103,6 +103,7 @@ public class TradeFragment extends BaseFragment {
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra("code", item.getCode());
+                intent.putExtra("nor", item.getNor());
                 startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
             }
 

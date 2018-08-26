@@ -4,6 +4,7 @@ public class Item {
     private long id;
     private String code;
     private String name;
+    private String overview;
     private String broker;
     private String portfolio;
     private int price;
@@ -61,6 +62,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getBroker() {

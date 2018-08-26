@@ -79,6 +79,7 @@ public class Config {
     public static String KEY_RECOMMEND_WISE = "recommend_wise";
     public static String KEY_RECOMMEND_REASON = "recommend_reason";
     public static String KEY_DETAIL_INFO = "detail_info";
+    public static String KEY_DETAIL_OVERVIEW = "detail_overview";
     public static String KEY_DETAIL_REASON = "detail_reason";
     public static String KEY_DETAIL_NEWS = "detail_news";
 

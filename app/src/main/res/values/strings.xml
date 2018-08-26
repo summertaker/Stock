@@ -239,6 +239,7 @@
     <string name="pager_item_recommend_wise">와이즈 추천</string>
 
     <string name="pager_item_detail_info">기본 정보</string>
+    <string name="pager_item_detail_overview">기업 개요</string>
     <string name="pager_item_detail_news">종목 뉴스</string>
     <string name="pager_item_detail_reason">추천 사유</string>
 
