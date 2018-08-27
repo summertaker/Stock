@@ -64,6 +64,10 @@
             android:label="@string/title_activity_trade"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".trader.TraderActivity"
+            android:label="@string/title_activity_trader"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".recommend.RecommendActivity"
             android:label="@string/title_activity_recommend"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -80,9 +84,17 @@
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".trader.TraderActivity"
-            android:label="@string/title_activity_trader"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".setting.WordCategoryActivity"
+            android:label="@string/title_activity_word_category"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".setting.WordListActivity"
+            android:label="@string/title_activity_word_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".setting.WordEditActivity"
+            android:label="@string/title_activity_word_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

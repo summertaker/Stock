@@ -2,6 +2,7 @@ package com.summertaker.stock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,8 +20,8 @@ import com.summertaker.stock.portfolio.PortfolioActivity;
 import com.summertaker.stock.recommend.RecommendActivity;
 import com.summertaker.stock.setting.SettingActivity;
 import com.summertaker.stock.setting.TagListActivity;
+import com.summertaker.stock.setting.WordCategoryActivity;
 import com.summertaker.stock.trade.TradeActivity;
-import com.summertaker.stock.trader.TraderActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         showBaseProgress(0);
-        loadSettings();
+        loadSetting();
     }
 
     @Override
@@ -75,9 +76,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         /*
         int id = item.getItemId();
 
@@ -100,12 +100,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void loadSettings() {
-        mDataManager.readSettings();
-        mDataManager.readTags();
-        mDataManager.readPortfolios();
+    private void loadSetting() {
+        //mDataManager.readSettings();
+        //mDataManager.readTags();
+        //mDataManager.readPortfolios();
 
-        loadRecommendTop();
+        mDataManager.setOnSettingLoaded(new DataManager.SettingCallback() {
+            @Override
+            public void onLoad() {
+                loadRecommendTop();
+            }
+        });
+        mDataManager.loadSetting();
     }
 
     private void loadBaseItems() {
@@ -170,7 +176,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
-        /*
         // 상승
         LinearLayout loRise = findViewById(R.id.loRise);
         loRise.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +185,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
-        */
 
         // 매매
         LinearLayout loTrade = findViewById(R.id.loTrade);
@@ -205,8 +209,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         */
 
         // 추천
-        LinearLayout loReco = findViewById(R.id.loReco);
-        loReco.setOnClickListener(new View.OnClickListener() {
+        LinearLayout loRecommend = findViewById(R.id.loReco);
+        loRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, RecommendActivity.class);
@@ -229,7 +233,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tvWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, SettingActivity.class);
+                Intent intent = new Intent(mContext, WordCategoryActivity.class);
                 startActivity(intent);
             }
         });

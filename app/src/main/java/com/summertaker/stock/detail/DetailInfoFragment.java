@@ -16,7 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.summertaker.stock.R;
@@ -28,6 +34,14 @@ import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Tag;
 import com.summertaker.stock.util.Util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailInfoFragment extends BaseFragment {
 
@@ -43,6 +57,8 @@ public class DetailInfoFragment extends BaseFragment {
     private LinearLayout.LayoutParams mParamsNoMargin;
 
     private LinearLayout mLoTag;
+
+    private boolean mIsLoading = false;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -291,7 +307,7 @@ public class DetailInfoFragment extends BaseFragment {
         }
     }
 
-    private void onTagClick(String tagId) {
+    private void onTagClick_(String tagId) {
         mDataManager.setItemTagIds(mItem, tagId);
 
         /*
@@ -319,7 +335,6 @@ public class DetailInfoFragment extends BaseFragment {
         renderTag();
     }
 
-    /*
     private void onTagClick(final String tagId) {
         if (mIsLoading) {
             Toast.makeText(mContext, getString(R.string.data_processing_is_not_finished), Toast.LENGTH_LONG).show();
@@ -379,7 +394,7 @@ public class DetailInfoFragment extends BaseFragment {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("tag_id", tagId);
                 params.put("code", mCode);
                 return params;
@@ -387,7 +402,7 @@ public class DetailInfoFragment extends BaseFragment {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
@@ -395,7 +410,6 @@ public class DetailInfoFragment extends BaseFragment {
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
-    */
 
     private void startKakaoStock() {
         Util.startKakaoStockDeepLink(mContext, mCode);

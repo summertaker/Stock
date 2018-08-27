@@ -2,6 +2,7 @@ package com.summertaker.stock.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,12 +11,23 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
+import com.summertaker.stock.common.Config;
 import com.summertaker.stock.data.Tag;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TagEditActivity extends BaseActivity {
 
@@ -156,6 +168,7 @@ public class TagEditActivity extends BaseActivity {
         }
         */
 
+        /*
         if (mId > 0) {
             for (Tag bt : BaseApplication.getInstance().getTags()) {
                 if (bt.getId() == mId) {
@@ -177,28 +190,15 @@ public class TagEditActivity extends BaseActivity {
 
         mDataManager.writeTags();
         doFinish();
+        */
 
-        //postData(Config.URL_TAG_SAVE, tag);
+        Tag tag = new Tag();
+        tag.setName(name);
+        tag.setFgc("");
+        tag.setBgc("");
+        postData(Config.URL_TAG_SAVE, tag);
     }
 
-    private void removeData() {
-        ArrayList<Tag> tags = new ArrayList<>();
-        for (Tag bt : BaseApplication.getInstance().getTags()) {
-            if (bt.getId() == mId) {
-                continue;
-            }
-            tags.add(bt);
-        }
-        BaseApplication.getInstance().getTags().clear();
-        BaseApplication.getInstance().getTags().addAll(tags);
-
-        mDataManager.writeTags();
-        doFinish();
-
-        //postData(Config.URL_TAG_DELETE, null);
-    }
-
-    /*
     private void postData(String url, final Tag tag) {
         mBtnSave.setVisibility(View.GONE);
         mLoProcessing.setVisibility(View.VISIBLE);
@@ -230,7 +230,7 @@ public class TagEditActivity extends BaseActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("id", String.valueOf(mId));
                 if (tag != null) {
                     params.put("name", tag.getName());
@@ -242,7 +242,7 @@ public class TagEditActivity extends BaseActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
@@ -250,7 +250,25 @@ public class TagEditActivity extends BaseActivity {
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
-    */
+
+    private void removeData() {
+        /*
+        ArrayList<Tag> tags = new ArrayList<>();
+        for (Tag bt : BaseApplication.getInstance().getTags()) {
+            if (bt.getId() == mId) {
+                continue;
+            }
+            tags.add(bt);
+        }
+        BaseApplication.getInstance().getTags().clear();
+        BaseApplication.getInstance().getTags().addAll(tags);
+
+        mDataManager.writeTags();
+        doFinish();
+        */
+
+        postData(Config.URL_TAG_DELETE, null);
+    }
 
     @Override
     protected void onSwipeRight() {

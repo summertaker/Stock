@@ -186,8 +186,14 @@ public class RiseActivity extends BaseActivity {
             mAdapter.notifyItemChanged(itemId);
         }
 
-        //mSwipeRefreshLayout.setRefreshing(true);
-        //mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        mSwipeRefreshLayout.setRefreshing(true);
+        mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+            @Override
+            public void onItemTagSaved() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        mDataManager.saveItemTag(item.getCode(), item.getTagIds());
 
         return super.onContextItemSelected(menuItem);
     }

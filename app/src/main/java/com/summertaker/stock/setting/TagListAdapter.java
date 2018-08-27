@@ -53,6 +53,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ItemView
         String name = tag.getName();
         holder.tvName.setText(name);
 
+        /*
         // 배경색
         if (tag.getBgc() != null && tag.getBgc().length() == 7) {
             // https://stackoverflow.com/questions/18391830/how-to-programmatically-round-corners-and-set-random-background-colors
@@ -64,6 +65,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ItemView
         if (tag.getFgc() != null && tag.getFgc().length() == 7) {
             holder.tvName.setTextColor(Color.parseColor(tag.getFgc()));
         }
+        */
 
         // Start a drag whenever the handle view it touched
         holder.ivHandle.setOnTouchListener(new View.OnTouchListener() {

@@ -17,6 +17,7 @@ import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Site;
+import com.summertaker.stock.setting.WordCategoryActivity;
 import com.summertaker.stock.util.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -92,10 +93,10 @@ public class NewsListActivity extends BaseActivity implements NewsListFragment.C
                 Intent search = new Intent(this, SearchActivity.class);
                 startActivity(search);
                 return true;
-            //case R.id.action_settings:
-            //    Intent wordCategory = new Intent(this, WordCategoryActivity.class);
-            //    startActivity(wordCategory);
-            //    return true;
+            case R.id.action_settings:
+                Intent wordCategory = new Intent(this, WordCategoryActivity.class);
+                startActivity(wordCategory);
+                return true;
             case R.id.action_finish:
                 finish();
                 return true;

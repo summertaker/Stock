@@ -269,7 +269,7 @@
     <string name="title_activity_word_edit">단어 편집</string>
     <string name="title_activity_news_detail">뉴스</string>
     <string name="title_activity_grade">등급</string>
-    <string name="title_activity_word_category">글자 설정</string>
+    <string name="title_activity_word_category">단어 설정</string>
     <string name="title_activity_recommend">추천</string>
     <string name="title_activity_week">주간 상위</string>
     <string name="title_activity_top">상위 종목</string>

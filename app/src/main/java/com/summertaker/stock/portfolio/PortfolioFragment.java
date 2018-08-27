@@ -17,6 +17,7 @@ import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.BaseFragment;
 import com.summertaker.stock.common.Config;
+import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.detail.DetailActivity;
@@ -164,10 +165,16 @@ public class PortfolioFragment extends BaseFragment {
 
             //Toast.makeText(mContext, item.getCode() + " " + item.getTagIds(), Toast.LENGTH_SHORT).show();
             //Log.e(TAG, item.getCode() + " / " + item.getTagIds());
-            //mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+
             //mDataManager.writePortfolios();
 
-            mEventListener.onPortfolioFragmentEvent(Config.PARAM_REFRESH_ALL_FRAGMENT);
+            mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+                @Override
+                public void onItemTagSaved() {
+                    mEventListener.onPortfolioFragmentEvent(Config.PARAM_REFRESH_ALL_FRAGMENT);
+                }
+            });
+            mDataManager.saveItemTag(item.getCode(), item.getTagIds());
         }
 
         return super.onContextItemSelected(menuItem);

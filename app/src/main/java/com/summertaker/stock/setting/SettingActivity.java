@@ -22,6 +22,9 @@ import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.util.Util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,18 +121,12 @@ public class SettingActivity extends BaseActivity {
     private void save() {
         String buyPricePerItem = mEtBuyPricePerItem.getText().toString(); // 종목당 매수 금액
         buyPricePerItem = buyPricePerItem.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_BUY_PRICE_PER_ITEM, buyPricePerItem);
 
         String lowestRof = mEtLowestRof.getText().toString(); // 최저등락률
         lowestRof = lowestRof.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_LOWEST_ROF, lowestRof);
 
         String highestRof = mEtHighestRof.getText().toString(); // 최고등락률
         highestRof = highestRof.replaceAll(",", "");
-        BaseApplication.getInstance().setSetting(Config.SETTING_HIGHEST_ROF, highestRof);
-
-        mDataManager.writeSettings();
-        finish();
 
         /*
         // 종목을 길게 눌렀을 때
@@ -142,7 +139,9 @@ public class SettingActivity extends BaseActivity {
         mDataManager.save(Config.SETTING_ON_ITEM_LONG_CLICK, onItemLongClick);
         */
 
-        /*
+        //mDataManager.writeSettings();
+        //finish();
+
         // 서버에 저장할 데이터 만들기
         JSONObject jsonObject = new JSONObject();
         try {
@@ -156,8 +155,11 @@ public class SettingActivity extends BaseActivity {
         String data = jsonObject.toString();
         //Log.e(TAG, "data: " + data);
 
+        BaseApplication.getInstance().setSetting(Config.SETTING_BUY_PRICE_PER_ITEM, buyPricePerItem);
+        BaseApplication.getInstance().setSetting(Config.SETTING_LOWEST_ROF, lowestRof);
+        BaseApplication.getInstance().setSetting(Config.SETTING_HIGHEST_ROF, highestRof);
+
         doPost(Config.URL_SETTING_SAVE, data);
-        */
     }
 
     private void doPost(String url, final String data) {
@@ -184,14 +186,14 @@ public class SettingActivity extends BaseActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("data", data);
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }

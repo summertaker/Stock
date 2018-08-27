@@ -38,7 +38,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
@@ -1831,9 +1833,72 @@ public class DataManager {
     }
 
     /**
+     * 종목에 태그 설정하기
+     *
+     * @param item
+     * @param selectedTagId
+     */
+    public void getItemTagIds(Item item, String selectedTagId) {
+        String itemTagIds = item.getTagIds();
+        String newTagIds;
+        if (itemTagIds != null && !itemTagIds.isEmpty()) {
+            String[] itemTagIdArray = itemTagIds.split(",");
+            StringJoiner joiner = new StringJoiner(",");
+            boolean found = false;
+            for (String itemTagId : itemTagIdArray) {
+                if (itemTagId.equals(selectedTagId)) {
+                    found = true;
+                } else {
+                    joiner.add(itemTagId);
+                }
+            }
+            if (!found) {
+                joiner.add(selectedTagId);
+            }
+
+            itemTagIds = joiner.toString();
+            itemTagIdArray = itemTagIds.split(",");
+            for (String itemTagId : itemTagIdArray) {
+                boolean valid = false;
+                if (!itemTagId.isEmpty()) {
+                    for (Tag tag : BaseApplication.getInstance().getTags()) {
+                        if (tag.getId() == Long.valueOf(itemTagId)) {
+                            valid = true;
+                            break;
+                        }
+                    }
+                }
+                if (valid) {
+                    joiner.add(itemTagId);
+                }
+            }
+            newTagIds = joiner.toString();
+        } else {
+            newTagIds = selectedTagId;
+        }
+
+        item.setTagIds(newTagIds);
+
+        boolean found = false;
+        for (Portfolio portfolio : BaseApplication.getInstance().getPortfolios()) {
+            if (portfolio.getCode().equals(item.getCode())) {
+                portfolio.setTagIds(newTagIds);
+                found = true;
+            }
+        }
+        if (!found) {
+            Portfolio portfolio = new Portfolio();
+            portfolio.setCode(item.getCode());
+            portfolio.setTagIds(newTagIds);
+            BaseApplication.getInstance().getPortfolios().add(portfolio);
+        }
+
+        //writePortfolio();
+    }
+
+    /**
      * 종목 태그 저장하기
      */
-    /*
     public interface ItemTagCallback {
         void onItemTagSaved();
     }
@@ -1875,7 +1940,7 @@ public class DataManager {
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
-    */
+
     public void readSettings() {
         BaseApplication.getInstance().getSettings().clear();
         String cacheData = readPreferences(Config.PREFERENCE_SETTINGS);
