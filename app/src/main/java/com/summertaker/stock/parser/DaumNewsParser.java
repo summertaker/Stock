@@ -65,10 +65,10 @@ public class DaumNewsParser extends BaseParser {
             el = li.select("strong > a").first();
             title = cleanText(el.text());
 
-            if (title.contains("[fnRASSI]")) continue;
-            if (title.contains("코스피")) continue;
-            if (title.contains("코스닥")) continue;
-            if (title.contains("상담")) continue;
+            //if (title.contains("[fnRASSI]")) continue;
+            //if (title.contains("코스피")) continue;
+            //if (title.contains("코스닥")) continue;
+            //if (title.contains("상담")) continue;
 
             if (isInExcludeList(Config.KEY_WORD_CATEGORY_DAUM_EXCLUDE, title)) { // 제외 단어
                 continue;

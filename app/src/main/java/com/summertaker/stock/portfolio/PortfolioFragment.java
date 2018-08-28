@@ -233,8 +233,7 @@ public class PortfolioFragment extends BaseFragment {
         //long millis = System.currentTimeMillis();
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
-            String chartUrl = mChartMode ? BaseApplication.getWeekCandleChartUrl(item.getCode()) :
-                    BaseApplication.getDayChartUrl(item.getCode());
+            String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayCandleChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }
 
