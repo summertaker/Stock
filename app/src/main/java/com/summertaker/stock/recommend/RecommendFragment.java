@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.summertaker.stock.common.BaseFragment;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Site;
 import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.RecyclerTouchListener;
@@ -39,6 +42,7 @@ public class RecommendFragment extends BaseFragment {
     private RecommendAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DividerItemDecoration mDividerItemDecoration;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private int mLowestPrice; // 최저가
     private int mHighestPrice; // 최고가
@@ -48,7 +52,7 @@ public class RecommendFragment extends BaseFragment {
 
     // Container Activity must implement this interface
     public interface Callback {
-        void onRecoFragmentEvent(String event);
+        void onRecommendFragmentEvent(String event);
 
         void onFragmentItemSizeChange(int position, int itemSize);
     }
@@ -92,7 +96,7 @@ public class RecommendFragment extends BaseFragment {
             mSite = BaseApplication.getInstance().getRecommendPagerItems().get(mPosition);
         }
 
-        mAdapter = new RecommendAdapter(mContext, mSite.getId(), mItems);
+        mAdapter = new RecommendAdapter(mContext, mPosition, mSite.getId(), mItems);
         mAdapter.setHasStableIds(true);
 
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -113,7 +117,8 @@ public class RecommendFragment extends BaseFragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                mEventListener.onRecoFragmentEvent(Config.PARAM_FINISH);
+                //mEventListener.onRecommendFragmentEvent(Config.PARAM_FINISH);
+
                 //Util.startKakaoStockDeepLink(mContext, mItems.get(position).getCode());
                 //mDataManager.updateMyItem(mItems.get(position).getCode(), Config.KEY_FAVORITES);
                 //mEventListener.onFragmentEvent(Config.PARAM_DATA_CHANGED);
@@ -121,6 +126,14 @@ public class RecommendFragment extends BaseFragment {
         }));
 
         mDividerItemDecoration = new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
+
+        mSwipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         mLowestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECOMMEND_LOWEST_PRICE); // 최저가
         mHighestPrice = BaseApplication.getInstance().getIntSetting(Config.SETTING_RECOMMEND_HIGHEST_PRICE); // 최고가
@@ -170,6 +183,38 @@ public class RecommendFragment extends BaseFragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        //Log.e(">>", menuItem.getGroupId() + ", " + menuItem.getItemId());
+
+        int position = menuItem.getOrder();
+        if (position == mPosition) {
+            int itemId = menuItem.getItemId();
+            Item item = mItems.get(itemId);
+
+            String tagId = String.valueOf(menuItem.getGroupId());
+            mDataManager.setItemTagIds(item, tagId);
+
+            //if (item.getTagIds().isEmpty()) {
+            //    mItems.remove(itemId);
+            //    mAdapter.notifyItemRemoved(itemId);
+            //} else {
+                mAdapter.notifyItemChanged(itemId);
+            //}
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+                @Override
+                public void onItemTagSaved() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        }
+
+        return super.onContextItemSelected(menuItem);
     }
 
     /*
@@ -251,6 +296,14 @@ public class RecommendFragment extends BaseFragment {
         }
         */
 
+        for (Item item : mItems) {
+            for (Portfolio portfolio : BaseApplication.getInstance().getPortfolios()) {
+                if (portfolio.getCode().equals(item.getCode())) {
+                    item.setTagIds(portfolio.getTagIds());
+                }
+            }
+        }
+
         renderData();
     }
 
@@ -297,7 +350,7 @@ public class RecommendFragment extends BaseFragment {
 
     public void refreshFragment(boolean isActionRefresh) {
         if (!mIsLoading) {
-            mEventListener.onRecoFragmentEvent(Config.PARAM_LOAD_STARTED);
+            mEventListener.onRecommendFragmentEvent(Config.PARAM_LOAD_STARTED);
             //loadData();
         }
     }

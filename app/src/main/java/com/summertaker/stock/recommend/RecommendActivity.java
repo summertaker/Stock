@@ -172,7 +172,7 @@ public class RecommendActivity extends BaseActivity implements RecommendFragment
     }
 
     @Override
-    public void onRecoFragmentEvent(String event) {
+    public void onRecommendFragmentEvent(String event) {
         if (event.equals(Config.PARAM_DATA_CHANGED)) {
             mIsActionRefresh = false;
             refreshAllFragment();

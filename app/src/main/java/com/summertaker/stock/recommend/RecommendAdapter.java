@@ -1,8 +1,8 @@
 package com.summertaker.stock.recommend;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +16,18 @@ import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Tag;
 
 import java.util.ArrayList;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private Resources mResources;
+    private int mPosition;
     private String mFragmentId;
     private ArrayList<Item> mItems;
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public TextView tvId;
         public TextView tvName;
         public LinearLayout loPrice;
@@ -77,12 +78,22 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Item
             loTag = view.findViewById(R.id.loTag);
             tvReason = view.findViewById(R.id.tvReason);
             ivChart = view.findViewById(R.id.ivChart);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            //contextMenu.setHeaderTitle(R.string.tag);
+            for (Tag tag : BaseApplication.getInstance().getTags()) {
+                contextMenu.add((int) tag.getId(), this.getAdapterPosition(), mPosition, tag.getName());
+            }
         }
     }
 
-    public RecommendAdapter(Context context, String fragmentId, ArrayList<Item> mItems) {
+    public RecommendAdapter(Context context, int position, String fragmentId, ArrayList<Item> mItems) {
         this.mContext = context;
-        this.mResources = context.getResources();
+        this.mPosition = position;
         this.mFragmentId = fragmentId;
         this.mItems = mItems;
     }
