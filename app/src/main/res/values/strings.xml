@@ -278,5 +278,6 @@
     <string name="title_activity_picker">픽커</string>
     <string name="title_activity_item_history">전종목</string>
     <string name="title_activity_trader">거래원</string>
+    <string name="title_activity_fluctuation">FluctuationActivity</string>
 
 </resources>

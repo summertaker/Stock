@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.DataManager;
+import com.summertaker.stock.fluctuation.FluctuationActivity;
 import com.summertaker.stock.news.NewsListActivity;
 import com.summertaker.stock.portfolio.PortfolioActivity;
 import com.summertaker.stock.recommend.RecommendActivity;
@@ -176,12 +177,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 상승
         LinearLayout loRise = findViewById(R.id.loRise);
         loRise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, RiseActivity.class);
+                startActivity(intent);
+            }
+        });
+        */
+
+        // 등락
+        LinearLayout loFluctuation = findViewById(R.id.loFluctuation);
+        loFluctuation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, FluctuationActivity.class);
                 startActivity(intent);
             }
         });

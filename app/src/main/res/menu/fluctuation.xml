@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/baseline_search_white_24"
+        android:orderInCategory="100"
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom" />
+
+    <!--
+    <item
+        android:id="@+id/action_chart"
+        android:icon="@drawable/baseline_bar_chart_white_24"
+        android:orderInCategory="100"
+        android:title="@string/action_chart"
+        app:showAsAction="ifRoom" />
+        -->
+
+    <item
+        android:id="@+id/action_finish"
+        android:icon="@drawable/baseline_clear_white_24"
+        android:orderInCategory="100"
+        android:title="@string/action_finish"
+        app:showAsAction="ifRoom" />
+
+</menu>

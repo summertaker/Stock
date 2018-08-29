@@ -117,6 +117,7 @@
             android:background="#ccc" />
 
         <!-- 상승 -->
+        <!--
         <LinearLayout
             android:id="@+id/loRise"
             android:layout_width="match_parent"
@@ -140,6 +141,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ns"
                 android:text="@string/main_item_rise_subtitle" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc" />
+        -->
+
+        <!-- 등락 -->
+        <LinearLayout
+            android:id="@+id/loFluctuation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_item_fluctuation_title"
+                android:textColor="@color/ink"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ns"
+                android:text="@string/main_item_fluctuation_subtitle" />
 
         </LinearLayout>
 
