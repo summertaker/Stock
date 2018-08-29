@@ -257,7 +257,6 @@
     <string name="title_activity_breaking_list">속보</string>
     <string name="title_activity_news_list">뉴스</string>
     <string name="title_activity_portfolio">포트폴리오</string>
-    <string name="title_activity_fluc">등락</string>
     <string name="title_activity_rise">상승</string>
     <string name="title_activity_trade">매매</string>
     <string name="title_activity_search">검색</string>
@@ -278,6 +277,6 @@
     <string name="title_activity_picker">픽커</string>
     <string name="title_activity_item_history">전종목</string>
     <string name="title_activity_trader">거래원</string>
-    <string name="title_activity_fluctuation">FluctuationActivity</string>
+    <string name="title_activity_fluctuation">등락</string>
 
 </resources>

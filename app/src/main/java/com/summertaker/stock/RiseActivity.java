@@ -208,7 +208,7 @@ public class RiseActivity extends BaseActivity {
         if (mIsFirstLoading) {
             setBaseProgressBar(1);
         }
-        mDataManager.setOnFlucLoaded(new DataManager.FlucCallback() {
+        mDataManager.setOnFlucLoaded(new DataManager.FluctuationCallback() {
             @Override
             public void onParse(int count) {
                 if (mIsFirstLoading) {
@@ -221,7 +221,7 @@ public class RiseActivity extends BaseActivity {
                 setData(items);
             }
         });
-        mDataManager.loadFluc(Config.KEY_FLUC_RISE);
+        mDataManager.loadFluctuation(Config.KEY_FLUCTUATION_RISE);
     }
 
     private void setData(ArrayList<Item> items) {

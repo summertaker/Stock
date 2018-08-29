@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,9 +19,9 @@ import com.summertaker.stock.common.BaseFragment;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Site;
 import com.summertaker.stock.detail.DetailActivity;
-import com.summertaker.stock.trade.TradeAdapter;
 import com.summertaker.stock.util.RecyclerTouchListener;
 
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class FluctuationFragment extends BaseFragment {
     private FluctuationAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DividerItemDecoration mDividerItemDecoration;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean mChartMode = true;
 
@@ -88,9 +91,9 @@ public class FluctuationFragment extends BaseFragment {
             mPosition = bundle.getInt("position", 0);
         }
 
-        mSite = BaseApplication.getInstance().getTradePagerItems().get(mPosition);
+        mSite = BaseApplication.getInstance().getFluctuationPagerItems().get(mPosition);
 
-        mAdapter = new FluctuationAdapter(mContext, mItems);
+        mAdapter = new FluctuationAdapter(mContext, mPosition, mItems);
         mAdapter.setHasStableIds(true);
 
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -110,7 +113,8 @@ public class FluctuationFragment extends BaseFragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                mEventListener.onFluctuationFragmentEvent(Config.PARAM_FINISH);
+                //mEventListener.onFluctuationFragmentEvent(Config.PARAM_FINISH);
+
                 //Util.startKakaoStockDeepLink(mContext, mItems.get(position).getCode());
                 //mDataManager.updateMyItem(mItems.get(position).getCode(), Config.KEY_FAVORITES);
                 //mEventListener.onFragmentEvent(Config.PARAM_DATA_CHANGED);
@@ -119,9 +123,17 @@ public class FluctuationFragment extends BaseFragment {
 
         mDividerItemDecoration = new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
 
+        mSwipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         showBaseProgress();
 
-        mDataManager.setOnTradeLoaded(new DataManager.TradeCallback() {
+        mDataManager.setOnFlucLoaded(new DataManager.FluctuationCallback() {
             @Override
             public void onParse(int count) {
 
@@ -130,91 +142,83 @@ public class FluctuationFragment extends BaseFragment {
             @Override
             public void onLoad(ArrayList<Item> items) {
                 //Log.e(TAG, "items.size(): " + items.size());
+                mItems.clear();
+
+                float low = BaseApplication.getInstance().getFloatSetting(Config.SETTING_LOWEST_ROF); // 최저 등락률
+                float high = BaseApplication.getInstance().getFloatSetting(Config.SETTING_HIGHEST_ROF); // 최고 등락률
 
                 long id = 1;
                 for (Item item : items) {
-                    if (item.isForeigner() && item.isBuy()) {
-                        if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            //-------------------
-                            // 외국인 매수
-                            //-------------------
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            //-------------------
-                            // 외국인 누적 매수
-                            //-------------------
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
+                    if (mSite.getId().equals(Config.KEY_FLUCTUATION_RISE) || mSite.getId().equals(Config.KEY_FLUCTUATION_JUMP)) {
+                        if (low > 0 && item.getRof() < low) { // 최저 등락률
+                            continue;
                         }
-                    } else if (item.isForeigner() && item.isSell()) {
-                        //-------------------
-                        // 외국인 매도
-                        //-------------------
-                        if (mSite.getId().equals(Config.KEY_TRADE_FOREIGNER) && mSite.getGroupId().equals(Config.KEY_TRADE_SELL)) {
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        }
-                    } else if (item.isInstitution() && item.isBuy()) {
-                        if (mSite.getId().equals(Config.KEY_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            //-------------------
-                            // 기관 매수
-                            //-------------------
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        } else if (mSite.getId().equals(Config.KEY_ACC_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            //-------------------
-                            // 기관 누적 매수
-                            //-------------------
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        }
-                    } else if (item.isInstitution() && item.isSell()) {
-                        //-------------------
-                        // 기관 매도
-                        //-------------------
-                        if (mSite.getId().equals(Config.KEY_TRADE_INSTITUTION) && mSite.getGroupId().equals(Config.KEY_TRADE_SELL)) {
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        }
-                    } else if (item.isOverseas() && item.isBuy()) {
-                        //-------------------
-                        // 외국계 증권사 매수
-                        //-------------------
-                        if (mSite.getId().equals(Config.KEY_TRADE_OVERSEAS) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
-                        }
-                    } else if (item.isDomestic() && item.isBuy()) {
-                        //-------------------
-                        // 국내 증권사 매수
-                        //-------------------
-                        if (mSite.getId().equals(Config.KEY_TRADE_DOMESTIC) && mSite.getGroupId().equals(Config.KEY_TRADE_BUY)) {
-                            item.setId(id);
-                            mItems.add(item);
-                            id++;
+                        if (high > 0 && item.getRof() > high) { // 최고 등락률
+                            continue;
                         }
                     }
-                }
 
+                    for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) { // 추천수
+                        if (item.getCode().equals(ti.getCode())) {
+                            item.setNor(ti.getNor());
+                        }
+                    }
+
+                    for (Portfolio portfolio : BaseApplication.getInstance().getPortfolios()) { // 태그
+                        if (portfolio.getCode().equals(item.getCode())) {
+                            item.setTagIds(portfolio.getTagIds());
+                        }
+                    }
+
+                    item.setId(id);
+                    mItems.add(item);
+                    id++;
+                }
                 renderData();
             }
         });
-        mDataManager.loadTrade(mSite.getId());
+        mDataManager.loadFluctuation(mSite.getId());
 
         return rootView;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        //Log.e(">>", menuItem.getGroupId() + ", " + menuItem.getItemId());
+
+        int position = menuItem.getOrder();
+        if (position == mPosition) {
+            int itemId = menuItem.getItemId();
+            Item item = mItems.get(itemId);
+
+            String tagId = String.valueOf(menuItem.getGroupId());
+            mDataManager.setItemTagIds(item, tagId);
+
+            //if (item.getTagIds().isEmpty()) {
+            //    mItems.remove(itemId);
+            //    mAdapter.notifyItemRemoved(itemId);
+            //} else {
+            mAdapter.notifyItemChanged(itemId);
+            //}
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+                @Override
+                public void onItemTagSaved() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        }
+
+        return super.onContextItemSelected(menuItem);
     }
 
     private void renderData() {
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
+            String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
+            item.setChartUrl(chartUrl);
         }
 
         mRecyclerView.removeItemDecoration(mDividerItemDecoration);
@@ -263,5 +267,9 @@ public class FluctuationFragment extends BaseFragment {
 
     public int getItemSize() {
         return mItems.size();
+    }
+
+    public boolean getChartMode() {
+        return mChartMode;
     }
 }

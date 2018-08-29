@@ -3,6 +3,7 @@ package com.summertaker.stock.fluctuation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +16,26 @@ import com.bumptech.glide.request.RequestOptions;
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Tag;
 
 import java.util.ArrayList;
 
 public class FluctuationAdapter extends RecyclerView.Adapter<FluctuationAdapter.ItemViewHolder> {
 
     private Context mContext;
+    private int mPosition;
     private ArrayList<Item> mItems;
 
-    public FluctuationAdapter(Context context, ArrayList<Item> items) {
+    public FluctuationAdapter(Context context, int position, ArrayList<Item> items) {
         this.mContext = context;
+        this.mPosition = position;
         this.mItems = items;
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public TextView tvId;
         public TextView tvName;
+        public TextView tvPrice;
         public TextView tvRof;
         public LinearLayout loTag;
         public ImageView ivChart;
@@ -40,9 +45,20 @@ public class FluctuationAdapter extends RecyclerView.Adapter<FluctuationAdapter.
 
             tvId = view.findViewById(R.id.tvId);
             tvName = view.findViewById(R.id.tvName);
+            tvPrice = view.findViewById(R.id.tvPrice);
             tvRof = view.findViewById(R.id.tvRof);
             loTag = view.findViewById(R.id.loTag);
             ivChart = view.findViewById(R.id.ivChart);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            //contextMenu.setHeaderTitle(R.string.tag);
+            for (Tag tag : BaseApplication.getInstance().getTags()) {
+                contextMenu.add((int) tag.getId(), this.getAdapterPosition(), mPosition, tag.getName());
+            }
         }
     }
 
@@ -68,6 +84,9 @@ public class FluctuationAdapter extends RecyclerView.Adapter<FluctuationAdapter.
         }
         holder.tvName.setText(name);
 
+        // 가격
+        BaseApplication.getInstance().renderPrice(item, holder.tvPrice, null);
+
         // 등락률
         BaseApplication.getInstance().renderRof(item, null, null, holder.tvRof, null);
 
@@ -80,8 +99,7 @@ public class FluctuationAdapter extends RecyclerView.Adapter<FluctuationAdapter.
         }
 
         // 차트
-        String chartUrl = BaseApplication.getDayCandleChartUrl(item.getCode());
-        Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
+        Glide.with(mContext).load(item.getChartUrl()).apply(new RequestOptions()).into(holder.ivChart);
     }
 
     @Override

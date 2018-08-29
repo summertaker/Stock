@@ -50,9 +50,28 @@
         android:layout_marginTop="@dimen/xs"
         android:orientation="horizontal">
 
+        <!-- 현재가: 텍스트 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/current_price"
+            android:textColor="@color/ink" />
+
+        <!-- 현재가 -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xs"
+            android:text="@null"
+            android:textColor="@color/success"
+            android:textStyle="bold" />
+
+        <!-- 등락률: 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/md"
             android:text="@string/rate_of_fluctuation"
             android:textColor="@color/ink" />
 

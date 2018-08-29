@@ -56,7 +56,7 @@ public class DataManager {
     private String mDateFormatString = "yyyy-MM-dd HH:mm:ss";
     private SimpleDateFormat mSimpleDateFormat;
 
-    //private String mSiteId;
+    private String mSiteId;
 
     private boolean mIsDataOnLoading = false;
     private int mUrlLoadCount = 0;
@@ -626,20 +626,20 @@ public class DataManager {
     /**
      * [네이버 금융 > 국내 > 상승, 하락, 급등, 급락] 가져오기
      */
-    public interface FlucCallback {
+    public interface FluctuationCallback {
         void onParse(int count);
 
         void onLoad(ArrayList<Item> items);
     }
 
-    private FlucCallback mFlucCallback;
+    private FluctuationCallback mFluctuationCallback;
 
-    public void setOnFlucLoaded(FlucCallback callback) {
-        mFlucCallback = callback;
+    public void setOnFlucLoaded(FluctuationCallback callback) {
+        mFluctuationCallback = callback;
     }
 
-    public void loadFluc(String siteId) {
-        //mSiteId = siteId;
+    public void loadFluctuation(String siteId) {
+        mSiteId = siteId;
 
         mItems.clear();
         //if (BaseApplication.getInstance().isMarketClosed()) {
@@ -653,61 +653,88 @@ public class DataManager {
         //Toast.makeText(mContext, "등락 데이터 로드...", Toast.LENGTH_SHORT).show();
 
         mUrls.clear();
-        if (siteId.equals(Config.KEY_FLUC_RISE)) { // 상승
-            mUrls.add(Config.URL_NAVER_FLUC_RISE_LIST_KOSPI);
-            mUrls.add(Config.URL_NAVER_FLUC_RISE_LIST_KOSDAQ);
-        } else if (siteId.equals(Config.KEY_FLUC_JUMP)) { // 급등
-            mUrls.add(Config.URL_NAVER_FLUC_JUMP_LIST_KOSPI);
-            mUrls.add(Config.URL_NAVER_FLUC_JUMP_LIST_KOSDAQ);
-        } else if (siteId.equals(Config.KEY_FLUC_FALL)) { // 하락
-            mUrls.add(Config.URL_NAVER_FLUC_FALL_LIST_KOSPI);
-            mUrls.add(Config.URL_NAVER_FLUC_FALL_LIST_KOSDAQ);
-        } else if (siteId.equals(Config.KEY_FLUC_CRASH)) { // 급락
-            mUrls.add(Config.URL_NAVER_FLUC_CRASH_LIST_KOSPI);
-            mUrls.add(Config.URL_NAVER_FLUC_CRASH_LIST_KOSDAQ);
+        if (siteId.equals(Config.KEY_FLUCTUATION_RISE)) { // 상승
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_RISE_LIST_KOSPI);
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_RISE_LIST_KOSDAQ);
+        } else if (siteId.equals(Config.KEY_FLUCTUATION_JUMP)) { // 급등
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_JUMP_LIST_KOSPI);
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_JUMP_LIST_KOSDAQ);
+        } else if (siteId.equals(Config.KEY_FLUCTUATION_FALL)) { // 하락
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_FALL_LIST_KOSPI);
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_FALL_LIST_KOSDAQ);
+        } else if (siteId.equals(Config.KEY_FLUCTUATION_CRASH)) { // 급락
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_CRASH_LIST_KOSPI);
+            mUrls.add(Config.URL_NAVER_FLUCTUATION_CRASH_LIST_KOSDAQ);
         }
 
         if (mUrls.size() > 0) {
             mUrlLoadCount = 0;
-            requestFluc();
+            requestFluctuation();
         } else {
             Toast.makeText(mContext, "Invalid Site ID", Toast.LENGTH_SHORT).show();
         }
         //}
     }
 
-    private void requestFluc() {
+    private void requestFluctuation() {
         String url = mUrls.get(mUrlLoadCount);
         StringRequest strReq = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                parseFluc(response);
+                parseFluctuation(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage());
                 Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-                parseFluc("");
+                parseFluctuation("");
             }
         });
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
     }
 
-    private void parseFluc(String response) {
+    private void parseFluctuation(String response) {
         NaverParser naverParser = new NaverParser();
-        naverParser.parseFluc(response, mItems);
+        naverParser.parseFluctuation(response, mItems);
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
-            mFlucCallback.onParse(mUrlLoadCount);
-            requestFluc();
+            mFluctuationCallback.onParse(mUrlLoadCount);
+            requestFluctuation();
         } else {
             //Log.e(TAG, "Fluc: mItems.size() = " + mItems.size());
 
+            // 등락률 정렬
+            if (mSiteId.equals(Config.KEY_FLUCTUATION_RISE) || mSiteId.equals(Config.KEY_FLUCTUATION_JUMP)) { // 상승, 급등
+                Collections.sort(mItems, new Comparator<Item>() {
+                    @Override
+                    public int compare(Item a, Item b) {
+                        if (a.getRof() < b.getRof()) {
+                            return 1;
+                        } else if (a.getRof() > b.getRof()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+            } else if (mSiteId.equals(Config.KEY_FLUCTUATION_FALL) || mSiteId.equals(Config.KEY_FLUCTUATION_CRASH)) { // 하락, 급락
+                Collections.sort(mItems, new Comparator<Item>() {
+                    @Override
+                    public int compare(Item a, Item b) {
+                        if (a.getRof() < b.getRof()) {
+                            return -1;
+                        } else if (a.getRof() > b.getRof()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+            }
+
             //writeCacheItems(mSiteId, mItems);
-            mFlucCallback.onLoad(mItems);
+            mFluctuationCallback.onLoad(mItems);
         }
     }
 
@@ -1075,7 +1102,7 @@ public class DataManager {
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
-        //if (mUrlLoadCount < 2) {
+            //if (mUrlLoadCount < 2) {
             mTraderItemListCallback.onParse(mUrlLoadCount);
             requestTraderItemList();
         } else {
@@ -1174,7 +1201,7 @@ public class DataManager {
     private void requestRecommendTopItem(final Activity activity) {
         String param = getRequestParameter(Config.KEY_RECOMMEND_TOP, "");
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
-        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_TOP_LIST).post(requestBody).build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECOMMEND_TOP_LIST).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
@@ -1192,7 +1219,7 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "URL: " + Config.URL_NAVER_RECO_TOP_LIST);
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECOMMEND_TOP_LIST);
                 parseRecommendTopItem("");
             }
         });
@@ -1245,7 +1272,7 @@ public class DataManager {
     private void requestRecommendCurrentItem(final Activity activity) {
         String param = getRequestParameter(Config.KEY_RECOMMEND_CURRENT, "");
         RequestBody requestBody = RequestBody.create(Config.JSON, param);
-        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECO_CURRENT_LIST).post(requestBody).build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(Config.URL_NAVER_RECOMMEND_CURRENT_LIST).post(requestBody).build();
         OkHttpSingleton.getInstance().getClient().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
@@ -1263,7 +1290,7 @@ public class DataManager {
             public void onFailure(Call call, IOException e) {
                 call.cancel();
                 Log.e(TAG, "ERROR: " + e.getMessage());
-                Log.e(TAG, "URL: " + Config.URL_NAVER_RECO_CURRENT_LIST);
+                Log.e(TAG, "URL: " + Config.URL_NAVER_RECOMMEND_CURRENT_LIST);
                 parseRecommendCurrentItem("");
             }
         });

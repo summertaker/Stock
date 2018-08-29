@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -78,7 +77,7 @@ public class BaseApplication extends Application {
     private ArrayList<Site> mNewsPagerItems = new ArrayList<>();
     private ArrayList<Site> mTopPagerItems = new ArrayList<>();
     private ArrayList<Site> mWeekPagerItems = new ArrayList<>();
-    private ArrayList<Site> mFlucPagerItems = new ArrayList<>();
+    private ArrayList<Site> mFluctuationPagerItems = new ArrayList<>();
     private ArrayList<Site> mTradePagerItems = new ArrayList<>();
     private ArrayList<Site> mTraderPagerItems = new ArrayList<>();
     private ArrayList<Site> mRecommendPagerItems = new ArrayList<>();
@@ -132,13 +131,13 @@ public class BaseApplication extends Application {
         mWeekPagerItems.add(new Site(Config.KEY_WEEK_NB, getString(R.string.pager_item_week_nb), ""));
 
         // 등락 페이저 아이템
-        mFlucPagerItems.add(new Site(Config.KEY_FLUC_RISE, getString(R.string.pager_item_fluc_rise), ""));
+        mFluctuationPagerItems.add(new Site(Config.KEY_FLUCTUATION_RISE, getString(R.string.pager_item_fluc_rise), ""));
         // 급등 - 파서 구현해야 함
-        //mFlucPagerItems.add(new Site(Config.KEY_FLUC_JUMP, getString(R.string.pager_item_fluc_jump), ""));
+        //mFlucPagerItems.add(new Site(Config.KEY_FLUCTUATION_JUMP, getString(R.string.pager_item_fluc_jump), ""));
         //mFlucPagerItems.add(new Site(Config.KEY_FLUC_CEILING, getString(R.string.pager_item_fluc_ceiling), ""));
-        mFlucPagerItems.add(new Site(Config.KEY_FLUC_FALL, getString(R.string.pager_item_fluc_fall), ""));
+        mFluctuationPagerItems.add(new Site(Config.KEY_FLUCTUATION_FALL, getString(R.string.pager_item_fluc_fall), ""));
         // 급락 - 파서 구현해야 함
-        //mFlucPagerItems.add(new Site(Config.KEY_FLUC_CRASH, getString(R.string.pager_item_fluc_crash), ""));
+        //mFlucPagerItems.add(new Site(Config.KEY_FLUCTUATION_CRASH, getString(R.string.pager_item_fluc_crash), ""));
         //mFlucPagerItems.add(new Site(Config.KEY_FLUC_FLOOR, getString(R.string.pager_item_fluc_floor), ""));
 
         // 매매 페이저 아이템
@@ -156,8 +155,8 @@ public class BaseApplication extends Application {
         mTraderPagerItems.add(new Site(Config.KEY_TRADER_SELL, null, getString(R.string.pager_item_trader_sell), ""));
 
         // 추천 페이저 아이템
-        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_CURRENT, getString(R.string.pager_item_recommend_current), Config.URL_NAVER_RECO_CURRENT_LIST));
-        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_TOP, getString(R.string.pager_item_recommend_top), Config.URL_NAVER_RECO_TOP_LIST));
+        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_CURRENT, getString(R.string.pager_item_recommend_current), Config.URL_NAVER_RECOMMEND_CURRENT_LIST));
+        mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_TOP, getString(R.string.pager_item_recommend_top), Config.URL_NAVER_RECOMMEND_TOP_LIST));
         mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_RETURN, getString(R.string.pager_item_recommend_return), Config.URL_NAVER_RECOMMEND_RETURN_LIST));
         //mRecommendPagerItems.add(new Site(Config.KEY_RECOMMEND_WISE, getString(R.string.pager_item_recommend_wise), Config.URL_NAVER_RECOMMEND_WISE_LIST));
 
@@ -289,8 +288,8 @@ public class BaseApplication extends Application {
         return mNewsPagerItems;
     }
 
-    public ArrayList<Site> getFlucPagerItems() {
-        return mFlucPagerItems;
+    public ArrayList<Site> getFluctuationPagerItems() {
+        return mFluctuationPagerItems;
     }
 
     public ArrayList<Site> getTradePagerItems() {

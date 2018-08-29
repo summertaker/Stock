@@ -17,7 +17,6 @@ import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Site;
-import com.summertaker.stock.trade.TradeFragment;
 import com.summertaker.stock.util.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -35,6 +34,8 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
 
         mContext = FluctuationActivity.this;
         initBaseActivity(mContext);
+
+        mChartMode = true;
 
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +74,7 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fluctuation, menu);
-        //mMenuItemChart = menu.findItem(R.id.action_chart);
+        mMenuItemChart = menu.findItem(R.id.action_chart);
         //setMenuItemChart();
         return true;
     }
@@ -87,9 +88,9 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
                 Intent search = new Intent(this, SearchActivity.class);
                 startActivity(search);
                 return true;
-            //case R.id.action_chart:
-            //    onActionChartClick();
-            //    return true;
+            case R.id.action_chart:
+                onActionChartClick();
+                return true;
             case R.id.action_finish:
                 finish();
                 return true;
@@ -100,7 +101,7 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
     private void init() {
         hideBaseProgress();
 
-        mSites = BaseApplication.getInstance().getTradePagerItems();
+        mSites = BaseApplication.getInstance().getFluctuationPagerItems();
 
         mPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
@@ -127,6 +128,8 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
                 FluctuationFragment fragment = (FluctuationFragment) getSupportFragmentManager().findFragmentByTag(tag);
                 if (fragment != null) {
                     onFragmentItemSizeChange(position, fragment.getItemSize());
+                    mChartMode = fragment.getChartMode();
+                    setMenuItemChart();
                 }
             }
 
@@ -165,7 +168,7 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
 
         @Override
         public Fragment getItem(int position) {
-            return TradeFragment.newInstance(position);
+            return FluctuationFragment.newInstance(position);
         }
 
         @Override
@@ -258,18 +261,11 @@ public class FluctuationActivity extends BaseActivity implements FluctuationFrag
                     //Toast.makeText(mContext, code + ": " + tagIds, Toast.LENGTH_LONG).show();
 
                     // 변경된 포트폴리오 태그 정보 업데이트
-                    Item newItem = null;
-                    for (Item item : BaseApplication.getInstance().getItemPrices()) {
-                        if (item.getCode().equals(code)) {
-                            newItem = item;
-                            newItem.setTagIds(tagIds);
-                            break;
-                        }
-                    }
+                    Item item = new Item();
+                    item.setCode(code);
+                    item.setTagIds(tagIds);
 
-                    if (newItem != null) {
-                        updateFragmentItem(newItem);
-                    }
+                    updateFragmentItem(item);
                 }
             }
         }

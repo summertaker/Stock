@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class NaverParser extends BaseParser {
 
-    public void parseFluc(String response, ArrayList<Item> items) {
+    public void parseFluctuation(String response, ArrayList<Item> items) {
         if (response == null || response.isEmpty()) {
             return;
         }
@@ -95,10 +95,10 @@ public class NaverParser extends BaseParser {
                 }
 
                 //if (rateOfFluctuation > 0) {
-                //    if (siteId.equals(Config.KEY_FLUC_RISE) && rof < rateOfFluctuation) {
+                //    if (siteId.equals(Config.KEY_FLUCTUATION_RISE) && rof < rateOfFluctuation) {
                 //            continue;
                 //    }
-                //    else if (siteId.equals(Config.KEY_FLUC_FALL) && rof > -rateOfFluctuation) {
+                //    else if (siteId.equals(Config.KEY_FLUCTUATION_FALL) && rof > -rateOfFluctuation) {
                 //        continue;
                 //    }
                 //}

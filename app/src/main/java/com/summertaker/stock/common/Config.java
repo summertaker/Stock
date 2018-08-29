@@ -46,11 +46,11 @@ public class Config {
     public final static String PREFERENCE_FAVORITE_MODE_ON = "favorite_mode_on";
     public final static String PREFERENCE_FAVORITE_MODE_OFF = "favorite_mode_off";
 
-    public static String KEY_FLUC_RISE = "fluc_rise";
-    public static String KEY_FLUC_JUMP = "fluc_jump";
+    public static String KEY_FLUCTUATION_RISE = "fluc_rise";
+    public static String KEY_FLUCTUATION_JUMP = "fluc_jump";
     //public static String KEY_FLUC_CEILING = "fluc_ceiling";
-    public static String KEY_FLUC_FALL = "fluc_fall";
-    public static String KEY_FLUC_CRASH = "fluc_crash";
+    public static String KEY_FLUCTUATION_FALL = "fluc_fall";
+    public static String KEY_FLUCTUATION_CRASH = "fluc_crash";
     //public static String KEY_FLUC_FLOOR = "fluc_floor";
 
     public static String KEY_BASE_TRADE = "base_trade";
@@ -127,21 +127,21 @@ public class Config {
     public static String URL_NAVER_NEWS_MAIN = "https://finance.naver.com/news/mainnews.nhn?&page="; // 뉴스 - 주요 뉴스
     public static String URL_NAVER_NEWS_RANKING = "https://finance.naver.com/news/news_list.nhn?mode=RANK&page="; // 뉴스 - 많이 본 뉴스
     //public static String URL_NAVER_NEWS_BREAKING = "https://finance.naver.com/news/news_list.nhn?mode=LSS2D&section_id=101&section_id2=258&page="; // 뉴스 - 속보
-    public static String URL_NAVER_FLUC_RISE_LIST_KOSPI = "https://finance.naver.com/sise/sise_rise.nhn?sosok=0"; // 상승(코스피)
-    public static String URL_NAVER_FLUC_RISE_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_rise.nhn?sosok=1"; // 상승(코스닥)
-    public static String URL_NAVER_FLUC_JUMP_LIST_KOSPI = "https://finance.naver.com/sise/sise_low_up.nhn?sosok=0"; // 급등(코스피)
-    public static String URL_NAVER_FLUC_JUMP_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_low_up.nhn?sosok=1"; // 급등(코스닥)
-    //public static String URL_NAVER_FLUC_CEILING_LIST = "https://finance.naver.com/sise/sise_upper.nhn"; // 상한가
-    public static String URL_NAVER_FLUC_FALL_LIST_KOSPI = "https://finance.naver.com/sise/sise_fall.nhn?sosok=0"; // 하락(코스피)
-    public static String URL_NAVER_FLUC_FALL_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_fall.nhn?sosok=1"; // 하락(코스닥)
-    public static String URL_NAVER_FLUC_CRASH_LIST_KOSPI = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=0"; // 급락(코스피)
-    public static String URL_NAVER_FLUC_CRASH_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=1"; // 급락(코스닥)
-    //public static String URL_NAVER_FLUC_FLOOR_LIST = "https://finance.naver.com/sise/sise_lower.nhn"; // 하한가
+    public static String URL_NAVER_FLUCTUATION_RISE_LIST_KOSPI = "https://finance.naver.com/sise/sise_rise.nhn?sosok=0"; // 상승(코스피)
+    public static String URL_NAVER_FLUCTUATION_RISE_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_rise.nhn?sosok=1"; // 상승(코스닥)
+    public static String URL_NAVER_FLUCTUATION_JUMP_LIST_KOSPI = "https://finance.naver.com/sise/sise_low_up.nhn?sosok=0"; // 급등(코스피)
+    public static String URL_NAVER_FLUCTUATION_JUMP_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_low_up.nhn?sosok=1"; // 급등(코스닥)
+    //public static String URL_NAVER_FLUCTUATION_CEILING_LIST = "https://finance.naver.com/sise/sise_upper.nhn"; // 상한가
+    public static String URL_NAVER_FLUCTUATION_FALL_LIST_KOSPI = "https://finance.naver.com/sise/sise_fall.nhn?sosok=0"; // 하락(코스피)
+    public static String URL_NAVER_FLUCTUATION_FALL_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_fall.nhn?sosok=1"; // 하락(코스닥)
+    public static String URL_NAVER_FLUCTUATION_CRASH_LIST_KOSPI = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=0"; // 급락(코스피)
+    public static String URL_NAVER_FLUCTUATION_CRASH_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=1"; // 급락(코스닥)
+    //public static String URL_NAVER_FLUCTUATION_FLOOR_LIST = "https://finance.naver.com/sise/sise_lower.nhn"; // 하한가
     public static String URL_NAVER_RECOMMEND_RETURN_LIST = "https://recommend.finance.naver.com/Home/GetYieldList"; // 추천 수익률
-    public static String URL_NAVER_RECO_TOP_LIST = "https://recommend.finance.naver.com/Home/GetTopCompanyList"; // 추천수 상위
-    public static String URL_NAVER_RECO_CURRENT_LIST = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 현재 추천
+    public static String URL_NAVER_RECOMMEND_TOP_LIST = "https://recommend.finance.naver.com/Home/GetTopCompanyList"; // 추천수 상위
+    public static String URL_NAVER_RECOMMEND_CURRENT_LIST = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 현재 추천
     public static String URL_NAVER_RECOMMEND_REASON = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 종목 추천 사유
-    public static String URL_NAVER_RECO_WISE_LIST = "https://m.stock.naver.com/api/json/sise/recomItemListJson.nhn?pageSize=20&page="; // 와이즈 리포트 추천
+    public static String URL_NAVER_RECOMMEND_WISE_LIST = "https://m.stock.naver.com/api/json/sise/recomItemListJson.nhn?pageSize=20&page="; // 와이즈 리포트 추천
     public static String URL_NAVER_SEARCH = "https://m.search.naver.com/search.naver?query=%s";
     public static String URL_NAVER_FINANCE = "https://m.stock.naver.com/item/main.nhn#/stocks/%s/total";
 
