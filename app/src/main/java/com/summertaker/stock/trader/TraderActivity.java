@@ -1,5 +1,6 @@
 package com.summertaker.stock.trader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseActivity;
 import com.summertaker.stock.common.BaseApplication;
+import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Site;
@@ -28,7 +30,7 @@ public class TraderActivity extends BaseActivity implements TraderFragment.Callb
     private SectionsPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
-    private ArrayList<Item> mItems = new ArrayList<>();
+    //private ArrayList<Item> mItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +142,20 @@ public class TraderActivity extends BaseActivity implements TraderFragment.Callb
         }
     }
 
+    public void updateFragmentItem(Item item) {
+        //--------------------------------------------------------------------------------------------
+        // 프레그먼트에 이벤트 전달하기
+        // https://stackoverflow.com/questions/34861257/how-can-i-set-a-tag-for-viewpager-fragments
+        //--------------------------------------------------------------------------------------------
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            String tag = "android:switcher:" + R.id.viewpager + ":" + i;
+            TraderFragment fragment = (TraderFragment) getSupportFragmentManager().findFragmentByTag(tag);
+            if (fragment != null) {
+                fragment.updateFragmentItem(item);
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.trader, menu);
@@ -186,5 +202,29 @@ public class TraderActivity extends BaseActivity implements TraderFragment.Callb
     @Override
     public void onFragmentItemSizeChange(int position, int itemSize) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            String param = data.getStringExtra(Config.KEY_PARAM);
+            if (param != null) {
+                //Toast.makeText(mContext, param, Toast.LENGTH_SHORT).show();
+
+                if (param.equals(Config.PARAM_DATA_CHANGED)) {
+                    // 종목 상세 화면에서 내용이 변경되어 돌아 온 경우
+                    String code = data.getStringExtra("code");
+                    String tagIds = data.getStringExtra("tagIds");
+                    //Toast.makeText(mContext, code + ": " + tagIds, Toast.LENGTH_LONG).show();
+
+                    // 변경된 포트폴리오 태그 정보 업데이트
+                    Item item = new Item();
+                    item.setCode(code);
+                    item.setTagIds(tagIds);
+
+                    updateFragmentItem(item);
+                }
+            }
+        }
     }
 }

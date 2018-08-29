@@ -23,6 +23,7 @@ import com.summertaker.stock.setting.SettingActivity;
 import com.summertaker.stock.setting.TagListActivity;
 import com.summertaker.stock.setting.WordCategoryActivity;
 import com.summertaker.stock.trade.TradeActivity;
+import com.summertaker.stock.trader.TraderActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -209,7 +210,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
-        /*
         // 거래원
         LinearLayout loTrader = findViewById(R.id.loTrader);
         loTrader.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +219,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
-        */
 
         // 추천
         LinearLayout loRecommend = findViewById(R.id.loReco);

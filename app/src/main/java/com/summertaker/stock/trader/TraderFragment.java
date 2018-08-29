@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,7 @@ import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
 import com.summertaker.stock.common.BaseFragment;
 import com.summertaker.stock.common.Config;
+import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Site;
@@ -39,7 +41,8 @@ public class TraderFragment extends BaseFragment {
     private ArrayList<Item> mItems = new ArrayList<>();
     private TraderAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private DividerItemDecoration mDividerItemDecoration;
+    //private DividerItemDecoration mDividerItemDecoration;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean mChartMode = true;
 
@@ -119,10 +122,50 @@ public class TraderFragment extends BaseFragment {
 
         //mDividerItemDecoration = new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
 
+        mSwipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         showBaseProgress();
         parseData();
 
         return rootView;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        //Log.e(">>", menuItem.getGroupId() + ", " + menuItem.getItemId());
+
+        int position = menuItem.getOrder();
+        if (position == mPosition) {
+            int itemId = menuItem.getItemId();
+            Item item = mItems.get(itemId);
+
+            String tagId = String.valueOf(menuItem.getGroupId());
+            mDataManager.setItemTagIds(item, tagId);
+
+            //if (item.getTagIds().isEmpty()) {
+            //    mItems.remove(itemId);
+            //    mAdapter.notifyItemRemoved(itemId);
+            //} else {
+            mAdapter.notifyItemChanged(itemId);
+            //}
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+                @Override
+                public void onItemTagSaved() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        }
+
+        return super.onContextItemSelected(menuItem);
     }
 
     private void parseData() {

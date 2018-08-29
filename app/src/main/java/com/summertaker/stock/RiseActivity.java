@@ -294,7 +294,7 @@ public class RiseActivity extends BaseActivity {
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
 
-            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
+            String chartUrl = mChartMode ? BaseApplication.getChartUrl(item.getCode()) : BaseApplication.getWeekChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
             item.setChartUrl(chartUrl);
         }

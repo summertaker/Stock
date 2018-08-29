@@ -1,7 +1,6 @@
 package com.summertaker.stock.trader;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.summertaker.stock.R;
 import com.summertaker.stock.common.BaseApplication;
-import com.summertaker.stock.common.Config;
 import com.summertaker.stock.data.Item;
 import com.summertaker.stock.data.Tag;
 
@@ -26,12 +24,10 @@ import java.util.ArrayList;
 public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private Resources mResources;
     private ArrayList<Item> mItems;
 
     public TraderAdapter(Context context, ArrayList<Item> items) {
         this.mContext = context;
-        this.mResources = context.getResources();
         this.mItems = items;
     }
 
@@ -104,7 +100,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.ItemViewHo
         }
 
         // 차트
-        String chartUrl = BaseApplication.getDayChartUrl(item.getCode());
+        String chartUrl = BaseApplication.getWeekCandleChartUrl(item.getCode());
         Glide.with(mContext).load(chartUrl).apply(new RequestOptions()).into(holder.ivChart);
     }
 

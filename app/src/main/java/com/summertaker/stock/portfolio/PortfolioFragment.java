@@ -40,7 +40,7 @@ public class PortfolioFragment extends BaseFragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean mIsFirstLoading = true;
-    private boolean mChartMode = false;
+    private boolean mChartMode = true;
 
     // Container Activity must implement this interface
     public interface Callback {
@@ -233,8 +233,7 @@ public class PortfolioFragment extends BaseFragment {
         //long millis = System.currentTimeMillis();
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
-            String chartUrl = mChartMode ? BaseApplication.getDayCandleChartUrl(item.getCode()) :
-                    BaseApplication.getDayChartUrl(item.getCode());
+            String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayCandleChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }
 

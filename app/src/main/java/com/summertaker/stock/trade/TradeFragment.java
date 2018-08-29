@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +19,7 @@ import com.summertaker.stock.common.BaseFragment;
 import com.summertaker.stock.common.Config;
 import com.summertaker.stock.common.DataManager;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Site;
 import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.RecyclerTouchListener;
@@ -38,6 +41,7 @@ public class TradeFragment extends BaseFragment {
     private TradeAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private DividerItemDecoration mDividerItemDecoration;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean mChartMode = true;
 
@@ -89,7 +93,7 @@ public class TradeFragment extends BaseFragment {
 
         mSite = BaseApplication.getInstance().getTradePagerItems().get(mPosition);
 
-        mAdapter = new TradeAdapter(mContext, mItems);
+        mAdapter = new TradeAdapter(mContext, mPosition, mItems);
         mAdapter.setHasStableIds(true);
 
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -109,7 +113,8 @@ public class TradeFragment extends BaseFragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                mEventListener.onTradeFragmentEvent(Config.PARAM_FINISH);
+                //mEventListener.onTradeFragmentEvent(Config.PARAM_FINISH);
+
                 //Util.startKakaoStockDeepLink(mContext, mItems.get(position).getCode());
                 //mDataManager.updateMyItem(mItems.get(position).getCode(), Config.KEY_FAVORITES);
                 //mEventListener.onFragmentEvent(Config.PARAM_DATA_CHANGED);
@@ -117,6 +122,14 @@ public class TradeFragment extends BaseFragment {
         }));
 
         mDividerItemDecoration = new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
+
+        mSwipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         showBaseProgress();
 
@@ -201,6 +214,12 @@ public class TradeFragment extends BaseFragment {
                             id++;
                         }
                     }
+
+                    for (Portfolio portfolio : BaseApplication.getInstance().getPortfolios()) {
+                        if (portfolio.getCode().equals(item.getCode())) {
+                            item.setTagIds(portfolio.getTagIds());
+                        }
+                    }
                 }
 
                 renderData();
@@ -209,6 +228,38 @@ public class TradeFragment extends BaseFragment {
         mDataManager.loadTrade(mSite.getId());
 
         return rootView;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        //Log.e(">>", menuItem.getGroupId() + ", " + menuItem.getItemId());
+
+        int position = menuItem.getOrder();
+        if (position == mPosition) {
+            int itemId = menuItem.getItemId();
+            Item item = mItems.get(itemId);
+
+            String tagId = String.valueOf(menuItem.getGroupId());
+            mDataManager.setItemTagIds(item, tagId);
+
+            //if (item.getTagIds().isEmpty()) {
+            //    mItems.remove(itemId);
+            //    mAdapter.notifyItemRemoved(itemId);
+            //} else {
+            mAdapter.notifyItemChanged(itemId);
+            //}
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            mDataManager.setOnItemTagSaved(new DataManager.ItemTagCallback() {
+                @Override
+                public void onItemTagSaved() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            mDataManager.saveItemTag(item.getCode(), item.getTagIds());
+        }
+
+        return super.onContextItemSelected(menuItem);
     }
 
     private void renderData() {

@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -352,6 +353,11 @@ public class BaseApplication extends Application {
         //return "https://fn-chart.dunamu.com/images/kr/candle/w/A" + code + ".png?" + millis; // 다음 주봉
         //return "https://fn-chart.dunamu.com/images/kr/candle/m/A" + code + ".png?" + millis; // 다음 월봉
         //return "https://chart-finance.daumcdn.net/time3/year/" + code +"-290157.png?date=" + millis; // 다음 1년
+    }
+
+    public static String getWeekChartUrl(String code) {
+        long millis = System.currentTimeMillis();
+        return "https://ssl.pstatic.net/imgfinance/chart/item/area/week/" + code + ".png?sidcode=" + millis;
     }
 
     public static String getDayCandleChartUrl(String code) {
