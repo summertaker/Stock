@@ -261,7 +261,7 @@ public class RecommendFragment extends BaseFragment {
                         item.setPof(bi.getPof());       // 전일비
                         item.setRof(bi.getRof());       // 등락률
                         item.setTagIds(bi.getTagIds()); // 태그
-                        //item.setNor(bi.getNor());       // 추천수
+                        item.setNor(bi.getNor());       // 추천수
                         mItems.add(item);
                         id++;
 

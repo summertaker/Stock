@@ -539,7 +539,7 @@ public class DataManager {
 
     private void parseItemPrice(String response) {
         DaumParser daumParser = new DaumParser();
-        daumParser.parsePriceList(response, mItems);
+        daumParser.parsePriceListJson(response, mItems);
 
         mUrlLoadCount++;
         if (mUrlLoadCount < mUrls.size()) {
@@ -1299,7 +1299,7 @@ public class DataManager {
     private void parseRecommendCurrentItem(String response) {
         NaverParser naverParser = new NaverParser();
         naverParser.parseRecommend(response, Config.KEY_RECOMMEND_CURRENT, mItems, false);
-        //Log.e(TAG, "RecommendCurrentItems.size(): " + BaseApplication.getInstance().getRecommendCurrentItems().size());
+        Log.e(TAG, "RecommendCurrentItems.size(): " + mItems.size());
 
         //writeCacheItems(Config.KEY_RECOMMEND_CURRENT, mItems);
         mRecommendCurrentItemCallback.onLoad(mItems);

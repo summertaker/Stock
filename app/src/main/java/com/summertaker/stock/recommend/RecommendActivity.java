@@ -51,6 +51,9 @@ public class RecommendActivity extends BaseActivity implements RecommendFragment
 
         showBaseProgress(2);
         loadItemPrice();
+
+        //showBaseProgress(0);
+        //init();
     }
 
     @Override

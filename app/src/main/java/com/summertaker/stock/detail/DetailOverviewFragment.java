@@ -91,7 +91,11 @@ public class DetailOverviewFragment extends BaseFragment {
 
         // 개요
         TextView tvDescription = rootView.findViewById(R.id.tvDescription);
-        tvDescription.setText(Html.fromHtml(mItem.getOverview(), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+        if (mItem.getOverview() == null) {
+            tvDescription.setVisibility(View.GONE);
+        } else {
+            tvDescription.setText(Html.fromHtml(mItem.getOverview(), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+        }
 
         return rootView;
     }

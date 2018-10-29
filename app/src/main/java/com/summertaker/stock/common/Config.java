@@ -97,8 +97,10 @@ public class Config {
     public static String PARAM_FINISH = "finish";
     public static String PARAM_REFRESH_ALL_FRAGMENT = "refresh_all_fragment";
 
-    public static String URL_DAUM_PRICE_KOSPI = "http://finance.daum.net/quote/all.daum?type=S&stype=P";
-    public static String URL_DAUM_PRICE_KOSDAQ = "http://finance.daum.net/quote/all.daum?type=S&stype=Q";
+    //public static String URL_DAUM_PRICE_KOSPI = "http://finance.daum.net/quote/all.daum?type=S&stype=P";
+    public static String URL_DAUM_PRICE_KOSPI = "http://finance.daum.net/api/quotes/stocks?fieldName=&order=&perPage=&market=KOSPI&page=&changes=UPPER_LIMIT%2CRISE%2CEVEN%2CFALL%2CLOWER_LIMIT";
+    //public static String URL_DAUM_PRICE_KOSDAQ = "http://finance.daum.net/quote/all.daum?type=S&stype=Q";
+    public static String URL_DAUM_PRICE_KOSDAQ = "http://finance.daum.net/api/quotes/stocks?fieldName=&order=&perPage=&market=KOSDAQ&page=&changes=UPPER_LIMIT%2CRISE%2CEVEN%2CFALL%2CLOWER_LIMIT";
     public static String URL_DAUM_DETAIL = "http://finance.daum.net/item/main.daum?code=";
     public static String URL_DAUM_DOMESTIC = "http://finance.daum.net/quote/index.daum";
     //public static String URL_DAUM_RISE_LIST = "http://finance.daum.net/quote/rise.daum?stype=P&col=pchgrate&order=desc&page=";

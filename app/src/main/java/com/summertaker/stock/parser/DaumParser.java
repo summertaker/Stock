@@ -1,13 +1,20 @@
 package com.summertaker.stock.parser;
 
+import android.util.Log;
+
 import com.summertaker.stock.common.BaseParser;
 import com.summertaker.stock.data.Item;
+import com.summertaker.stock.util.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class DaumParser extends BaseParser {
@@ -195,6 +202,37 @@ public class DaumParser extends BaseParser {
         return item;
     }
 
+    public void parsePriceListJson(String response, ArrayList<Item> items) {
+        if (response == null || response.isEmpty()) {
+            return;
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+
+                String code = Util.getString(obj, "symbolCode");
+                code = code.substring(1, code.length());
+
+                Item item = new Item();
+                item.setId(i+1);
+                item.setName(Util.getString(obj, "name"));
+                item.setCode(code);
+                item.setPrice(Util.getInt(obj, "tradePrice"));
+                item.setPof(Util.getInt(obj, "changePrice"));
+                item.setRof(BigDecimal.valueOf(Util.getDouble(obj, "changeRate")).floatValue()); // 등락률
+
+                Log.e(TAG, item.getCode() + " " + item.getName() + " " + item.getPrice() + " / " + item.getRof());
+
+                items.add(item);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void parsePriceList(String response, ArrayList<Item> items) {
         if (response == null || response.isEmpty()) {
             return;
@@ -248,7 +286,7 @@ public class DaumParser extends BaseParser {
         float rof = Float.valueOf(temp);
         item.setRof(rof);
 
-        //Log.e(TAG, name + " " + price + " / " + rof);
+        Log.e(TAG, name + " " + price + " / " + rof);
 
         items.add(item);
     }
@@ -554,8 +592,11 @@ public class DaumParser extends BaseParser {
         }
 
         // 개요
-        Element overview = doc.getElementsByClass("tooltip_overview hide").get(0);
-        item.setOverview(overview.html());
+        Elements overviews = doc.getElementsByClass("tooltip_overview hide");
+        if (overviews != null && overviews.size() > 0) {
+            Element overview = overviews.first();
+            item.setOverview(overview.html());
+        }
 
         // 상세
         Elements uls = doc.getElementsByTag("ul");
