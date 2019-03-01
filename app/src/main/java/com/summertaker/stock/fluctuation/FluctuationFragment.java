@@ -217,7 +217,8 @@ public class FluctuationFragment extends BaseFragment {
     private void renderData() {
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
-            String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
+            //String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
+            String chartUrl = mChartMode ? BaseApplication.getWeekCandleChartUrl(item.getCode()) : BaseApplication.getWeekChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }
 

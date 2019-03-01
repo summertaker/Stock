@@ -158,6 +158,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
         */
 
+        /*
         // 뉴스
         LinearLayout loNews = findViewById(R.id.loNews);
         loNews.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +168,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
+        /*
         // 포트폴리오
         LinearLayout loPortfolio = findViewById(R.id.loPortfolio);
         loPortfolio.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +180,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         /*
         // 상승
@@ -210,6 +214,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 거래원
         LinearLayout loTrader = findViewById(R.id.loTrader);
         loTrader.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +224,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
 
         // 추천
         LinearLayout loRecommend = findViewById(R.id.loReco);
@@ -230,6 +236,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        /*
         // 태그
         TextView tvTag = findViewById(R.id.tvTag);
         tvTag.setOnClickListener(new View.OnClickListener() {
@@ -259,6 +266,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
             }
         });
+        */
     }
 
     @Override

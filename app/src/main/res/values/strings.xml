@@ -161,9 +161,9 @@
     <string name="main_item_all_title">ITEM</string>
     <string name="main_item_all_subtitle">전종목</string>
     <string name="main_item_fluctuation_title">FLUCTUATION</string>
-    <string name="main_item_fluctuation_subtitle">등락</string>
+    <string name="main_item_fluctuation_subtitle">상승/하락</string>
     <string name="main_item_trade_title">TRADE</string>
-    <string name="main_item_trade_subtitle">매매</string>
+    <string name="main_item_trade_subtitle">외국인/기관 매매</string>
     <string name="main_item_trader_title">TRADER</string>
     <string name="main_item_trader_subtitle">거래원</string>
     <string name="main_item_buy_title">BUY</string>
@@ -173,7 +173,7 @@
     <string name="main_item_week_title">WEEK</string>
     <string name="main_item_week_subtitle">주간 상위</string>
     <string name="main_item_recommend_title">RECOMMEND</string>
-    <string name="main_item_recommend_subtitle">추천</string>
+    <string name="main_item_recommend_subtitle">추천 종목</string>
     <string name="main_item_tag_title">TAG</string>
     <string name="main_item_word_title">WORD</string>
     <string name="main_item_word_subtitle">강조, 제외 글자</string>

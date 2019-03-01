@@ -49,11 +49,11 @@ public class RecommendActivity extends BaseActivity implements RecommendFragment
 
         mListMode = false;
 
-        showBaseProgress(2);
-        loadItemPrice();
+        //showBaseProgress(2);
+        //loadItemPrice();
 
-        //showBaseProgress(0);
-        //init();
+        showBaseProgress(0);
+        init();
     }
 
     @Override

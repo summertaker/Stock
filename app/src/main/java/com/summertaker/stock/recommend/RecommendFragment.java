@@ -159,8 +159,8 @@ public class RecommendFragment extends BaseFragment {
             //-------------------
             // 추천수 상위
             //-------------------
-            parseData(BaseApplication.getInstance().getRecommendTopItems());
-            /*
+            //parseData(BaseApplication.getInstance().getRecommendTopItems());
+
             mDataManager.setOnRecommendTopItemLoaded(new DataManager.RecommendTopItemCallback() {
                 @Override
                 public void onLoad() {
@@ -168,7 +168,6 @@ public class RecommendFragment extends BaseFragment {
                 }
             });
             mDataManager.loadRecommendTopItem((Activity) mContext);
-            */
         } else if (mSite.getId().equals(Config.KEY_RECOMMEND_RETURN)) {
             //-------------------
             // 추천 종목 수익률

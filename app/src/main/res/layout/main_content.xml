@@ -53,6 +53,7 @@
             -->
 
         <!-- 뉴스 -->
+        <!--
         <LinearLayout
             android:id="@+id/loNews"
             android:layout_width="match_parent"
@@ -83,8 +84,10 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+            -->
 
         <!-- 포트폴리오 -->
+        <!--
         <LinearLayout
             android:id="@+id/loPortfolio"
             android:layout_width="match_parent"
@@ -115,6 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+            -->
 
         <!-- 상승 -->
         <!--
@@ -215,6 +219,7 @@
             android:background="#ccc" />
 
         <!-- 거래원 -->
+        <!--
         <LinearLayout
             android:id="@+id/loTrader"
             android:layout_width="match_parent"
@@ -245,6 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+        -->
 
         <!-- 추천 -->
         <LinearLayout
@@ -273,17 +279,20 @@
 
         </LinearLayout>
 
+        <!--
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc" />
+            -->
 
+        <!-- 설정 -->
+        <!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
 
-            <!-- 태그 -->
             <TextView
                 android:id="@+id/tvTag"
                 android:layout_width="0dp"
@@ -302,7 +311,6 @@
                 android:layout_height="match_parent"
                 android:background="#ccc" />
 
-            <!-- 단어 -->
             <TextView
                 android:id="@+id/tvWord"
                 android:layout_width="0dp"
@@ -321,7 +329,6 @@
                 android:layout_height="match_parent"
                 android:background="#ccc" />
 
-            <!-- 설정 -->
             <TextView
                 android:id="@+id/tvSetting"
                 android:layout_width="0dp"
@@ -336,6 +343,7 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+        -->
 
     </LinearLayout>
 
