@@ -144,6 +144,7 @@ public class RecommendFragment extends BaseFragment {
 
         //final DataManager dm = new DataManager(mContext);
 
+        //Log.e(TAG, "mSite.getId(): " + mSite.getId());
         if (mSite.getId().equals(Config.KEY_RECOMMEND_CURRENT)) {
             //-------------------
             // 현재 추천 종목
@@ -250,6 +251,7 @@ public class RecommendFragment extends BaseFragment {
     private void parseData(ArrayList<Item> items) {
         mItems.clear();
 
+        /*
         long id = 1;
         for (Item item : items) {
             for (Item bi : BaseApplication.getInstance().getItemPrices()) {
@@ -270,6 +272,18 @@ public class RecommendFragment extends BaseFragment {
                     }
                 }
             }
+        }
+        */
+
+        long id = 1;
+        for (Item item : items) {
+            item.setId(id);
+            mItems.add(item);
+            id++;
+
+            //if (mSite.getId().equals(Config.KEY_RECOMMEND_CURRENT)) {
+            //    Log.e(TAG, item.getName() + " " + item.getNor());
+            //}
         }
 
         /*
@@ -295,6 +309,7 @@ public class RecommendFragment extends BaseFragment {
         }
         */
 
+        /*
         for (Item item : mItems) {
             for (Portfolio portfolio : BaseApplication.getInstance().getPortfolios()) {
                 if (portfolio.getCode().equals(item.getCode())) {
@@ -302,6 +317,7 @@ public class RecommendFragment extends BaseFragment {
                 }
             }
         }
+        */
 
         renderData();
     }
