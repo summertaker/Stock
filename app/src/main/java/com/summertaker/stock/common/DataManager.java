@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -522,6 +523,7 @@ public class DataManager {
         StringRequest strReq = new StringRequest(Request.Method.GET, mUrls.get(mUrlLoadCount), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //Log.e(TAG, response);
                 parseItemPrice(response);
             }
         }, new Response.ErrorListener() {
@@ -531,7 +533,29 @@ public class DataManager {
                 Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_SHORT).show();
                 parseItemPrice("");
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("fieldName", "");
+                params.put("order", "");
+                params.put("perPage", "");
+                params.put("market", "KOSPI");
+                params.put("page", "");
+                params.put("changes", "UPPER_LIMIT,RISE,EVEN,FALL,LOWER_LIMIT");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Host", "finance.daum.net");
+                params.put("Referer", "http://finance.daum.net/domestic/all_stocks");
+                params.put("User-Age", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0");
+                params.put("X-Requested-With", "XMLHttpRequest");
+                return params;
+            }
+        };
 
         BaseApplication.getInstance().addToRequestQueue(strReq, TAG);
         //}
@@ -1230,19 +1254,18 @@ public class DataManager {
         naverParser.parseRecommend(response, Config.KEY_RECOMMEND_TOP, mItems, false);
         //Log.e(TAG, "mItems.size() = " + mItems.size());
 
-        /*
-        for (Item bi : BaseApplication.getInstance().getBaseItems()) {
+        BaseApplication.getInstance().getRecommendTopItems().clear();
+        BaseApplication.getInstance().getRecommendTopItems().addAll(mItems);
+        //writeCacheItems(Config.KEY_RECOMMEND_TOP, BaseApplication.getInstance().getRecommendTopItems());
+
+        for (Item bi : BaseApplication.getInstance().getItemPrices()) {
             for (Item item : mItems) {
                 if (bi.getCode().equals(item.getCode())) {
                     bi.setNor(item.getNor());
                 }
             }
         }
-        */
 
-        BaseApplication.getInstance().getRecommendTopItems().clear();
-        BaseApplication.getInstance().getRecommendTopItems().addAll(mItems);
-        //writeCacheItems(Config.KEY_RECOMMEND_TOP, BaseApplication.getInstance().getRecommendTopItems());
         mRecommendTopItemCallback.onLoad();
     }
 

@@ -251,7 +251,6 @@ public class RecommendFragment extends BaseFragment {
     private void parseData(ArrayList<Item> items) {
         mItems.clear();
 
-        /*
         long id = 1;
         for (Item item : items) {
             for (Item bi : BaseApplication.getInstance().getItemPrices()) {
@@ -273,8 +272,8 @@ public class RecommendFragment extends BaseFragment {
                 }
             }
         }
-        */
 
+        /*
         long id = 1;
         for (Item item : items) {
             item.setId(id);
@@ -285,6 +284,7 @@ public class RecommendFragment extends BaseFragment {
             //    Log.e(TAG, item.getName() + " " + item.getNor());
             //}
         }
+        */
 
         /*
         if (mSite.getId().equals(Config.KEY_RECOMMEND_TOP)) {
