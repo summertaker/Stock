@@ -905,41 +905,43 @@ public class DataManager {
         } else {
             //Log.e(TAG, "mTrades.size(): " + mTrades.size());
 
-            // 추천수
-            for (Item item : mItems) {
-                for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
-                    if (item.getCode().equals(ti.getCode())) {
-                        item.setNor(ti.getNor());
+            if (mItems.size() > 0) {
+                // 추천수
+                for (Item item : mItems) {
+                    for (Item ti : BaseApplication.getInstance().getRecommendTopItems()) {
+                        if (item.getCode().equals(ti.getCode())) {
+                            item.setNor(ti.getNor());
+                        }
                     }
                 }
-            }
 
-            if (mItems.get(0).isForeigner() || mItems.get(0).isInstitution()) {
-                // 거래금액으로 정렬
-                Collections.sort(mItems, new Comparator<Item>() {
-                    @Override
-                    public int compare(Item a, Item b) {
-                        if (a.getPot() < b.getPot()) {
-                            return 1;
-                        } else if (a.getPot() > b.getPot()) {
-                            return -1;
+                if (mItems.get(0).isForeigner() || mItems.get(0).isInstitution()) {
+                    // 거래금액으로 정렬
+                    Collections.sort(mItems, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item a, Item b) {
+                            if (a.getPot() < b.getPot()) {
+                                return 1;
+                            } else if (a.getPot() > b.getPot()) {
+                                return -1;
+                            }
+                            return 0;
                         }
-                        return 0;
-                    }
-                });
-            } else {
-                // 거래량 정렬
-                Collections.sort(mItems, new Comparator<Item>() {
-                    @Override
-                    public int compare(Item a, Item b) {
-                        if (a.getVot() < b.getVot()) {
-                            return 1;
-                        } else if (a.getVot() > b.getVot()) {
-                            return -1;
+                    });
+                } else {
+                    // 거래량 정렬
+                    Collections.sort(mItems, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item a, Item b) {
+                            if (a.getVot() < b.getVot()) {
+                                return 1;
+                            } else if (a.getVot() > b.getVot()) {
+                                return -1;
+                            }
+                            return 0;
                         }
-                        return 0;
-                    }
-                });
+                    });
+                }
             }
 
             //writeCacheItems(mSiteId, mItems);

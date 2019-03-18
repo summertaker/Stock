@@ -171,12 +171,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/main_item_fluctuation_title"
                 android:textColor="@color/ink"
+                android:textSize="@dimen/main_menu_title_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ns"
+                android:textSize="@dimen/main_menu_subtitle_size"
                 android:text="@string/main_item_fluctuation_subtitle" />
 
         </LinearLayout>
@@ -203,12 +205,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/main_item_trade_title"
                 android:textColor="@color/ink"
+                android:textSize="@dimen/main_menu_title_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ns"
+                android:textSize="@dimen/main_menu_subtitle_size"
                 android:text="@string/main_item_trade_subtitle" />
 
         </LinearLayout>
@@ -268,6 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_item_recommend_title"
+                android:textSize="@dimen/main_menu_title_size"
                 android:textColor="@color/ink"
                 android:textStyle="bold" />
 
@@ -275,6 +280,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ns"
+                android:textSize="@dimen/main_menu_subtitle_size"
                 android:text="@string/main_item_recommend_subtitle" />
 
         </LinearLayout>

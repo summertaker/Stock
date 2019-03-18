@@ -74,4 +74,7 @@
     <dimen name="box_inset_layout_padding">0dp</dimen>
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
+    <dimen name="main_menu_title_size">16sp</dimen>
+    <dimen name="main_menu_subtitle_size">14sp</dimen>
+
 </resources>

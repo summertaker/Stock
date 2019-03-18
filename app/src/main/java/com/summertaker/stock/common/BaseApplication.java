@@ -496,7 +496,7 @@ public class BaseApplication extends Application {
             tvFlucIconL.setText(flucIcon);
         }
 
-        String text = Config.DECIMAL_FORMAT.format(item.getRof()) + "%";
+        String text = Config.DECIMAL_FORMAT.format(item.getRof() * 100) + "%";
         if (tvRof != null) {
             tvRof.setText(text);
         }
