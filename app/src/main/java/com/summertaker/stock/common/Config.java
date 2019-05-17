@@ -140,9 +140,9 @@ public class Config {
     public static String URL_NAVER_FLUCTUATION_CRASH_LIST_KOSPI = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=0"; // 급락(코스피)
     public static String URL_NAVER_FLUCTUATION_CRASH_LIST_KOSDAQ = "https://finance.naver.com/sise/sise_high_down.nhn?sosok=1"; // 급락(코스닥)
     //public static String URL_NAVER_FLUCTUATION_FLOOR_LIST = "https://finance.naver.com/sise/sise_lower.nhn"; // 하한가
-    public static String URL_NAVER_RECOMMEND_RETURN_LIST = "https://recommend.finance.naver.com/Home/GetYieldList"; // 추천 수익률
-    public static String URL_NAVER_RECOMMEND_TOP_LIST = "https://recommend.finance.naver.com/Home/GetTopCompanyList"; // 추천수 상위
-    public static String URL_NAVER_RECOMMEND_CURRENT_LIST = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 현재 추천
+    public static String URL_NAVER_RECOMMEND_RETURN_LIST = "https://recommend.wisereport.co.kr/v1/Home/GetYieldList"; // 추천 수익률
+    public static String URL_NAVER_RECOMMEND_TOP_LIST = "https://recommend.wisereport.co.kr/v1/Home/GetTopCompanyList"; // 추천수 상위
+    public static String URL_NAVER_RECOMMEND_CURRENT_LIST = "https://recommend.wisereport.co.kr/v1/Home/RecommendDetail"; // 현재 추천
     public static String URL_NAVER_RECOMMEND_REASON = "https://recommend.finance.naver.com/Home/RecommendDetail"; // 종목 추천 사유
     public static String URL_NAVER_RECOMMEND_WISE_LIST = "https://m.stock.naver.com/api/json/sise/recomItemListJson.nhn?pageSize=20&page="; // 와이즈 리포트 추천
     public static String URL_NAVER_SEARCH = "https://m.search.naver.com/search.naver?query=%s";
