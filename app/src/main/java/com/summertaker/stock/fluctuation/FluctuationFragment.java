@@ -23,6 +23,7 @@ import com.summertaker.stock.data.Portfolio;
 import com.summertaker.stock.data.Site;
 import com.summertaker.stock.detail.DetailActivity;
 import com.summertaker.stock.util.RecyclerTouchListener;
+import com.summertaker.stock.util.Util;
 
 import java.util.ArrayList;
 
@@ -105,10 +106,12 @@ public class FluctuationFragment extends BaseFragment {
                 Item item = mItems.get(position);
                 //Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("code", item.getCode());
-                intent.putExtra("nor", item.getNor());
-                startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
+                //Intent intent = new Intent(mContext, DetailActivity.class);
+                //intent.putExtra("code", item.getCode());
+                //intent.putExtra("nor", item.getNor());
+                //startActivityForResult(intent, Config.ACTIVITY_REQUEST_CODE);
+
+                Util.startKakaoStockDeepLink(mContext, item.getCode());
             }
 
             @Override
@@ -218,7 +221,7 @@ public class FluctuationFragment extends BaseFragment {
         for (Item item : mItems) {
             item.setChartMode(mChartMode);
             //String chartUrl = mChartMode ? BaseApplication.getWeekChartUrl(item.getCode()) : BaseApplication.getDayChartUrl(item.getCode());
-            String chartUrl = mChartMode ? BaseApplication.getWeekCandleChartUrl(item.getCode()) : BaseApplication.getWeekChartUrl(item.getCode());
+            String chartUrl = mChartMode ? BaseApplication.getDayCandleChartUrl(item.getCode()) : BaseApplication.getWeekChartUrl(item.getCode());
             item.setChartUrl(chartUrl);
         }
 
